@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<partintro xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <para>
+      <para>	Getting Started with vFabric GemFire provides step-by-step procedures
+	for initial installation and configuration of VMware vFabric™
+	GemFire®. Tutorials and examples demonstrate product features; a documentation
+	roadmap summarizes each main part of the User's Guide; and a main
+	features section describes key functionality.  This document provides a spring
+	data gemfire version of all of the helloworld, tutorial, examples and quickstart
+	samples found in the vFabric GemFire 6.6 documentation.  Its purpose is to make
+	spring-data-gemfire the preferred approach for dveloping GemFire applications
+	when Spring is the preferred programming model of the development environment.
+      </para>
+    </para>
+</partintro>

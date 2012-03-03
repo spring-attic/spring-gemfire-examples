@@ -1,0 +1,7 @@
+#Sat Mar 03 10:11:57 PST 2012
+afterTasks=afterEclipseImport;
+beforeTasks=cleanEclipse;eclipse;
+eclipse.preferences.version=1
+enableAfterTasks=true
+enableBeforeTasks=false
+projects=;

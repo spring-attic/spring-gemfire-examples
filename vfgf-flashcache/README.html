@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<BODY bgcolor="#ffffff"><HTML>
+ <HEAD>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+  <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+  <LINK REL="STYLESHEET" HREF="DocIndex.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<H1 align="center">
+vFabric<FONT size=6><b><sup><font size=-0>&#8482;</font></sup></b></FONT></font> GemFire<FONT size=6><b><sup><font size=-0>&#174;</font></sup></b></FONT></font></H1>
+     </b></FONT>
+  <H1 align="center">flashcache</H1>
+<H2 align="center">Java Caching API Programming Example </H2>
+
+<hr color="#cc0000" size="2" align="left">
+
+<BODY TEXT="#000000" LINK="#0000B0" VLINK="#666699" BGCOLOR="#FFFFFF">
+
+<P>The <b>flashcache</b> <a href="Quote.java">example</a> is an interactive command-line 
+application that looks up NASDAQ stock symbols and displays current 
+quote information. A cache loader, QuoteLoader, is used to read 
+quotes from quotes.nasdaq.com and cache them in the distributed cache 
+for quicker access. The example is located in the GemFire installation 
+under examples/dist/flashcache</P>
+
+<P>Before running this application, you need to configure your environment 
+according to the instructions provided under the GemFire installation 
+in <a href="../../EnvSetup.html">examples/EnvSetup.html</a>. </P>
+
+<P>Once your environment is set, change to the <code>examples/dist/flashcache</code>
+directory to run the application.</P>
+
+<P> The application prompts for a NASDAQ stock symbol.  Enter a symbol, such
+  as SUNW, to request a quote.  Enter no symbol to exit.  The cached
+  quotes are distributed to other GemFire caches connected to the same 
+  distributed system. Optimistic distribution is used, so there is no 
+  locking or acknowledgment of updates, and quotes are distributed
+  asynchronously. Here is a sample run, with command input in bold:
+
+<pre>
+$ <B>java flashcache.Quote</B> 
+Enter symbol: <B>ORCL</B>
+(QuoteLoader netSearching for ORCL)
+(QuoteLoader querying nasdaq for ORCL)
+ORCL: last sale=9.85  net change=-0.34  volume=26,526,419
+Enter next symbol: <B>AMZN</B>
+(QuoteLoader netSearching for AMZN)
+(QuoteLoader querying nasdaq for AMZN)
+AMZN: last sale=36.37  net change=-0.19  volume=5,668,938
+Enter next symbol:</pre>
+
+<pre>
+$ java flashcache.Quote
+</pre>
+
+<hr color="#cc0000" size="2" align="left">
+
+</BODY>
+</HTML>
+

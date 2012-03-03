@@ -1,0 +1,485 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;Working with the GemFire APIs</title><link rel="stylesheet" type="text/css" href="css/manual.css"><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"><link rel="home" href="index.html" title="Spring Gemfire Integration Reference Guide"><link rel="up" href="reference.html" title="Part&nbsp;II.&nbsp;Reference Documentation"><link rel="prev" href="bootstrap.html" title="2.&nbsp;Bootstrapping GemFire through the Spring container"><link rel="next" href="serialization.html" title="4.&nbsp;Working with GemFire Serialization"><!--Begin Google Analytics code--><script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script><script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-2728886-3");
+			pageTracker._setDomainName("none");
+			pageTracker._setAllowLinker(true);
+			pageTracker._trackPageview();
+		</script><!--End Google Analytics code--></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;Working with the GemFire APIs</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="bootstrap.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;II.&nbsp;Reference Documentation</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="serialization.html">Next</a></td></tr></table><hr></div><div class="chapter" title="3.&nbsp;Working with the GemFire APIs"><div class="titlepage"><div><div><h2 class="title"><a name="apis"></a>3.&nbsp;Working with the GemFire APIs</h2></div></div></div>
+  
+
+  <p>Once the GemFire cache and regions have been configured they can
+  injected and used inside application objects. This chapter describes the
+  integration with Spring's transaction management functionality and
+  <code class="classname">DaoException</code> hierarchy. It also covers support for
+  dependency injection of GemFire managed objects.</p>
+
+  <div class="section" title="3.1&nbsp;Exception translation"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apis:exception-translation"></a>3.1&nbsp;Exception translation</h2></div></div></div>
+    
+
+    <p>Using a new data access technology requires not just accommodating
+    to a new API but also handling exceptions specific to that technology. To
+    accommodate this case, Spring Framework provides a technology agnostic,
+    consistent exception <a class="ulink" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/dao.html#dao-exceptions" target="_top">hierarchy</a>
+    that abstracts one from proprietary (and usually checked) exceptions to a
+    set of focused runtime exceptions. As mentioned in the Spring Framework
+    documentation, <a class="ulink" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/orm.html#orm-exception-translation" target="_top">exception
+    translation</a> can be applied transparently to your data access
+    objects through the use of the <code class="literal">@Repository</code> annotation
+    and AOP by defining a PersistenceExceptionTranslationPostProcessor bean.
+    The same exception translation functionality is enabled when using Gemfire
+    as long as at least a <code class="classname">CacheFactoryBean</code> is declared.
+    The <code class="interfacename">Cache</code> factory acts as an exception
+    translator which is automatically detected by the Spring infrastructure
+    and used accordingly.</p>
+  </div>
+ 
+  <div class="section" title="3.2&nbsp;GemfireTemplate"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apis:template"></a>3.2&nbsp;<code class="classname">GemfireTemplate</code></h2></div></div></div>
+    
+
+    <p>As with many other high-level abstractions provided by the Spring
+    Framework and related projects, Spring GemFire provides a
+    <span class="emphasis"><em>template</em></span> that plays a central role when working with
+    the GemFire API. The class provides several <span class="emphasis"><em>one-liner</em></span>
+    methods, for popular operations but also the ability to
+    <span class="emphasis"><em>execute</em></span> code against the native GemFire API without
+    having to deal with exceptions for example through the
+    <code class="interfacename">GemfireCallback</code>.</p>
+
+    <p>The template class requires a GemFire
+    <code class="interfacename">Region</code> instance and once configured is
+    thread-safe and should be reused across multiple classes:</p>
+
+    <pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"gemfireTemplate"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.data.gemfire.GemfireTemplate"</span> <span class="hl-attribute">p:region-ref</span>=<span class="hl-value">"someRegion"</span><span class="hl-tag">/&gt;</span></pre>
+
+    <p>Once the template is configured, one can use it alongside
+    <code class="interfacename">GemfireCallback</code> to work directly with the
+    GemFire <code class="interfacename">Region</code>, without having to deal with
+    checked exceptions, threading or resource management concerns:</p>
+
+    <pre class="programlisting">template.execute(<span class="hl-keyword">new</span> GemfireCallback&lt;Iterable&lt;String&gt;&gt;() {
+  <span class="hl-keyword">public</span> Iterable&lt;String&gt; doInGemfire(Region reg) <span class="hl-keyword">throws</span> GemFireCheckedException, GemFireException {
+    <span class="hl-comment">// working against a Region of String</span>
+    Region&lt;String, String&gt; region = reg;
+
+    region.put(<span class="hl-string">"1"</span>, <span class="hl-string">"one"</span>);
+    region.put(<span class="hl-string">"3"</span>, <span class="hl-string">"three"</span>);
+
+    <span class="hl-keyword">return</span> region.query(<span class="hl-string">"length &lt; 5"</span>);
+  }
+});</pre>
+
+   <p>For accessing the full power of the GemFire query language, one can use the <code class="methodname">find</code> and <code class="methodname">findUnique</code> which, as oppose to the 
+   <code class="methodname">query</code> method, can execute queries inside across multiple regions, execute projections just to name a few features. <code class="methodname">find</code> method should be
+   used when the query selects multiple items (through <code class="literal">SelectResults</code>) and the latter, <code class="methodname">findUnique</code>, as the name suggests when only one object is returned.
+   </p>
+  </div>
+
+  <div class="section" title="3.3&nbsp;Support for Spring Cache Abstraction"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apis:spring-cache-abstraction"></a>3.3&nbsp;Support for Spring Cache Abstraction</h2></div></div></div>
+  	
+  	
+  	<p>Since 1.1, Spring GemFire provides an implementation for Spring 3.1 
+  	<a class="ulink" href="http://static.springsource.org/spring/docs/3.1.0.M2/spring-framework-reference/html/cache.html" target="_top">cache abstraction</a> through the
+<code class="literal">org.springframework.data.gemfire.support</code> package. To use GemFire
+  	as a backing implementation, simply add <code class="literal">GemfireCacheManager</code> to your configuration:</p>
+  	
+  	<pre class="programlisting"><span class="hl-tag">&lt;beans</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span> <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+  <span class="hl-attribute">xmlns:cache</span>=<span class="hl-value">"http://www.springframework.org/schema/cache"</span>
+  <span class="hl-attribute">xmlns:gfe</span>=<span class="hl-value">"http://www.springframework.org/schema/gemfire"</span>
+  <span class="hl-attribute">xmlns:p</span>=<span class="hl-value">"http://www.springframework.org/schema/p"</span>
+  <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  	  http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+      http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd"</span><span class="hl-tag">&gt;</span>
+  <span class="hl-comment">&lt;!-- turn on declarative caching --&gt;</span>
+  <span class="hl-tag">&lt;cache:annotation-driven /&gt;</span>
+  
+  <span class="hl-tag">&lt;gfe:cache</span> <span class="hl-attribute">id</span>=<span class="hl-value">"gemfire-cache"</span><span class="hl-tag"> /&gt;</span>
+  <span class="hl-comment">&lt;!-- declare GemFire Cache Manager --&gt;</span>
+  <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"cacheManager"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.data.gemfire.support.GemfireCacheManager"</span> <span class="hl-attribute">p:cache-ref</span>=<span class="hl-value">"gemfire-cache"</span><span class="hl-tag">&gt;</span>
+<span class="hl-tag">&lt;/beans&gt;</span>
+  	
+  	</pre>
+  </div>
+  
+
+  <div class="section" title="3.4&nbsp;Transaction Management"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apis:tx-mgmt"></a>3.4&nbsp;Transaction Management</h2></div></div></div>
+    
+
+    <p>One of the most popular features of Spring Framework is <a class="ulink" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/transaction.html" target="_top">transaction</a>
+    management. If you are not familiar with it, we strongly recommend <a class="ulink" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/transaction.html#transaction-motivation" target="_top">looking</a>
+    into it as it offers a consistent programming model that works
+    transparently across multiple APIs that can be configured either
+    programmatically or declaratively (the most popular choice).</p>
+
+    <p>For GemFire, SGF provides a dedicated, per-cache, transaction
+    manager that once declared, allows actions on the
+    <code class="interfacename">Region</code>s to be grouped and executed
+    atomically through Spring:</p>
+
+	<pre class="programlisting"><span class="hl-tag">&lt;gfe:transaction-manager</span> <span class="hl-attribute">id</span>=<span class="hl-value">"tx-manager"</span> <span class="hl-attribute">cache-ref</span>=<span class="hl-value">"cache"</span><span class="hl-tag">/&gt;</span></pre>
+	<div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="./images/admon/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">The example above can be simplified even more by eliminating the <code class="literal">cache-ref</code> attribute if the GemFire cache is defined under the default 
+	name <code class="literal">gemfire-cache</code>. As with the other SGF namespace elements, if the cache name is not configured, the aforementioned naming convention will used.
+	Additionally, the transaction manager name, if not specified is <code class="literal">gemfire-transaction-manager</code>.</td></tr></table></div>
+	
+	<p>or if you prefer <code class="literal">bean</code> declarations:</p>
+    <pre class="programlisting"><span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"tx-manager"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.data.gemfire.GemfireTransactionManager"</span> <span class="hl-attribute">p:cache-ref</span>=<span class="hl-value">"cache"</span><span class="hl-tag">/&gt;</span></pre>
+
+    <p>Note that currently GemFire supports optimistic transactions with
+    <span class="emphasis"><em>read committed</em></span> isolation. Furthermore, to guarantee
+    this isolation, developers should avoid making
+    <span class="emphasis"><em>in-place</em></span> changes, that is manually modifying the
+    values present in the cache. To prevent this from happening, the
+    transaction manager configured the cache to use <span class="emphasis"><em>copy on
+    read</em></span> semantics, meaning a clone of the actual value is created,
+    each time a read is performed. This behaviour can be disabled if needed
+    through the <code class="literal">copyOnRead</code> property. For more information
+    on the semantics of the underlying GemFire transaction manager, see the
+    GemFire <a class="ulink" href="http://www.gemstone.com/docs/6.0.1/product/docs/japi/com/gemstone/gemfire/cache/CacheTransactionManager.html" target="_top">documentation</a>.</p>
+  </div>
+
+  <div class="section" title="3.5&nbsp;GemFire Continuous Query Container"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apis:cq-container"></a>3.5&nbsp;GemFire Continuous Query Container</h2></div></div></div>
+  
+  
+    <p>A powerful functionality offered by GemFire is 
+    <a class="ulink" href="http://community.gemstone.com/display/gemfire/Continuous+Querying" target="_top">continuous querying</a> (or CQ).
+    In short, CQ allows one to create a query and automatically be notified when new data that gets added to GemFire matches the query.
+    
+    Spring GemFire provides dedicated support for CQs through the <code class="literal">org.springframework.data.gemfire.listener</code> package and
+    its <span class="emphasis"><em>listener container</em></span>; very similar in functionality 
+    and naming to the JMS integration in  Spring Framework; in fact, users familiar with the JMS support in Spring, should
+    feel right at home. Basically SGF allows methods on POJOs to become end-points for CQ - simply define the query and indicate the method
+    that should be notified when there is a match - SGF takes care of the rest. This of Java EE's message-driven bean style, but without any
+    requirement for base class or interface implementations, based on GemFire.</p>
+
+	<div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="./images/admon/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+	  	<p>Currently, continuous queries are supported by GemFire only in client/server topologies. Additionally the pool used is required to have the 
+	  	<code class="literal">subscription</code> property enabled. Please refer to the documentation for more information.</p>
+	</td></tr></table></div>
+      
+    <div class="section" title="3.5.1&nbsp;Continuous Query Listener Container"><div class="titlepage"><div><div><h3 class="title"><a name="apis:cq-container:containers"></a>3.5.1&nbsp;Continuous Query Listener Container</h3></div></div></div>
+      
+
+      <p>SGF simplifies the creation, registration, life-cycle and dispatch of CQs by taking care of the infrastructure around them through
+      <code class="classname">ContinuousQueryListenerContainer</code> which does all the heavy lifting on behalf of the user - 
+      users familiar with EJB and JMS should find the concepts familiar as it is designed as close as possible to the
+      support in Spring Framework and its message-driven POJOs (MDPs)</p> 
+      
+      <p><code class="classname">ContinuousQueryListenerContainer</code> acts as an event (or message) listener container; it is used to receive the events
+      from the registered CQs and drive the POJOs that are injected into it. The listener container is responsible for all threading of message
+      reception and dispatches into the listener for processing. It acts as the intermediary between an EDP (Event Driven POJO) and the event provider
+      and takes care of creation and registration of CQs (to receive events), resource acquisition and release, exception conversion and suchlike. 
+      This allows you as an application developer to write the (possibly complex) business logic associated with receiving an event (and reacting to it), 
+      and delegates boilerplate GemFire infrastructure concerns to the framework.
+      </p>
+
+	  <p>The container is fully customizable - one can chose either to use the CQ thread to perform the dispatch (synchronous delivery) or a new thread
+	  (from an existing pool for examples) for an asynch approach by defining the suitable <code class="interfacename">java.util.concurrent.Executor</code> 
+	  (or Spring's <code class="interfacename">TaskExecutor</code>). Depending on the load, the number of listeners or the runtime
+	  environment, one should change or tweak the executor to better serve her needs - in particular in managed environments (such as app servers), it is 
+	  highly recommended to pick a a proper <code class="interfacename">TaskExecutor</code> to take advantage of its runtime.</p>  
+	</div>
+	
+    <div class="section" title="3.5.2&nbsp;The ContinuousQueryListenerAdapter and ContinuousQueryListener"><div class="titlepage"><div><div><h3 class="title"><a name="apis:cq-container:adapter"></a>3.5.2&nbsp;The <code class="classname">ContinuousQueryListenerAdapter</code> and <code class="interfacename">ContinuousQueryListener</code></h3></div></div></div>
+      
+
+      <p>The <code class="classname">ContinuousQueryListenerAdapter</code> class is the
+      final component in SGF CQ support: in a  nutshell, it allows you to expose almost <span class="emphasis"><em>any</em></span> class
+      as a EDP (there are of course some constraints) - it implements <code class="interfacename">ContinuousQueryListener</code>, a simpler listener interface
+      similar to GemFire <a class="ulink" href="http://www.gemstone.com/docs/6.5.1/product/docs/japi/com/gemstone/gemfire/cache/query/CqListener.html" target="_top">CqListener</a>.</p>
+
+	  <p>Consider the following interface definition. Notice the 
+      various event handling methods and their parameters:</p>
+
+      <pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">interface</span> EventDelegate {
+     <span class="hl-keyword">void</span> handleEvent(CqEvent event);
+     <span class="hl-keyword">void</span> handleEvent(Operation baseOp);
+     <span class="hl-keyword">void</span> handleEvent(Object key);
+     <span class="hl-keyword">void</span> handleEvent(Object key, Object newValue);
+     <span class="hl-keyword">void</span> handleEvent(Throwable th);
+     <span class="hl-keyword">void</span> handleQuery(CqQuery cq);
+     <span class="hl-keyword">void</span> handleEvent(CqEvent event, Operation baseOp, <span class="hl-keyword">byte</span>[] deltaValue);
+     <span class="hl-keyword">void</span> handleEvent(CqEvent event, Operation baseOp, Operation queryOp, Object key, Object newValue);
+}</pre>
+
+      <pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> DefaultEventDelegate <span class="hl-keyword">implements</span> EventDelegate {
+    <em class="lineannotation"><span class="lineannotation">// implementation elided for clarity...</span></em>
+}</pre>
+
+      <p>In particular, note how the above implementation of the
+      <code class="interfacename">EventDelegate</code> interface (the above
+      <code class="classname">DefaultEventDelegate</code> class) has
+      <span class="emphasis"><em>no</em></span> GemFire dependencies at all. It truly is a POJO that
+      we will make into an EDP via the following configuration (note that the class doesn't have to implement an interface,
+      one is present only to better show case the decoupling between contract and implementation).</p>
+
+      <pre class="programlisting"><span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hl-tag">&lt;beans</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+    <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    <em class="lineannotation"><span class="lineannotation">xmlns:gfe="http://www.springframework.org/schema/gemfire"</span></em>
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        <em class="lineannotation"><span class="lineannotation">http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd"</span></em>&gt;
+
+	
+	<span class="hl-tag">&lt;gfe:client-cache</span> <span class="hl-attribute">pool-name</span>=<span class="hl-value">"client"</span><span class="hl-tag">/&gt;</span>
+	
+	<span class="hl-tag">&lt;gfe:pool</span> <span class="hl-attribute">id</span>=<span class="hl-value">"client"</span> <span class="hl-attribute">subscription-enabled</span>=<span class="hl-value">"true"</span><span class="hl-tag">&gt;</span>
+	   <span class="hl-tag">&lt;gfe:server</span> <span class="hl-attribute">host</span>=<span class="hl-value">"localhost"</span> <span class="hl-attribute">port</span>=<span class="hl-value">"40404"</span><span class="hl-tag">/&gt;</span>
+	<span class="hl-tag">&lt;/gfe:pool&gt;</span>
+	
+	<span class="hl-tag">&lt;gfe:cq-listener-container&gt;</span>
+	   <span class="hl-comment">&lt;!-- default handle method --&gt;</span>
+	   <span class="hl-tag">&lt;gfe:listener</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"listener"</span> <span class="hl-attribute">query</span>=<span class="hl-value">"SELECT * from /region"</span><span class="hl-tag">/ </span>&gt;
+	   <span class="hl-tag">&lt;gfe:listener</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"another-listener"</span> <span class="hl-attribute">query</span>=<span class="hl-value">"SELECT * from /another-region"</span> <span class="hl-attribute">name</span>=<span class="hl-value">"my-query"</span> <span class="hl-attribute">method</span>=<span class="hl-value">"handleQuery"</span><span class="hl-tag">/&gt;</span>
+	<span class="hl-tag">&lt;/gfe:cq-listener-container&gt;</span>
+  
+	<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"listener"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"gemfireexample.DefaultMessageDelegate"</span><span class="hl-tag">/&gt;</span>
+	<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"another-listener"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"gemfireexample.DefaultMessageDelegate"</span><span class="hl-tag">/&gt;</span>
+  ...
+<span class="hl-tag">&lt;beans&gt;</span></pre>
+      <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="./images/admon/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">The example above shows some of the various forms that a listener can have; at its minimum the listener reference and the actual query definition are required. It's possible however to specify
+      a name for the resulting continuous query (useful for monitoring) but also the name of the method (the default is <code class="literal">handleEvent</code>). The specified method can have various
+      argument types, the <code class="interfacename">EventDelegate</code> interface lists the allowed types.</td></tr></table></div>
+	
+      <p>The example above uses the SGF namespace to declare the event listener container and automatically register the POJOs as listeners. The full blown, <span class="emphasis"><em>beans</em></span> definition
+      is displayed below:</p>
+      
+      <pre class="programlisting"><em class="lineannotation"><span class="lineannotation">&lt;!-- this is the Event Driven POJO (MDP) --&gt;</span></em>
+<span class="bold"><strong>&lt;bean id="eventListener" class="org.springframework.data.gemfire.listener.adapter.ContinuousQueryListenerAdapter"&gt;</strong></span>
+    <span class="hl-tag">&lt;constructor-arg&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"gemfireexample.DefaultEventDelegate"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;/constructor-arg&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span>
+
+<em class="lineannotation"><span class="lineannotation">&lt;!-- and this is the event listener container... --&gt;</span></em>
+<span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"gemfireListenerContainer"</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.data.gemfire.listener.ContinuousQueryListenerContainer"</span><span class="hl-tag">&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"cache"</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"gemfire-cache"</span><span class="hl-tag">/&gt;</span>
+    <span class="hl-tag">&lt;property</span> <span class="hl-attribute">name</span>=<span class="hl-value">"queryListeners"</span><span class="hl-tag">&gt;</span>
+      <em class="lineannotation"><span class="lineannotation">&lt;!-- set of listeners --&gt;</span></em>
+      <span class="hl-tag">&lt;set&gt;</span>
+        <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">class</span>=<span class="hl-value">"org.springframework.data.gemfire.listener.ContinuousQueryDefinition"</span><span class="hl-tag"> &gt;</span>
+               <span class="hl-tag">&lt;constructor-arg</span> <span class="hl-attribute">value</span>=<span class="hl-value">"SELECT * from /region"</span><span class="hl-tag"> /&gt;</span>
+               <span class="hl-tag">&lt;constructor-arg</span> <span class="hl-attribute">ref</span>=<span class="hl-value">"eventListener"</span><span class="hl-tag"> /&gt;</span>
+        <span class="hl-tag">&lt;/bean&gt;</span>
+      <span class="hl-tag">&lt;/set&gt;</span>
+    <span class="hl-tag">&lt;/property&gt;</span>
+<span class="hl-tag">&lt;/bean&gt;</span></pre>
+
+      <p>Each time an event is received, the adapter automatically performs
+      type translation between the GemFire event and the required method argument(s) transparently. Any exception caused by the method invocation
+      is caught and handled by the container (by default, being logged).
+      </p>
+	</div>
+</div>
+  
+  <div class="section" title="3.6&nbsp;Wiring Declarable components"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="apis:declarable"></a>3.6&nbsp;Wiring <code class="interfacename">Declarable</code> components</h2></div></div></div>
+    
+
+    <p>GemFire XML configuration (usually named
+    <code class="literal">cache.xml</code> allows <span class="emphasis"><em>user</em></span> objects to
+    be declared as part of the fabric configuration. Usually these objects are
+    <code class="interfacename">CacheLoader</code>s or other pluggable components
+    into GemFire. Out of the box in GemFire, each such type declared through
+    XML must implement the <code class="interfacename">Declarable</code> interface
+    which allows arbitrary parameters to be passed to the declared class
+    through a <code class="classname">Properties</code> instance.</p>
+
+    <p>In this section we describe how you can configure the pluggable
+    components defined in <code class="literal">cache.xml</code> using Spring while
+    keeping your Cache/Region configuration defined in
+    <code class="literal">cache.xml</code> This allows your pluggable components to
+    focus on the application logic and not the location or creation of
+    DataSources or other collaboration object.</p>
+
+    <p>However, if you are starting on a green-field project, it is
+    recommended that you configure Cache, Region, and other pluggable
+    components directly in Spring. This avoids inheriting from the
+    <code class="interfacename">Declarable</code> interface or the base class
+    presented in this section. See the following sidebar for more information
+    on this approach.</p>
+
+    <div class="sidebar" title="Eliminate Declarable components"><div class="titlepage"><div><div><p class="title"><b>Eliminate <code class="interfacename">Declarable</code>
+      components</b></p></div></div></div>
+      
+
+      <p>One can configure custom types entirely inside through Spring as
+      mentioned in <a class="xref" href="bootstrap.html#bootstrap:region" title="2.3&nbsp;Configuring a GemFire Region">Section&nbsp;2.3, &#8220;Configuring a GemFire <code class="interfacename">Region</code>&#8221;</a>. That way, one does not
+      have to implement the <code class="interfacename">Declarable</code>
+      interface and gets access to all the features of the Spring IoC
+      container (including not just dependency injection but also life-cycle
+      and instance management).</p>
+    </div>
+
+    <p>As an example of configuring a
+    <code class="interfacename">Declarable</code> component using Spring, consider
+    the following declaration (taken from the
+    <code class="interfacename">Declarable</code> javadoc):</p>
+
+    <pre class="programlisting"><span class="hl-tag">&lt;cache-loader&gt;</span>
+   <span class="hl-tag">&lt;class-name&gt;</span>com.company.app.DBLoader<span class="hl-tag">&lt;/class-name&gt;</span>
+   <span class="hl-tag">&lt;parameter</span> <span class="hl-attribute">name</span>=<span class="hl-value">"URL"</span><span class="hl-tag">&gt;</span>
+     <span class="hl-tag">&lt;string&gt;</span>jdbc://12.34.56.78/mydb<span class="hl-tag">&lt;/string&gt;</span>
+   <span class="hl-tag">&lt;/parameter&gt;</span>
+<span class="hl-tag">&lt;/cache-loader&gt;</span></pre>
+
+    <p>To simplify the task of parsing, converting the parameters and
+    initializing the object, SGF offers a base class
+    (<code class="classname">WiringDeclarableSupport</code>) that allows GemFire user
+    objects to be wired through a <span class="emphasis"><em>template</em></span> bean
+    definition or, in case that is missing perform autowiring through the
+    Spring container. To take advantage of this feature, the user objects need
+    to extend <code class="classname">WiringDeclarableSupport</code> which
+    automatically locates the declaring
+    <code class="interfacename">BeanFactory</code> and performs wiring as part of
+    the initialization process.</p>
+
+    <div class="sidebar" title="Why is a base class needed?"><div class="titlepage"><div><div><p class="title"><b>Why is a base class needed?</b></p></div></div></div>
+      
+
+      <p>In the current GemFire release there is no concept of an
+      <span class="emphasis"><em>object factory</em></span> and the types declared are
+      instantiated and used as is - that is there are no other ways in which
+      third parties can take care of the object creation outside GemFire.
+      Support for this feature is planned for the up-coming GemFire release
+      (6.5)</p>
+    </div>
+
+    <div class="section" title="3.6.1&nbsp;Configuration using template definitions"><div class="titlepage"><div><div><h3 class="title"><a name="apis:declarable:template-wiring"></a>3.6.1&nbsp;Configuration using <span class="emphasis"><em>template</em></span>
+      definitions</h3></div></div></div>
+      
+
+      <p>When used <code class="classname">WiringDeclarableSupport</code> tries to
+      first locate an existing bean definition and use that as wiring
+      template. Unless specified, the component class name will be used as an
+      implicit bean definition name. Let's see how our
+      <code class="classname">DBLoader</code> declaration would look in that
+      case:</p>
+
+      <pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> DBLoader <span class="hl-keyword">extends</span> WiringDeclarableSupport <span class="hl-keyword">implements</span> CacheLoader {
+  <span class="hl-keyword">private</span> DataSource dataSource;
+
+  <span class="hl-keyword">public</span> <span class="hl-keyword">void</span> setDataSource(DataSource ds){
+    <span class="hl-keyword">this</span>.dataSource = ds;
+  }
+
+  <span class="hl-keyword">public</span> Object load(LoaderHelper helper) { ... }
+}</pre>
+
+      <pre class="programlisting"><span class="hl-tag">&lt;cache-loader&gt;</span>
+   <span class="hl-tag">&lt;class-name&gt;</span>com.company.app.DBLoader<span class="hl-tag">&lt;/class-name&gt;</span>
+   <span class="hl-comment">&lt;!-- no parameter is passed (use the bean implicit name
+   that is the class name) --&gt;</span>
+<span class="hl-tag">&lt;/cache-loader&gt;</span></pre>
+
+      <pre class="programlisting"><span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hl-tag">&lt;beans</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+       <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="hl-attribute">xmlns:p</span>=<span class="hl-value">"http://www.springframework.org/schema/p"</span>
+       <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"dataSource"</span> <span class="hl-attribute">...</span><span class="hl-tag"> /&gt;</span>
+
+     <span class="hl-comment">&lt;!-- template bean definition --&gt;</span>
+     <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"com.company.app.DBLoader"</span> <span class="hl-attribute">abstract</span>=<span class="hl-value">"true"</span> <span class="hl-attribute">p:dataSource-ref</span>=<span class="hl-value">"dataSource"</span><span class="hl-tag">/&gt;</span>
+<span class="hl-tag">&lt;/beans&gt;</span></pre>
+
+      <p>In the scenario above, as no parameter was specified, a bean with
+      id/name <code class="literal">com.company.app.DBLoader</code> was searched for.
+      The found bean definition is used as a template for wiring the instance
+      created by GemFire. For cases where the bean name uses a different
+      convention, one can pass in the <code class="literal">bean-name</code> parameter
+      in the GemFire configuration:</p>
+
+      <pre class="programlisting"><span class="hl-tag">&lt;cache-loader&gt;</span>
+   <span class="hl-tag">&lt;class-name&gt;</span>com.company.app.DBLoader<span class="hl-tag">&lt;/class-name&gt;</span>
+   <span class="hl-comment">&lt;!-- pass the bean definition template name
+        as parameter --&gt;</span>
+   <span class="hl-tag">&lt;parameter</span> <span class="hl-attribute">name</span>=<span class="hl-value">"bean-name"</span><span class="hl-tag">&gt;</span>
+     <span class="hl-tag">&lt;string&gt;</span>template-bean<span class="hl-tag">&lt;/string&gt;</span>
+   <span class="hl-tag">&lt;/parameter&gt;</span>
+<span class="hl-tag">&lt;/cache-loader&gt;</span></pre>
+
+      <pre class="programlisting"><span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hl-tag">&lt;beans</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+       <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="hl-attribute">xmlns:p</span>=<span class="hl-value">"http://www.springframework.org/schema/p"</span>
+       <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd"</span><span class="hl-tag">&gt;</span>
+
+  <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"dataSource"</span> <span class="hl-attribute">...</span><span class="hl-tag"> /&gt;</span>
+
+     <span class="hl-comment">&lt;!-- template bean definition --&gt;</span>   
+     <span class="hl-tag">&lt;bean</span> <span class="hl-attribute">id</span>=<span class="hl-value">"template-bean"</span> <span class="hl-attribute">abstract</span>=<span class="hl-value">"true"</span> <span class="hl-attribute">p:dataSource-ref</span>=<span class="hl-value">"dataSource"</span><span class="hl-tag">/&gt;</span>
+     
+<span class="hl-tag">&lt;/beans&gt;</span></pre>
+
+      <div class="note" title="Note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="./images/admon/note.png"></td><th align="left">Note</th></tr><tr><td align="left" valign="top">
+        <p>The <span class="emphasis"><em>template</em></span> bean definitions do not have
+        to be declared in XML - any format is allowed (Groovy, annotations,
+        etc..).</p>
+      </td></tr></table></div>
+    </div>
+
+    <div class="section" title="3.6.2&nbsp;Configuration using auto-wiring and annotations"><div class="titlepage"><div><div><h3 class="title"><a name="apis:declarable:autowiring"></a>3.6.2&nbsp;Configuration using auto-wiring and annotations</h3></div></div></div>
+      
+
+      <p>If no bean definition is found, by default,
+      <code class="classname">WiringDeclarableSupport</code> will <a class="ulink" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/beans.html#beans-factory-autowire" target="_top">autowire</a>
+      the declaring instance. This means that unless any dependency injection
+      <span class="emphasis"><em>metadata</em></span> is offered by the instance, the container
+      will find the object setters and try to automatically satisfy these
+      dependencies. However, one can also use JDK 5 annotations to provide
+      additional information to the auto-wiring process. We strongly recommend
+      reading the dedicated <a class="ulink" href="http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/beans.html#beans-annotation-config" target="_top">chapter</a>
+      in the Spring documentation for more information on the supported
+      annotations and enabling factors.</p>
+
+      <p>For example, the hypothetical <code class="literal">DBLoader</code>
+      declaration above can be injected with a Spring-configured
+      <span class="interface">DataSource</span> in the following way:</p>
+
+      <pre class="programlisting"><span class="hl-keyword">public</span> <span class="hl-keyword">class</span> DBLoader <span class="hl-keyword">extends</span> WiringDeclarableSupport <span class="hl-keyword">implements</span> CacheLoader {
+  <span class="hl-comment">// use annotations to 'mark' the needed dependencies </span>
+  <em><span class="hl-annotation" style="color: gray">@javax.inject.Inject</span></em>
+  <span class="hl-keyword">private</span> DataSource dataSource;
+
+  <span class="hl-keyword">public</span> Object load(LoaderHelper helper) { ... }
+}</pre>
+
+      <pre class="programlisting"><span class="hl-tag">&lt;cache-loader&gt;</span>
+   <span class="hl-tag">&lt;class-name&gt;</span>com.company.app.DBLoader<span class="hl-tag">&lt;/class-name&gt;</span>
+   <span class="hl-comment">&lt;!-- no need to declare any parameters anymore
+        since the class is auto-wired --&gt;</span>
+<span class="hl-tag">&lt;/cache-loader&gt;</span></pre>
+
+      <pre class="programlisting"><span class="hl-directive" style="color: maroon">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hl-tag">&lt;beans</span> <span class="hl-attribute">xmlns</span>=<span class="hl-value">"http://www.springframework.org/schema/beans"</span>
+       <span class="hl-attribute">xmlns:xsi</span>=<span class="hl-value">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="hl-attribute">xmlns:context</span>=<span class="hl-value">"http://www.springframework.org/schema/context"</span>
+       <span class="hl-attribute">xsi:schemaLocation</span>=<span class="hl-value">"http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"</span><span class="hl-tag">&gt;</span>
+            
+     <span class="hl-comment">&lt;!-- enable annotation processing --&gt;</span>   
+     <span class="hl-tag">&lt;context:annotation-config/&gt;</span>
+     
+<span class="hl-tag">&lt;/beans&gt;</span></pre>
+
+      <p>By using the JSR-330 annotations, the cache loader code has been
+      simplified since the location and creation of the DataSource has been
+      externalized and the user code is concerned only with the loading
+      process. The <code class="interfacename">DataSource</code> might be
+      transactional, created lazily, shared between multiple objects or
+      retrieved from JNDI - these aspects can be easily configured and changed
+      through the Spring container without touching the
+      <code class="classname">DBLoader</code> code.</p>
+    </div>
+  </div>
+</div><!--Begin LoopFuse code--><script src="http://loopfuse.net/webrecorder/js/listen.js" type="text/javascript"></script><script type="text/javascript">
+			_lf_cid = "LF_48be82fa";
+			_lf_remora();
+		</script><!--End LoopFuse code--><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="bootstrap.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="reference.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="serialization.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;Bootstrapping GemFire through the Spring container&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;4.&nbsp;Working with GemFire Serialization</td></tr></table></div></body></html>

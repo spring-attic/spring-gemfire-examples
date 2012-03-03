@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gfe="http://www.springframework.org/schema/gemfire"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/gemfire classpath:org/springframework/data/gemfire/config/spring-gemfire-1.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <context:property-placeholder system-properties-mode="OVERRIDE" location="classpath:/common.properties" />
+
+    <!-- create a unique directory base directory for this node -->
+    <bean id="findDiskDir" class="com.gemstone.gemfire.util.PersistenceDirectoryGenerator" destroy-method="unlock" init-method="findDirectory">
+        <property name="parent" value="${data.location}/locator" />
+    </bean>
+<!-- 
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+                <property name="targetClass" value="java.lang.System" />
+                <property name="targetMethod" value="getProperties" />
+            </bean>
+        </property>
+        <property name="targetMethod" value="putAll" />
+        <property name="arguments">
+            <util:properties>
+                <prop key="gemfire.locators">${locator.host1}[${locator.port1}],${locator.host2}[${locator.port2}]</prop>
+            </util:properties>
+        </property>
+    </bean>
+ -->
+    <bean id="locator" class="com.gemstone.gemfire.util.LocatorBean" init-method="startLocator" destroy-method="stopLocator">
+        <property name="port1" value="${locator.port1}" />
+        <property name="port2" value="${locator.port2}" />
+        <property name="throwOnBindFailure" value="false" />
+        <property name="state" value="#{findDiskDir.getSelected()}/locator.state" />
+        <property name="log" value="#{findDiskDir.getSelected()}/locator.log" />
+        <property name="locators" value="${locator.host1}[${locator.port1}],${locator.host2}[${locator.port2}]"/>
+    </bean>
+</beans>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project name="gemstone_tutorial" default="compile" basedir=".">
+
+   <!-- ***************************************************************** -->
+   <!-- Initialization needed for any target                              -->
+   <!-- ***************************************************************** -->
+
+  <property environment="env" />
+  <property name="src.dir" location="src" />
+  <property name="classes.dir" location="classes" />
+  <property name="gemfire.dir" location="${env.GEMFIRE}" />
+  <property name="gemfire.jar" location="${gemfire.dir}/lib/gemfire.jar" />
+  <property name="compile.debug" value="on"/>
+  <property name="compile.optimize" value="off"/>
+  <property name="compile.nowarn" value="off"/>
+  <property name="compile.deprecation" value="off"/>
+  <property name="compile.verbose" value="off"/>
+
+  <path id="compile.class.path">
+    <pathelement location="${gemfire.jar}"/>
+  </path>
+
+  <path id="class.path">
+    <pathelement location="${classes.dir}"/>
+    <pathelement location="${gemfire.jar}"/>
+  </path>
+
+   <target name="init">
+     <fail unless="gemfire.dir" message="You must set the GEMFIRE environment variable to point to your gemfire installation directory in order to compile this example."/>
+   </target>
+
+   <!-- ***************************************************************** -->
+   <!-- Compiles the classes                                              -->
+   <!-- ***************************************************************** -->
+
+   <target name="compile" depends="init">
+      <mkdir dir="${classes.dir}" />
+      <javac srcdir="${src.dir}"
+             destdir="${classes.dir}"
+             classpathref="compile.class.path"
+             debug="${compile.debug}"
+             optimize="${compile.optimize}"
+             nowarn="${compile.nowarn}"
+             deprecation="${compile.deprecation}"
+             verbose="${compile.verbose}"/>
+   </target>
+
+
+   <target name="clean">
+   <delete dir="${classes.dir}"/>
+   </target>
+
+   <target name="peer" depends="init">
+      <java classname="com.gemstone.gemfire.tutorial.Peer" classpathref="class.path"/>
+   </target>
+
+   <target name="client" depends="init">
+      <java classname="com.gemstone.gemfire.tutorial.Client" classpathref="class.path"/>
+   </target>
+</project>

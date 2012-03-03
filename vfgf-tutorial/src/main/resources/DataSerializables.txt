@@ -1,0 +1,6 @@
+# --- Sample DataSerializables.txt file
+# List all data classes that use a static block to register class ids via
+# Instantiator.
+
+# E.g. if MyGemFireClasses 
+# my.gemfire.app.MyGemFireClasses 

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<BODY bgcolor="#ffffff"><HTML>
+ <HEAD>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+  <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+  <LINK REL="STYLESHEET" HREF="DocIndex.css" CHARSET="ISO-8859-1" TYPE="text/css">
+
+<H1 align="center">
+vFabric<FONT size=6><b><sup><font size=-0>&#8482;</font></sup></b></FONT></font> GemFire<FONT size=6><b><sup><font size=-0>&#174;</font></sup></b></FONT></font></H1>
+     </b></FONT>
+  <H1 align="center">systemExplorer</H1>
+<H2 align="center">Java Caching API Programming Example </H2>
+<hr color="#cc0000" size="2" align="left">
+<BODY TEXT="#000000" LINK="#0000B0" VLINK="#666699" BGCOLOR="#FFFFFF">
+
+<P>The <b>systemExplorer</b> <a href="SystemExplorer.java">example</a> is a command-line application 
+that allows the user to exercise GemFire's <code>com.gemstone.gemfire.admin</code> 
+API. The example is located in the GemFire installation under 
+<code>examples/dist/systemExplorer.</code></P>
+
+<P>Before running this application, you need to configure your environment 
+according to the instructions provided under the GemFire installation 
+in <a href="../../EnvSetup.html">examples/EnvSetup.html</a>. </P>
+
+<P>Once your environment is set, change to the <code>examples/dist/systemExplorer</code>
+directory to run the application.</P>
+
+<P>This sample startup line starts the application using all defaults:
+<pre>
+       java systemExplorer.SystemExplorer
+</pre>
+
+<P>You may optionally specify a <code>gemfire.properties</code> file as an argument to
+<code>SystemExplorer</code>.  It will also automatically pick up any <code>gemfire.properties</code> 
+file that you place in the <code>examples/dist/systemExplorer</code> directory.  The 
+application will then use the values in the properties file to determine 
+details on the system it will connect to:
+<pre>
+       java systemExplorer.SystemExplorer c:\gemfire.properties</pre>
+<P>Another way to specify system details to the application includes the use
+of <code>-Dpropertyname=value arguments</code>.  The following starts the application and
+specifies connecting to a distributed system using multicast port 10412:
+<pre>
+       java -Dgemfire.mcast-port=10412 systemExplorer.SystemExplorer
+</pre>
+
+Full details on properties that can be used to specify connection details are
+covered in the Javadocs for <code>com.gemstone.gemfire.distributed.DistributedSystem</code>.
+</P>
+
+<P>Once started, the application allows you to perform many of the 
+administration activities available through the Java API. Enter <strong><code>help</code></strong> to see a list of commands.</P>
+
+<hr color="#cc0000" size="2" align="left">
+
+</BODY>
+</HTML>
+

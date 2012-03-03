@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:gfe="http://www.springframework.org/schema/gemfire"
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire-1.1.xsd
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+        <!-- find beans by scanning the classpath -->
+        <context:component-scan base-package="com.gemstone.gemfire.tutorial"/>
+
+    <!-- Generic properties that we can set, such as where to store data and log files -->
+    <context:property-placeholder system-properties-mode="OVERRIDE" location="classpath:/common.properties" />
+    
+    <!-- gemfire.properties file for the cache server -->
+    <util:properties id="props" location="classpath:gemfire-client.properties" local-override="true"/>
+
+    <gfe:client-cache id="client-cache"  pool-name="client-pool" properties-ref="props" cache-xml-location="classpath:cache-client.xml"/>
+  
+    <gfe:pool id="client-pool" subscription-enabled="true"   >
+        <gfe:locator host="${locator.host1}" port="${locator.port1}" />
+        <gfe:locator host="${locator.host2}" port="${locator.port2}" />
+    </gfe:pool>
+
+        <!-- client region using the default client-cache pool -->
+        <gfe:client-region cache-ref="client-cache" id="people" pool-name="client-pool">
+                <gfe:cache-listener >
+                        <bean class="com.gemstone.gemfire.tutorial.storage.LoggingCacheListener"/>
+                </gfe:cache-listener>   
+        </gfe:client-region>
+
+        <!-- region using its own dedicated pool -->
+        <gfe:client-region id="posts" cache-ref="client-cache" pool-name="client-pool">
+                <gfe:cache-listener >
+                        <bean class="com.gemstone.gemfire.tutorial.storage.LoggingCacheListener"/>
+                </gfe:cache-listener>   
+        </gfe:client-region>
+
+<!--             
+    <gfe:cq-listener-container>
+        <gfe:listener ref="listener" query="select * from /people where people.name=Isabella" method="onEvent" />
+    </gfe:cq-listener-container>
+    <bean id="listener" class="com.vmware.aa.lookahead.client.SampleCqClient" />  
+ -->
+ 
+ 
+</beans>

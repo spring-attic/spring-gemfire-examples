@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE cache PUBLIC
+    "-//GemStone Systems, Inc.//GemFire Declarative Caching 6.5//EN"
+    "http://www.gemstone.com/dtd/cache6_5.dtd">
+
+<!--
+  | HelloWorld.xml
+  |
+  | Configures a region for a data replication example.
+-->
+<cache>
+	<region name="exampleRegion">
+		<region-attributes refid="REPLICATE">
+			<cache-listener>
+				<class-name>helloworld.SimpleCacheListener</class-name>
+			</cache-listener>
+		</region-attributes>
+	</region>
+</cache>

@@ -1,0 +1,136 @@
+SPRING DATA GEMFIRE CHANGELOG
+=============================
+http://www.springsource.org/spring-gemfire
+
+Changes in version 1.1.0.RELEASE (2011-12-14)
+---------------------------------------------
+
+Package org.springframework.data.gemfire
+* Fixed incorrect parsing of pdx-serializer (from value to reference)
+
+
+Changes in version 1.1.0.RELEASE (2011-12-14)
+---------------------------------------------
+
+General
+* Upgraded to Spring Framework 3.1 GA
+
+
+Changes in version 1.1.0.RC1 (2011-11-13)
+-----------------------------------------
+
+General
+* Upgraded to GemFire 6.6.1
+* Aligned Maven naming to Spring Data conventions (changed ids to 'org.springframework.data'/'spring-data-gemfire')
+* Introduced PDX options for 'cache' and 'client-cache' elements
+
+
+Changes in version 1.1.0.M3 (2011-09-25)
+----------------------------------------
+
+General
+* Upgraded to GemFire 6.6 GA
+* Introduced support for GemFire Indecies
+* Reintroduced samples in zip distribution
+
+Package org.springframework.data.gemfire
+* Improved region creation by removing the use of GemFire 6.0 API (replaced with 6.5+)
+
+Package org.springframework.data.gemfire.client
+* Added missing properties to PoolFactoryBean and pool namespace
+* Fixed registration of custom listeners specified through region attributes
+* Added missing 'receive-values' property to region interests
+
+
+Changes in version 1.1.0.M2 (2011-08-29)
+----------------------------------------
+
+General
+* Introduced support for GemFire Continuous Query (CQ)
+* Introduced support for client cache
+* Introduced namespace support for region expiration attributes
+
+Package org.springframework.data.gemfire
+* Added find methods (based on the query service) inside GemFireTemplate
+* Improved detection of local client regions without pools configured
+
+Package org.springframework.data.gemfire.server
+* Fixed bug occuring when applying defaults for disk stores
+* Delayed CacheServer start up to allow declared regions to properly initialize
+
+
+Changes in version 1.1.0.M1 (2011-07-20)
+----------------------------------------
+
+General
+* Changed build system to Gradle
+* Added support for GemFire 6.6
+* Dropped support for GemFire 6.0 (GemFire 6.5 or higher required)
+* Introduced support for CacheServer
+* Introduced GemFire implementation for Spring 3.1 cache abstraction
+* Upgraded to Spring Framework 3.1 M2
+
+Package org.springframework.data.gemfire
+* Introduced cache option for disabling bean factory locator; useful for multi cache definitions, in the same VM
+* Added more region methods to GemfireTemplate
+* Introduced support for queries with variable parameters in GemfireTemplate
+* Improved handling of optimistic exception in a transaction scenario
+
+
+Changes in version 1.0.1 (2011-04-26)
+-------------------------------------
+General
+* Upgraded to GemFire 6.5.1.4
+* Fix networking issue with the sample on some Linux distributions (Ubuntu)
+* Loosen type constraints in the schema to allow placeholders
+* Added 'statistics' attribute to all write regions
+
+Package org.springframework.data.gemfire
+* Introduced auto-close (configurable) on RegionFactoryBean
+
+Package org.springframework.data.gemfire.config
+* Fixed bug causing region names to be used as aliases for region beans
+
+Package org.springframework.data.gemfire.client
+* Improved dependency initialization between cache and pools
+
+Package org.springframework.data.gemfire.serialization
+* Improved cache-wide registration of custom instantiators
+
+Package org.springframework.data.gemfire.support
+* Introduced GemfireDaoSupport
+
+
+Changes in version 1.0.0 (2011-02-02)
+-------------------------------------
+
+
+Changes in version 1.0.0.RC1 (2010-12-20)
+-----------------------------------------
+General
+* Upgraded to GemFire 6.5.1
+* Upgraded to Spring 3.0.5
+
+
+Changes in version 1.0.0.M2 (2010-12-08)
+----------------------------------------
+General
+* Introduced namespace for all the major SGF components
+* Improved documentation to accomodate the SGF namespace
+
+Package org.springframework.data.gemfire
+* Introduced RegionLookupFactoryBean for retrieving (but not creating) regions
+
+Package org.springframework.data.gemfire.client
+* Refactored client-specific classes into a dedicated package
+* Introduced support for configuring GemFire Pools
+
+
+Changes in version 1.0.0.M1 (2010-08-03)
+----------------------------------------
+General
+* Configuration support for GemFire Cache, Region
+* Exception translation
+* GemFire Template for exception translation
+* Declarative transaction management
+* Auto-generation of non-reflection based GemFire instantiators

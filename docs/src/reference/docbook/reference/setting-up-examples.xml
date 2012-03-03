@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0"  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="setup-examples">
+  <title>Set Up the Product Examples</title>
+
+  <para>Complete the installation procedure for each physical or VMware virtual machine on which you will run the vFabric GemFire examples.</para>
+
+  <para>GemFire includes an evaluation license that enables you to run the examples and perform simple evaluation activities. This license allows you to run up to three peer or cache server members and up to three clients for each cache server member. GemFire uses the default license whenever it is run without other valid licensing. This license never expires. It is not allowed for production use.
+.</para>
+
+  <para>The sample is bundled with the distribution and is Maven or gradle-based. One
+  can easily import them into any Maven-aware IDE (such as SpringSource <ulink
+  url="http://www.springsource.com/products/sts">Tool Suite</ulink>) or run
+  them from the command-line.</para>
+
+  <section id="setup-examples:prerequisites">
+    <title>Prerequisites</title>
+
+    <para>Install GemFire as described in Install vFabric GemFire.</para>
+
+    <section id="setup-examples:procedure">
+      <title>Procedure</title>
+    </section>
+    <section id="setup-examples:what-to-do-next">
+      <title>What to do next</title>
+    </section>
+  </section>
+</chapter>
