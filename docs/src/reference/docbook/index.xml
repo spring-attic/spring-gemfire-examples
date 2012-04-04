@@ -52,6 +52,7 @@
       <xi:include href="reference/helloworld-example.xml"/>
       <xi:include href="reference/gemfire-tutorial.xml"/>
       <xi:include href="reference/quickstart-examples.xml"/>
+      <xi:include href="reference/examples.xml"/>
   </part>
 
   <part id="resources">

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<HTML>
+<BODY bgcolor="#ffffff"><HTML>
+ <HEAD>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+  <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+  <LINK REL="STYLESHEET" HREF="DocIndex.css" CHARSET="ISO-8859-1" TYPE="text/css">
+<H1 align="center">
+vFabric<FONT size=6><b><sup><font size=-0>&#8482;</font></sup></b></FONT></font> GemFire<FONT size=6><b><sup><font size=-0>&#174;</font></sup></b></FONT></font></H1>
+     </b></FONT>
+  <H1 align="center">cacheOverflow</H1>
+<H2 align="center">Java Caching API Programming Example </H2>
+
+<hr color="#cc0000" size="2" align="left">
+
+<BODY TEXT="#000000" LINK="#0000B0" VLINK="#666699" BGCOLOR="#FFFFFF">
+<P>The <b>cacheOverflow</b> <a href="CacheOverflow.java">example</a> program demonstrates the "overflow" 
+feature of GemFire cache regions. The example is located in the GemFire 
+installation under <code>examples/dist/cacheOverflow</code>.</P>
+
+
+<P>Before running this application, you need to start a terminal session and configure its environment 
+according to the instructions provided under the GemFire installation 
+in <a href="../../EnvSetup.html">examples/EnvSetup.html</a>. </P>
+
+<P>After the environment has been set, change directory to <code>examples/dist/cacheOverflow</code> in the SampleCode distribution directory. </P>
+
+<P>You can run the <code>cacheOverflow</code> example
+  with no command line arguments to obtain usage information.</P>
+<pre>
+
+usage: java cacheOverflow.CacheOverflow [options] args
+
+Where [options] are
+  -synchronous       Writes to disk are synchronous
+  -backup            Backup the region data on disk (data will be written
+                     to disk as soon as it is added to the region). Restarting
+                     the VM with the -backup flag will recover it's contents.
+  -validate          Instead of populating a region validates its contents.
+  -disableCompaction Save the old backup files instead of compacting them
+
+Where args are
+  threads            Number of threads adding to region
+  arrays             Number of 8 kilobyte arrays added by each thread
+  overflowThreshold  Number of megabytes of region data that can reside
+                     in the VM before overflowing to disk
+  maxOplogSize       Number of megabytes of region data that can be written
+                     to a backup file before rolling over to a new file
+  dir+               One or more directories in which to write region data
+</pre>
+
+<P>The <code>cacheOverflow</code> example launches one or more threads that
+populate a GemFire region with 8 kilobyte chunks of data (<code>long</code>
+arrays of size 1024).  Once the amount of region data exceeds the specified
+threshold, the data is overflowed to disk, thus allowing the
+logical size of the region to exceed the amount of heap space in the
+VM.
+<P>Enter the following command exactly as shown. The call puts a total of 20*100*8K = 16MB of data into 
+  a region with a size limit of 1 megabyte, so 15 megabytes are 
+  overflowed (into a 30 megabyte file in the current working directory) 
+  as the threads run. 
+<pre>
+    java cacheOverflow.CacheOverflow 20 100 1 30 .
+</pre> 
+<p>When the threads finish, the program exits. This forces a cache close and 
+region destruction.</P>
+<p> If you run the same command with the -backup flag, it will store all of the entries
+on disk. It will still keep 1 megabyte in the in memory cache. <p>
+<pre>
+    java cacheOverflow.CacheOverflow -backup 20 100 1 30 .
+</pre>
+<p>
+Running the program with the -backup flag again will recover the region contents from disk.
+Run it with both the -backup and -verify flags to make sure the data was recovered.
+<pre>
+    java cacheOverflow.CacheOverflow -backup -validate 20 100 1 30 .
+</pre>
+<P>While the program itself does not have very interesting output,
+there are a number of GemFire statistics that are worth observing. The
+example program creates it's own statistics in WorkerStats.java. It keeps
+track of the number of bytes it has added to the cache (the
+<code>bytesAdded</code> statistic of the <code>WorkerStats</code>). GemFire
+itself tracks a several of stats related to cache operations. You can see
+the number of region entry values that have been overflowed to disk
+(the <code>lruEvictions</code> statistic of
+<code>MemLRUStatistics</code>, and the amount of time that is spent
+writing data to disk (the <code>writeTime</code> statistic of
+<code>DiskRegionStatistics</code>).</P>
+<p>
+The program's statistics are archived in a file named <code>statArchive.gfs</code>.  The optional VSD tool
+  can be used to view these statistics (available through the
+  <a href="https://www.vmware.com/support/pubs/vfabric-gemfire.html" target="_blank"><b>vFabric GemFire Product Page</b></a>).  Run this command to the view the statistics:
+<pre>
+  vsd statArchive.gfs
+</pre>
+</p>
+
+<P>By default, the <code>cacheOverflow</code> program runs as a standalone GemFire application, 
+  meaning it does not join a distributed system, but only creates a 
+  cache. 
+  The <code>CacheOverflow</code> program can be
+  configured to join a distributed system by setting certain
+  distribution-related system properties as outlined in the
+  online documentation for the <code>DistributedSystem</code> class and
+  in the <I>GemFire User's Guide</I>.</P>
+</BODY>
+</HTML>
+
