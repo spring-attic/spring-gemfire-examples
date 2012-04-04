@@ -170,7 +170,7 @@ String loadSnapshot(String symbolToLoad) {
 
 /** This is a test driver - this loads a quote without looking in
   * the GemFire cache.<p>
-  * The class {@link Quote} uses GemFire to cache quotes.
+  * The class {@link CacheOverflow} uses GemFire to cache quotes.
   */
 public static void main(String args[]) {
   if (args.length < 1) {
