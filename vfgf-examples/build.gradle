@@ -35,12 +35,28 @@ sourceCompatibility = 1.5
 targetCompatibility = 1.5 
 
 
-task run(type: JavaExec) {
+task startCacheOverflowExample(type: JavaExec) {
        description = 'Runs the application'
-       main = "com.gemstone.gemfire.tutorial.Client"
+       main = "cacheOverflow.CacheOverflowApp"
        classpath = sourceSets.main.runtimeClasspath
        standardInput = System.in
        systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startFlashCacheExample(type: JavaExec) {
+	description = 'Runs the application'
+	main = "flashcache.FlashCacheApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startSystemExplorerExample(type: JavaExec) {
+	description = 'Runs the application'
+	main = "systemExplorer.SystemExplorerApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
 task startLocator(type: JavaExec) {
