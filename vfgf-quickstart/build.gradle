@@ -35,12 +35,20 @@ sourceCompatibility = 1.5
 targetCompatibility = 1.5 
 
 
-task run(type: JavaExec) {
+task startPushProducer(type: JavaExec) {
        description = 'Runs the application'
        main = "quickstart.PushProducer"
        classpath = sourceSets.main.runtimeClasspath
        standardInput = System.in
        systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startPushConsumer(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.PushConsumer"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
 task startPushConsumer(type: JavaExec) {
