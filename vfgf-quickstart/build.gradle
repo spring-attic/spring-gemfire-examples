@@ -1,4 +1,4 @@
-description = 'Spring vFabric  GemFire - Examples Flashcache'
+description = 'Spring vFabric  GemFire - QuickStart'
 
 apply plugin: 'base'
 apply plugin: 'idea'
