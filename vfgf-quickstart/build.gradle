@@ -51,13 +51,6 @@ task startPushConsumer(type: JavaExec) {
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
-task startPushConsumer(type: JavaExec) {
-	description = 'Starts the Gemfire Locator'
-	main = "com.gemstone.gemfire.util.Locator"
-	classpath = sourceSets.main.runtimeClasspath
-	standardInput = System.in
-	systemProperties['java.net.preferIPv4Stack'] = 'true'
-}
 
 task startLocator(type: JavaExec) {
 	description = 'Starts the Gemfire Locator'
