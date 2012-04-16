@@ -1,7 +1,9 @@
 package quickstart;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.CacheFactory;
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
 import com.gemstone.gemfire.cache.Region;
 
 /**
@@ -13,19 +15,15 @@ import com.gemstone.gemfire.cache.Region;
  * 
  * @since 4.1.1
  */
+@Component
 public class PushProducer {
+	// inject the region
+	@Resource(name = "exampleRegion")
+	private Region<String, String> exampleRegion;
 
-  public static void main(String[] args) throws Exception {
+  public void produce() throws Exception {
     System.out.println("\nConnecting to the distributed system and creating the cache.");
     
-    // Create the cache which causes the cache-xml-file to be parsed
-    Cache cache = new CacheFactory()
-      .set("name", "PushProducer")
-      .set("cache-xml-file", "xml/PushProducer.xml")
-      .create();
-
-    // Get the exampleRegion
-    Region<String,String> exampleRegion = cache.getRegion("exampleRegion");
     System.out.println("Example region, " + exampleRegion.getFullPath() + ", created in cache. ");
 
     // Create 5 entries and then update those entries
@@ -40,7 +38,6 @@ public class PushProducer {
     
     // Close the cache and disconnect from GemFire distributed system
     System.out.println("\nClosing the cache and disconnecting.");
-    cache.close();
     
     System.out.println("\nPlease press Enter in the PushConsumer.");
   }
