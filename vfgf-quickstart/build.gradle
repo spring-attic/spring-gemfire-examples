@@ -1,5 +1,6 @@
 description = 'Spring vFabric  GemFire - QuickStart'
 
+
 apply plugin: 'base'
 apply plugin: 'idea'
 apply plugin: 'java'
