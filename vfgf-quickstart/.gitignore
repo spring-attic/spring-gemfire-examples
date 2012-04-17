@@ -1,3 +1,8 @@
 build/
 .gradle/
 .settings/
+.classpath
+.project
+vf.gf.dmn-events.txt
+vf.gf.dmn-license.cfg
+
