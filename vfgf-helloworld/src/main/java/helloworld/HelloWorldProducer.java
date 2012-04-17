@@ -31,13 +31,6 @@ public class HelloWorldProducer {
 
     System.out.println("\nConnecting to the distributed system and creating the cache.");
     
-    // Create the cache which causes the cache-xml-file to be parsed
-//    Cache cache = new CacheFactory()
-//     .set("cache-xml-file", "xml/HelloWorld.xml")
-//    .create();
-
-    // Get the exampleRegion
- //   Region<String,String> exampleRegion = cache.getRegion("exampleRegion");
     System.out.println("Example region, " + exampleRegion.getFullPath() + ", created in cache. ");
 
     System.out.println("Putting entry: Hello, World");
@@ -45,9 +38,6 @@ public class HelloWorldProducer {
     System.out.println("Putting entry: Hello, Moon!");
     exampleRegion.put("Hello", "Moon!");
     
-    // Close the cache and disconnect from GemFire distributed system
-    System.out.println("\nClosing the cache and disconnecting.");
-//    cache.close();
     
     System.out.println("\nPlease press Enter in the HelloWorldConsumer.");
   }

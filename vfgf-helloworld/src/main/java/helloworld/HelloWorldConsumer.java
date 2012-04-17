@@ -49,29 +49,18 @@ public class HelloWorldConsumer {
 		System.out
 				.println("\nConnecting to the distributed system and creating the cache.");
 
-		// Get the exampleRegion
-		// Region<String,String> exampleRegion =
-		// cache.getRegion("exampleRegion");
 		System.out.println("Example region, " + exampleRegion.getFullPath()
 				+ ", created in cache. ");
 		
-		// Create the cache which causes the cache-xml-file to be parsed
-		// Cache cache = new CacheFactory().set("cache-xml-file",
-		//		"xml/HelloWorld.xml").create();
-
 		System.out.println("\nPlease start the HelloWorldProducer.\n");
 		BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(System.in));
 		try {
 			bufferedReader.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// Close the cache and disconnect from GemFire distributed system
-		System.out.println("Closing the cache and disconnecting.");
-		// cache.close();
 	}
 
 }
