@@ -1,3 +1,14 @@
+build/
+.gradle/
+.settings/
+lib/
+.classpath
+.project
+vf.gf.acn-events.txt
+vf.gf.acn-license.cfg
+vf.gf.dmn-events.txt
+vf.gf.dmn-license.cfg
+
 #Compile source#
 *.class
 
