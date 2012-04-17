@@ -24,7 +24,7 @@ public class PushConsumerApp {
 	private static final String[] CONFIGS = new String[] { "push-consumer-app-context.xml" };
 
 	/**
-	 * Push Consumer Application startup class.
+	 * Push Consumer Application startup class. 
 	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
 	 * <p/>
 	 * Accepts as optional parameters location of one (or multiple) application contexts that will
