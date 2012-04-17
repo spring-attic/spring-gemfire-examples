@@ -1,6 +1,10 @@
 build/
 .settings/
 .gradle/
+vf.gf.dmn-events.txt
+vf.gf.dmn-license.cfg
+.classpath
+.project
 
 
 #Compile source#
