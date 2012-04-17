@@ -1,3 +1,8 @@
+build/
+.settings/
+.gradle/
+
+
 #Compile source#
 *.class
 
