@@ -22,9 +22,6 @@ public class PushProducer {
 	private Region<String, String> exampleRegion;
 
   public void produce() throws Exception {
-    System.out.println("\nConnecting to the distributed system and creating the cache.");
-    
-    System.out.println("Example region, " + exampleRegion.getFullPath() + ", created in cache. ");
 
     // Create 5 entries and then update those entries
     for (int iter = 0; iter < 2; iter++) {
@@ -35,10 +32,7 @@ public class PushProducer {
         exampleRegion.put(key, value);
       }
     }
-    
-    // Close the cache and disconnect from GemFire distributed system
-    System.out.println("\nClosing the cache and disconnecting.");
-    
+        
     System.out.println("\nPlease press Enter in the PushConsumer.");
   }
 }
