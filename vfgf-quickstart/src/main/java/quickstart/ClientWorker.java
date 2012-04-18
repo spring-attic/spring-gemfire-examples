@@ -3,8 +3,10 @@ package quickstart;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import com.gemstone.gemfire.cache.client.ClientCacheFactory;
-import com.gemstone.gemfire.cache.client.ClientCache;
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
 import com.gemstone.gemfire.cache.Region;
 
 /**
@@ -16,23 +18,15 @@ import com.gemstone.gemfire.cache.Region;
  *
  * @since 5.8
  */
+@Component
 public class ClientWorker {
 
-	public static final String EXAMPLE_REGION_NAME = "exampleRegion";
+	// inject the region
+	@Resource(name = "exampleRegion")
+	private Region<String, String> exampleRegion;
 
-	public static void main(String[] args) throws Exception {
+	public void run() throws Exception {
 
-		System.out.println("Connecting to the distributed system and creating the cache.");
-		// Create the cache which causes the cache-xml-file to be parsed
-		ClientCache cache = new ClientCacheFactory()
-                  .set("name", "ClientWorker")
-                  .set("cache-xml-file", "xml/Client.xml")
-                  .create();
-
-		// Get the exampleRegion
-		Region<String, String> exampleRegion = cache.getRegion(EXAMPLE_REGION_NAME);
-		System.out.println("Example region \"" + exampleRegion.getFullPath() + "\" created in cache.");
-		System.out.println();
 		System.out.println("Getting three values from the cache server.");
 		System.out.println("This will cause the server's loader to run, which will add the values");
 		System.out.println("to the server cache and return them to me. The values will also be");
@@ -65,11 +59,7 @@ public class ClientWorker {
 		System.out.println("Destroying key2");
 		exampleRegion.destroy("key2");
 
-		// Close the cache and disconnect from GemFire distributed system
-		System.out.println("Closing the cache and disconnecting.");
-		cache.close();
-
-		System.out.println("In the other session, please hit Enter in the Consumer client");
-		System.out.println("and then stop the cacheserver with 'cacheserver stop'.");
+		System.out.println("In the other session, please hit Enter in the ConsumerClientApp");
+		System.out.println("and then stop the CacheServerApp.");
 	}
 }

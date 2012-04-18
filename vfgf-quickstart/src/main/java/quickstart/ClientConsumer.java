@@ -61,7 +61,7 @@ public class ClientConsumer {
 
 		System.out.println("The data region has a listener that reports all changes to standard out.");
 		System.out.println();
-		System.out.println("Please run the worker client in another session. It will update the");
+		System.out.println("Please run the ClientWorkerApp in another session. It will update the");
 		System.out.println("cache and the server will forward the updates to me. Note the listener");
 		System.out.println("output in this session.");
 		System.out.println();
