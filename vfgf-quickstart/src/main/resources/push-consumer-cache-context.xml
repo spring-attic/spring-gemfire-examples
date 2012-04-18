@@ -12,9 +12,6 @@
 	<gfe:cache properties-ref="props" />
 	<util:properties id="props" location="cache.properties"/>
 
-	<!-- GemFire transaction manager -->
-	<gfe:transaction-manager />
-    	
 	<!-- since no name is given, the region will be named after the bean -->
 	<gfe:replicated-region id="exampleRegion">
 		<gfe:cache-listener>

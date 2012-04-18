@@ -12,9 +12,6 @@
 	<gfe:cache properties-ref="props" cache-xml-location="xml/PushProducer.xml" />
 	<util:properties id="props" location="cache.properties"/>
 
-	<!-- GemFire transaction manager -->
-	<gfe:transaction-manager />
-
 	<!-- lookup for a region called 'example region'--> 
 	<gfe:lookup-region id="exampleRegion"/>
 	
