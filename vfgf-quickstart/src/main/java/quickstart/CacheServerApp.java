@@ -44,6 +44,7 @@ public class CacheServerApp {
 		// shutdown the context along with the VM
 		ctx.registerShutdownHook();
 		System.out.println("Started Cache Server");
+		System.out.println("Use 'Control + C' to stop cache server process");
 
 	}
 

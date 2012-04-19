@@ -52,6 +52,30 @@ task startPushConsumerApp(type: JavaExec) {
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
+task startCacheServerApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.CacheServerApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startClientConsumerApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.ClientConsumerApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startClientWorkerApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.ClientWorkerApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
 
 task startLocator(type: JavaExec) {
 	description = 'Starts the Gemfire Locator'
