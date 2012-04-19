@@ -76,6 +76,22 @@ task startClientWorkerApp(type: JavaExec) {
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
+task startPartitionedRegionVM1App(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.PartitionedRegionVM1App"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startPartitionedRegionVM2App(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.PartitionedRegionVM2App"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
 
 task startLocator(type: JavaExec) {
 	description = 'Starts the Gemfire Locator'
