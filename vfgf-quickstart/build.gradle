@@ -52,9 +52,10 @@ task startPushConsumerApp(type: JavaExec) {
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
-task startCacheServerApp(type: JavaExec) {
+task startCacheServerAppManagedServerExample(type: JavaExec) {
 	description = 'Runs the application'
 	main = "quickstart.CacheServerApp"
+	args 'server-managed-cache-context.xml'
 	classpath = sourceSets.main.runtimeClasspath
 	standardInput = System.in
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
@@ -87,6 +88,23 @@ task startPartitionedRegionVM1App(type: JavaExec) {
 task startPartitionedRegionVM2App(type: JavaExec) {
 	description = 'Runs the application'
 	main = "quickstart.PartitionedRegionVM2App"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startCacheServerAppContinuousQueryExample(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.CacheServerApp"
+	args 'continuous-query-cache-context.xml'
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startCqClientApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.CqClientApp"
 	classpath = sourceSets.main.runtimeClasspath
 	standardInput = System.in
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
