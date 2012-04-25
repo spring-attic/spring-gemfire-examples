@@ -21,8 +21,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class CacheServerApp {
 
-	private static final String[] CONFIGS = new String[] { "server-cache-context.xml" };
 
+	public static final String USAGE = "Usage: java CacheServerApp <cache-server-files>\n";
 	/**
 	 * Cache Server Application startup class. 
 	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
@@ -39,8 +39,11 @@ public class CacheServerApp {
 	 */
 
 	public static void main(String[] args) {
-		String[] res = (args != null && args.length > 0 ? args : CONFIGS);
-		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(res);
+		if (args.length != 1) {
+			System.out.println(USAGE);
+			System.exit(1);
+		}
+		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(args);
 		// shutdown the context along with the VM
 		ctx.registerShutdownHook();
 		System.out.println("Started Cache Server");

@@ -23,7 +23,7 @@ import quickstart.ClientConsumer.RegisterInterestType;
 
 public class ClientConsumerApp {
 
-	public static final String USAGE = "Usage: java ClientConsumer <register-interest-type>\n"
+	public static final String USAGE = "Usage: java ClientConsumerApp <register-interest-type>\n"
 			+ "  register-interest-type may be one of the following:\n"
 			+ "    all-keys    Register interest in all keys on the server\n"
 			+ "    keyset      Register interest in a set of keys on the server\n"
