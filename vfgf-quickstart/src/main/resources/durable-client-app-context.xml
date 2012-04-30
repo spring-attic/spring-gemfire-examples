@@ -10,5 +10,4 @@
 	
 	<!-- find beans by scanning the classpath -->
 	<context:component-scan base-package="quickstart" resource-pattern="**/DurableClient.class"/>
-
 </beans>
