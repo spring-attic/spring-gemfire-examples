@@ -150,6 +150,14 @@ task startDataExpirationApp(type: JavaExec) {
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
+task startDataEvictionApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.DataEvictionApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
 
 task startQueryingApp(type: JavaExec) {
 	description = 'Runs the application'

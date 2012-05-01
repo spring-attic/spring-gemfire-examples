@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd">
+
+	<!-- GemFire cache bean -->
+	<gfe:cache properties-ref="props"/>
+	<util:properties id="props" location="cache.properties"/>
+
+	<!-- since no name is given, the region will be named after the bean 
+	<gfe:partitioned-region id="exampleRegion">
+ 		<gfe:disk-store queue-size="10000" auto-compact="true" max-oplog-size="1024" synchronous-write="false" time-interval="15">
+        	<gfe:disk-dir location="overflowData1" max-size="4096"/>
+    	</gfe:disk-store>
+    	<gfe:eviction type="ENTRY_COUNT" threshold="1" action="LOCAL_DESTROY"/>
+ 	
+    </gfe:partitioned-region>
+-->
+	<bean id="exampleRegion" class="org.springframework.data.gemfire.RegionFactoryBean"
+		p:cache-ref="gemfire-cache">
+		<property name="cacheListeners">
+			<array>
+				<bean class="quickstart.SimpleCacheListener" />
+			</array>
+		</property>
+		<property name="attributes">
+			<bean class="org.springframework.data.gemfire.RegionAttributesFactoryBean">
+				<property name="evictionAttributes">
+					<bean class="com.gemstone.gemfire.cache.EvictionAttributes" factory-method="createLRUEntryAttributes">
+						<constructor-arg value="10" />
+						<constructor-arg value="LOCAL_DESTROY" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>
