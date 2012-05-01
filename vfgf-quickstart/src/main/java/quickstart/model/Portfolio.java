@@ -1,10 +1,10 @@
-package quickstart;
+package quickstart.model;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-import com.gemstone.gemfire.cache.Declarable;
+import org.springframework.stereotype.Component;
 
 /**
  * A stock portfolio that consists of multiple {@link Position}
@@ -21,32 +21,28 @@ import com.gemstone.gemfire.cache.Declarable;
  * @author GemStone Systems, Inc.
  * @since 4.1.1
  */
-public class Portfolio implements Declarable, Serializable {
+ @Component
+public class Portfolio implements Serializable {
   private static final long serialVersionUID = 9097335119586059309L;
   
   private int id;  /* id is used as the entry key and is stored in the entry */
   private String type;
   private Map<String,Position> positions = new LinkedHashMap<String,Position>();
   private String status;
-  
-  public void init(Properties props) {
-    this.id = Integer.parseInt(props.getProperty("id"));
-    this.type = props.getProperty("type", "type1");
-    this.status = props.getProperty("status", "active");
     
-    // get the positions. These are stored in the properties object
-    // as Positions, not String, so use Hashtable protocol to get at them.
-    // the keys are named "positionN", where N is an integer.
-    for (Map.Entry<Object, Object> entry: props.entrySet()) {
-      String key = (String)entry.getKey();
-      if (key.startsWith("position")) {
-        Position pos = (Position)entry.getValue();
-        this.positions.put(pos.getSecId(), pos);
-      }
-    }
-  }
-  
-  public String getStatus(){
+  public void setId(int id) {
+	this.id = id;
+}
+
+public void setType(String type) {
+	this.type = type;
+}
+
+public void setStatus(String status) {
+	this.status = status;
+}
+
+public String getStatus(){
     return status;
   }
   
@@ -56,6 +52,10 @@ public class Portfolio implements Declarable, Serializable {
   
   public Map<String,Position> getPositions(){
     return this.positions;
+  }
+ 
+  public void setPositions(Map<String,Position> positions){
+    this.positions = positions;
   }
   
   public String getType() {

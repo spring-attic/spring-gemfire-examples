@@ -1,4 +1,4 @@
-package quickstart;
+package quickstart.model;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -34,15 +34,6 @@ public class Querying {
     System.out.println("region. The data represents Portfolios containing Positions. ");
 
     System.out.println("\nConnecting to the distributed system and creating the cache.");
-    
-/*    // Create the cache which causes the cache-xml-file to be parsed
-    Cache cache = new CacheFactory()
-      .set("name", "Querying")
-      .set("cache-xml-file", "xml/Querying.xml")
-      .create();*/
-
-    // Get the exampleRegion
-
     System.out.println("Example region, " + exampleRegion.getFullPath() + ", created in cache. ");
 
     // Get the query service for the cache
@@ -72,7 +63,7 @@ public class Querying {
     
     // Execute a query with SELECT, FROM and WHERE clauses
     query = queryService.newQuery(
-      "SELECT DISTINCT * FROM /exampleRegion WHERE status = 'active'");
+      "SELECT DISTINCT * FROM /exampleRegion WHERE status = 'active' ORDER by 'type'");
     System.out.println("Executing query:\n\t" + query.getQueryString()); 
     result = query.execute();
     System.out.println("Query result:\n\t" + formatQueryResult(result));
@@ -95,7 +86,7 @@ public class Querying {
     
     // Execute a more complex query
     query = queryService.newQuery(
-      "IMPORT quickstart.Position; " +
+      "IMPORT quickstart.model.Position; " + 
       "SELECT DISTINCT posnVal " +
       "FROM /exampleRegion, positions.values posnVal TYPE Position " +
       "WHERE status = 'active' AND posnVal.mktValue >= 25.00");

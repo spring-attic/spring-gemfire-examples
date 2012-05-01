@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package quickstart;
+package quickstart.model;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

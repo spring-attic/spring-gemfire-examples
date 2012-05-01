@@ -9,9 +9,170 @@
 		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd">
 
 	<!-- GemFire cache bean -->
-	<gfe:cache cache-xml-location="xml/Querying.xml"/>
-	<!-- create region -->
-	<gfe:lookup-region id="exampleRegion" />
+	<gfe:cache />
 	
+	<bean id="position1" class="quickstart.model.Position" >
+		<property name="secId" value="SUN" />
+		<property name="qty" value="34000" />
+		<property name="mktValue" value="24.42" />
+	</bean>
+
+	<bean id="position2" class="quickstart.model.Position">
+		<property name="secId" value="IBM" />
+		<property name="qty" value="8765" />
+		<property name="mktValue" value="34.29" />
+	</bean>		
+ 			
+	<bean id="portfolio1" class="quickstart.model.Portfolio">
+		<property name="id" value="1"/>
+		<property name="type" value="type1"/>
+		<property name="status" value="active" />
+		<property name="positions">
+			<map>
+				<entry key="position1" value-ref="position1" />
+				<entry key="position2" value-ref="position2" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="position3" class="quickstart.model.Position">
+		<property name="secId" value="YHOO" />
+		<property name="qty" value="9834" />
+		<property name="mktValue" value="12.925" />		
+	</bean>
+
+	<bean id="position4" class="quickstart.model.Position">
+		<property name="secId" value="GOOG" />
+		<property name="qty" value="12176" />
+		<property name="mktValue" value="21.972" />		
+	</bean>
+	
+	<bean id="portfolio2" class="quickstart.model.Portfolio">
+		<property name="id" value="2"/>
+		<property name="type" value="type2"/>
+		<property name="status" value="inactive" />
+		<property name="positions">		
+			<map>
+				<entry key="position1" value-ref="position3" />
+				<entry key="position2" value-ref="position4" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="position5" class="quickstart.model.Position">
+		<property name="secId" value="MSFT" />
+		<property name="qty" value="98327" />
+		<property name="mktValue" value="23.32" />		
+	</bean>
+	
+	<bean id="position6" class="quickstart.model.Position">
+		<property name="secId" value="AOL" />
+		<property name="qty" value="978" />
+		<property name="mktValue" value="40.373" />		
+	</bean>
+	
+		
+	<bean id="portfolio3" class="quickstart.model.Portfolio">
+		<property name="id" value="3"/>
+		<property name="type" value="type3"/>
+		<property name="status" value="active" />
+		<property name= "positions" >
+			<map>
+				<entry key="position1" value-ref="position5" />
+				<entry key="position2" value-ref="position6" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="position7" class="quickstart.model.Position">
+		<property name="secId" value="APPL" />
+		<property name="qty" value="90" />
+		<property name="mktValue" value="67.356572" />
+	</bean>
+	
+	<bean id="position8" class="quickstart.model.Position">
+		<property name="secId" value="ORCL" />
+		<property name="qty" value="376" />
+		<property name="mktValue" value="101.34" />
+	</bean>
+
+	<bean id="portfolio4" class="quickstart.model.Portfolio">
+		<property name="id" value="4"/>
+		<property name="type" value="type1"/>
+		<property name="status" value="inactive" />
+		<property name="positions" >
+			<map>
+				<entry key="position1" value-ref="position7" />
+				<entry key="position2" value-ref="position8" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="position9" class="quickstart.model.Position">
+		<property name="secId" value="SAP" />
+		<property name="qty" value="90" />
+		<property name="mktValue" value="67.356572" />
+	</bean>
+	
+	<bean id="position10" class="quickstart.model.Position">
+		<property name="secId" value="DELL" />
+		<property name="qty" value="376" />
+		<property name="mktValue" value="101.34" />
+	</bean>
+	
+    	<bean id="portfolio5" class="quickstart.model.Portfolio">
+		<property name="id" value="5"/>
+		<property name="type" value="type2"/>
+		<property name="status" value="active" />
+		<property name="positions" >
+			<map>
+				<entry key="position1" value-ref="position9" />
+				<entry key="position2" value-ref="position10" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="position11" class="quickstart.model.Position">
+		<property name="secId" value="RHAT" />
+		<property name="qty" value="90" />
+		<property name="mktValue" value="67.356572" />
+	</bean>
+	
+	<bean id="position12" class="quickstart.model.Position">
+		<property name="secId" value="NOVL" />
+		<property name="qty" value="376" />
+		<property name="mktValue" value="101.34" />
+	</bean>
+	
+   	<bean id="portfolio6" class="quickstart.model.Portfolio">
+		<property name="id" value="6"/>
+		<property name="type" value="type3"/>
+		<property name="status" value="inactive" />
+		<property name="positions" >
+			<map>
+				<entry key="position1" value-ref="position11" />
+				<entry key="position2" value-ref="position12" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- create region -->
+	<gfe:replicated-region id="exampleRegion" />
+
+
+ <bean id="putMethod" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+   <property name="targetObject"><ref local="exampleRegion"/></property>
+   <property name="targetMethod"><value>putAll</value></property>
+   <property name="arguments">
+     <map>
+       <entry key="1" value-ref="portfolio1" />
+       <entry key="2" value-ref="portfolio2" />
+       <entry key="3" value-ref="portfolio3" />
+       <entry key="4" value-ref="portfolio4" />
+       <entry key="5" value-ref="portfolio5" />
+       <entry key="6" value-ref="portfolio6" />     
+     </map>
+   </property>
+ </bean>	
 	
 </beans>

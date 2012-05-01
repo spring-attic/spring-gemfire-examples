@@ -1,7 +1,10 @@
-package quickstart;
+package quickstart.model;
 
 import java.io.Serializable;
 import java.util.Properties;
+
+import org.springframework.stereotype.Component;
+
 import com.gemstone.gemfire.cache.Declarable;
 
 /**
@@ -16,18 +19,14 @@ import com.gemstone.gemfire.cache.Declarable;
  * @author GemStone Systems, Inc.
  * @since 4.1.1
  */
-public class Position implements Declarable, Serializable {
-  private static final long serialVersionUID = -8229531542107983344L;
+@Component
+public class Position implements Serializable {
+	private static final long serialVersionUID = -8229531542107983344L;
+
   
   private String secId;
   private double qty;
   private double mktValue;
-  
-  public void init(Properties props) {
-    this.secId = props.getProperty("secId");
-    this.qty = Double.parseDouble(props.getProperty("qty"));
-    this.mktValue = Double.parseDouble(props.getProperty("mktValue"));
-  }
   
   public String getSecId(){
     return this.secId;
@@ -40,6 +39,19 @@ public class Position implements Declarable, Serializable {
   public double getMktValue() {
     return this.mktValue;
   }
+
+	public void setSecId(String secId) {
+		this.secId = secId;
+	}
+
+	public void setQty(double qty) {
+		this.qty = qty;
+	}
+
+	public void setMktValue(double mktValue) {
+		this.mktValue = mktValue;
+	}
+
 
   public String toString(){
     return "Position [secId="+secId+" qty="+this.qty+" mktValue="+mktValue+"]";

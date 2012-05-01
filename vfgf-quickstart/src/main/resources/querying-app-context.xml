@@ -9,6 +9,6 @@
 	<import resource="querying-cache-context.xml"/>
 	
 	<!-- find beans by scanning the classpath -->
-	<context:component-scan base-package="quickstart" resource-pattern="**/Querying.class"/>
+	<context:component-scan base-package="quickstart.model" />
 
 </beans>
