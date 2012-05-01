@@ -134,6 +134,13 @@ task startDataPersistenceApp(type: JavaExec) {
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
 }
 
+task startQueryingApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.QueryingApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
 
 task startLocator(type: JavaExec) {
 	description = 'Starts the Gemfire Locator'
