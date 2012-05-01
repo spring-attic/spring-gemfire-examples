@@ -24,8 +24,8 @@ public class DataEvictionApp {
 	private static final String[] CONFIGS = new String[] { "data-eviction-app-context.xml" };
 
 	/**
-	 * Data Eviction Application startup class. Bootstraps the Spring
-	 * container which in turns starts GemFire and the actual application.
+	 * Data Eviction Application startup class. Bootstraps the Spring container
+	 * which in turns starts GemFire and the actual application.
 	 * <p/>
 	 * Accepts as optional parameters location of one (or multiple) application
 	 * contexts that will be used for configuring the Spring container. See the
@@ -50,7 +50,8 @@ public class DataEvictionApp {
 			ctx.registerShutdownHook();
 			DataEviction bean = ctx.getBean(DataEviction.class);
 			bean.run();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

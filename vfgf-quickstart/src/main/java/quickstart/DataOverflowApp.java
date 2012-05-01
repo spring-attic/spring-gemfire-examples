@@ -17,7 +17,6 @@
 package quickstart;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -27,8 +26,8 @@ public class DataOverflowApp {
 	private static final String[] CONFIGS = new String[] { "data-overflow-app-context.xml" };
 
 	/**
-	 * Data Overflow Application startup class. Bootstraps the Spring
-	 * container which in turns starts GemFire and the actual application.
+	 * Data Overflow Application startup class. Bootstraps the Spring container
+	 * which in turns starts GemFire and the actual application.
 	 * <p/>
 	 * Accepts as optional parameters location of one (or multiple) application
 	 * contexts that will be used for configuring the Spring container. See the
@@ -53,13 +52,13 @@ public class DataOverflowApp {
 				System.out
 						.println("directory exists:" + dir.getCanonicalPath());
 			else {
-				if(dir.mkdir())
-					System.out
-					.println("directory created:" + dir.getCanonicalPath());
+				if (dir.mkdir())
+					System.out.println("directory created:"
+							+ dir.getCanonicalPath());
 				else
-					System.out
-					.println("directory not created:" + dir.getCanonicalPath());
-				
+					System.out.println("directory not created:"
+							+ dir.getCanonicalPath());
+
 			}
 
 			String[] res = (args != null && args.length > 0 ? args : CONFIGS);
@@ -69,7 +68,8 @@ public class DataOverflowApp {
 			ctx.registerShutdownHook();
 			DataOverflow bean = ctx.getBean(DataOverflow.class);
 			bean.run();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

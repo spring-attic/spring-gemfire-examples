@@ -32,22 +32,24 @@ public class ClientConsumerApp {
 	private static final String[] CONFIGS = new String[] { "client-consumer-app-context.xml" };
 
 	/**
-	 * Client Consumer Application startup class. 
-	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
+	 * Client Consumer Application startup class. Bootstraps the Spring
+	 * container which in turns starts GemFire and the actual application.
 	 * <p/>
-	 * Accepts as optional parameters location of one (or multiple) application contexts that will
-	 * be used for configuring the Spring container. See the reference documentation for more
-	 * {@link http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/resources.html information}.
-	 *  
-	 * Note that in most (if not all) managed environments writing such a class is not needed
-	 * as Spring already provides the required integration.
+	 * Accepts as optional parameters location of one (or multiple) application
+	 * contexts that will be used for configuring the Spring container. See the
+	 * reference documentation for more {@link http
+	 * ://static.springsource.org/spring
+	 * /docs/3.0.x/spring-framework-reference/html/resources.html information}.
+	 * 
+	 * Note that in most (if not all) managed environments writing such a class
+	 * is not needed as Spring already provides the required integration.
 	 * 
 	 * @see org.springframework.web.context.ContextLoaderListener
 	 * @author David Roberts
 	 */
 
 	public static void main(String[] args) {
-		
+
 		if (args.length != 1) {
 			System.out.println(USAGE);
 			System.exit(1);
@@ -56,11 +58,14 @@ public class ClientConsumerApp {
 		ClientConsumer.RegisterInterestType registerInterestType;
 		if (args[0].equals("all-keys")) {
 			registerInterestType = RegisterInterestType.ALL_KEYS;
-		} else if (args[0].equals("keyset")) {
+		}
+		else if (args[0].equals("keyset")) {
 			registerInterestType = RegisterInterestType.KEYSET;
-		} else if (args[0].equals("regex")) {
+		}
+		else if (args[0].equals("regex")) {
 			registerInterestType = RegisterInterestType.REGEX;
-		} else {
+		}
+		else {
 			registerInterestType = null;
 			System.out.println(USAGE);
 			System.exit(2);
@@ -73,7 +78,8 @@ public class ClientConsumerApp {
 		ClientConsumer bean = ctx.getBean(ClientConsumer.class);
 		try {
 			bean.consume(registerInterestType);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

@@ -16,8 +16,6 @@
 
 package quickstart;
 
-import java.io.File;
-
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -52,7 +50,8 @@ public class DataExpirationApp {
 			ctx.registerShutdownHook();
 			DataExpiration bean = ctx.getBean(DataExpiration.class);
 			bean.run();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

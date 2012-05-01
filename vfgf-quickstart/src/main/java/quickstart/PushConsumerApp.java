@@ -24,15 +24,17 @@ public class PushConsumerApp {
 	private static final String[] CONFIGS = new String[] { "push-consumer-app-context.xml" };
 
 	/**
-	 * Push Consumer Application startup class. 
-	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
+	 * Push Consumer Application startup class. Bootstraps the Spring container
+	 * which in turns starts GemFire and the actual application.
 	 * <p/>
-	 * Accepts as optional parameters location of one (or multiple) application contexts that will
-	 * be used for configuring the Spring container. See the reference documentation for more
-	 * {@link http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/resources.html information}.
-	 *  
-	 * Note that in most (if not all) managed environments writing such a class is not needed
-	 * as Spring already provides the required integration.
+	 * Accepts as optional parameters location of one (or multiple) application
+	 * contexts that will be used for configuring the Spring container. See the
+	 * reference documentation for more {@link http
+	 * ://static.springsource.org/spring
+	 * /docs/3.0.x/spring-framework-reference/html/resources.html information}.
+	 * 
+	 * Note that in most (if not all) managed environments writing such a class
+	 * is not needed as Spring already provides the required integration.
 	 * 
 	 * @see org.springframework.web.context.ContextLoaderListener
 	 * @author David Roberts
@@ -47,7 +49,8 @@ public class PushConsumerApp {
 		PushConsumer bean = ctx.getBean(PushConsumer.class);
 		try {
 			bean.consume();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

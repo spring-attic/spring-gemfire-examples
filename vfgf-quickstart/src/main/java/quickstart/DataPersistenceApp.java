@@ -17,7 +17,6 @@
 package quickstart;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -53,13 +52,13 @@ public class DataPersistenceApp {
 				System.out
 						.println("directory exists:" + dir.getCanonicalPath());
 			else {
-				if(dir.mkdir())
-					System.out
-					.println("directory created:" + dir.getCanonicalPath());
+				if (dir.mkdir())
+					System.out.println("directory created:"
+							+ dir.getCanonicalPath());
 				else
-					System.out
-					.println("directory not created:" + dir.getCanonicalPath());
-				
+					System.out.println("directory not created:"
+							+ dir.getCanonicalPath());
+
 			}
 
 			String[] res = (args != null && args.length > 0 ? args : CONFIGS);
@@ -69,7 +68,8 @@ public class DataPersistenceApp {
 			ctx.registerShutdownHook();
 			DataPersistence bean = ctx.getBean(DataPersistence.class);
 			bean.run();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

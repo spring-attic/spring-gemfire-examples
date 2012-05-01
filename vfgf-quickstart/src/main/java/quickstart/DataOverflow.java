@@ -12,10 +12,12 @@ import org.springframework.stereotype.Component;
 import com.gemstone.gemfire.cache.Region;
 
 /**
- * This example shows cached data overflow to disk. Overflow is used to keep a region size in check without completely
- * destroying the data. It is specified as the eviction action of a Least Recently Used (LRU) eviction controller
- * installed on the exampleRegion. Please refer to the quickstart guide for instructions on how to run this example.
- *
+ * This example shows cached data overflow to disk. Overflow is used to keep a
+ * region size in check without completely destroying the data. It is specified
+ * as the eviction action of a Least Recently Used (LRU) eviction controller
+ * installed on the exampleRegion. Please refer to the quickstart guide for
+ * instructions on how to run this example.
+ * 
  * @author GemStone Systems, Inc.
  * @since 4.1.1
  */
@@ -25,7 +27,7 @@ public class DataOverflow {
 	private final BufferedReader inputReader;
 
 	private String overflowDirString;
-	
+
 	@Resource(name = "exampleRegion")
 	private Region<String, byte[]> exampleRegion;
 
@@ -44,8 +46,10 @@ public class DataOverflow {
 	}
 
 	private void createOverflowDirectory() {
-		System.out.println("This example uses disk to extend a region's capacity. The region is");
-		System.out.println("configured with an eviction controller that overflows data to disk when");
+		System.out
+				.println("This example uses disk to extend a region's capacity. The region is");
+		System.out
+				.println("configured with an eviction controller that overflows data to disk when");
 		System.out.println("the region reaches a specified capacity.");
 
 	}
@@ -65,8 +69,10 @@ public class DataOverflow {
 	private void causeOverflow() throws IOException {
 
 		System.out.println();
-		System.out.println("Putting 150 cache entries of 10 kilobytes each into the cache. When the");
-		System.out.println("configured limit of 1 megabyte capacity is reached, the data will overflow");
+		System.out
+				.println("Putting 150 cache entries of 10 kilobytes each into the cache. When the");
+		System.out
+				.println("configured limit of 1 megabyte capacity is reached, the data will overflow");
 		System.out.println("to files in " + overflowDirString + ".");
 
 		for (long i = 0; i < 150; i++) {
@@ -77,8 +83,10 @@ public class DataOverflow {
 		System.out.println();
 		System.out.println("Finished putting entries.");
 		System.out.println();
-		System.out.println("Use another shell to see the overflow files in " + overflowDirString + ".");
-		System.out.println("The disk is used to extend available memory and these files are");
+		System.out.println("Use another shell to see the overflow files in "
+				+ overflowDirString + ".");
+		System.out
+				.println("The disk is used to extend available memory and these files are");
 		System.out.println("treated as part of the local cache.");
 		System.out.println();
 
@@ -91,13 +99,13 @@ public class DataOverflow {
 		exampleRegion.destroyRegion();
 
 		System.out.println();
-		System.out.println("Please look again in " + overflowDirString + ". The overflow files are");
+		System.out.println("Please look again in " + overflowDirString
+				+ ". The overflow files are");
 		System.out.println("deleted when the region is destroyed.");
 		System.out.println();
 
 		pressEnterToContinue();
 	}
-
 
 	private void pressEnterToContinue() throws IOException {
 		System.out.println("Press Enter in this shell to continue.");

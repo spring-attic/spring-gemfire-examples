@@ -3,11 +3,7 @@ package quickstart;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Component;
-
-import com.gemstone.gemfire.cache.Region;
 
 /**
  * This example shows a producer/consumer system with the consumer configured as
@@ -21,14 +17,10 @@ import com.gemstone.gemfire.cache.Region;
 @Component
 public class PushConsumer {
 
-	// inject the region
-	@Resource(name = "exampleRegion")
-	private Region<String, String> exampleRegion;
-
 	public void consume() throws Exception {
 		System.out
 				.println("\nThis example shows how a distributed region works with replication enabled. I'll create a replicate region, then the producer will create the same region and put entries into it. Because my region is a replicate, all of the producer's puts are automatically pushed into my region. ");
-	
+
 		System.out.println("\nPlease start the PushProducer.\n");
 		BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(System.in));
