@@ -33,6 +33,9 @@ dependencies {
 sourceCompatibility = 1.5
 targetCompatibility = 1.5 
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.0-rc-3'
+}
 
 task runConsumer(type: JavaExec) {
        description = 'Runs the application'
