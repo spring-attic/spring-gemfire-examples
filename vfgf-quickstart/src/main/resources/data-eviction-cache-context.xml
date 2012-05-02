@@ -12,15 +12,6 @@
 	<gfe:cache properties-ref="props"/>
 	<util:properties id="props" location="cache.properties"/>
 
-	<!-- since no name is given, the region will be named after the bean 
-	<gfe:partitioned-region id="exampleRegion">
- 		<gfe:disk-store queue-size="10000" auto-compact="true" max-oplog-size="1024" synchronous-write="false" time-interval="15">
-        	<gfe:disk-dir location="overflowData1" max-size="4096"/>
-    	</gfe:disk-store>
-    	<gfe:eviction type="ENTRY_COUNT" threshold="1" action="LOCAL_DESTROY"/>
- 	
-    </gfe:partitioned-region>
--->
 	<bean id="exampleRegion" class="org.springframework.data.gemfire.RegionFactoryBean"
 		p:cache-ref="gemfire-cache">
 		<property name="cacheListeners">

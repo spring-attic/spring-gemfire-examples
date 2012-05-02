@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.gemstone.gemfire.cache.Cache;
+import com.gemstone.gemfire.cache.DiskStore;
 import com.gemstone.gemfire.cache.Region;
 
 /**
@@ -30,6 +32,9 @@ public class DataOverflow {
 
 	@Resource(name = "exampleRegion")
 	private Region<String, byte[]> exampleRegion;
+
+	@Resource(name = "gemfire-cache")
+	private Cache cache;
 
 	public void run() throws Exception {
 
@@ -55,8 +60,9 @@ public class DataOverflow {
 	}
 
 	private void initialize() throws IOException {
-		@SuppressWarnings("deprecation")
-		File[] overflowDirs = exampleRegion.getAttributes().getDiskDirs();
+		String diskStoreName = exampleRegion.getAttributes().getDiskStoreName();
+		DiskStore ds1 = cache.findDiskStore(diskStoreName);
+		File[] overflowDirs = ds1.getDiskDirs();
 		overflowDirString = "";
 		for (int i = 0; i < overflowDirs.length; i++) {
 			if (i > 0) {
