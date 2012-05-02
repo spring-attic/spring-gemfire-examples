@@ -19,29 +19,29 @@ package quickstart;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import quickstart.ClientConsumer.RegisterInterestType;
-
 public class CqClientApp {
 
 	private static final String[] CONFIGS = new String[] { "cq-client-app-context.xml" };
 
 	/**
-	 * Client Worker Application startup class. 
-	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
+	 * Client Worker Application startup class. Bootstraps the Spring container
+	 * which in turns starts GemFire and the actual application.
 	 * <p/>
-	 * Accepts as optional parameters location of one (or multiple) application contexts that will
-	 * be used for configuring the Spring container. See the reference documentation for more
-	 * {@link http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/resources.html information}.
-	 *  
-	 * Note that in most (if not all) managed environments writing such a class is not needed
-	 * as Spring already provides the required integration.
+	 * Accepts as optional parameters location of one (or multiple) application
+	 * contexts that will be used for configuring the Spring container. See the
+	 * reference documentation for more {@link http
+	 * ://static.springsource.org/spring
+	 * /docs/3.0.x/spring-framework-reference/html/resources.html information}.
+	 * 
+	 * Note that in most (if not all) managed environments writing such a class
+	 * is not needed as Spring already provides the required integration.
 	 * 
 	 * @see org.springframework.web.context.ContextLoaderListener
 	 * @author David Roberts
 	 */
 
 	public static void main(String[] args) {
-		
+
 		String[] res = CONFIGS;
 		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(res);
 		// shutdown the context along with the VM
@@ -49,7 +49,8 @@ public class CqClientApp {
 		CqClient bean = ctx.getBean(CqClient.class);
 		try {
 			bean.run();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 

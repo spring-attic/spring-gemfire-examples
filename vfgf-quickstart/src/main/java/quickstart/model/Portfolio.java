@@ -6,18 +6,18 @@ import java.util.Map;
 import java.util.Properties;
 import org.springframework.stereotype.Component;
 
+
 /**
- * A stock portfolio that consists of multiple {@link Position}
- * objects that represent shares of stock (a "security").  Instances
- * of <code>Portfolio</code> can be stored in a GemFire
- * <code>Region</code> and their contents can be queried using the
- * GemFire query service.
+ * A stock portfolio that consists of multiple {@link Position} objects that
+ * represent shares of stock (a "security"). Instances of <code>Portfolio</code>
+ * can be stored in a GemFire <code>Region</code> and their contents can be
+ * queried using the GemFire query service.
  * <P>
- * This class is <code>Serializable</code> because we want it to be
- * distributed to multiple members of a distributed system.  Because
- * this class is <code>Declarable</code>, we can describe instances of
- * it in a GemFire <code>cache.xml</code> file.
- *
+ * This class is <code>Serializable</code> because we want it to be distributed
+ * to multiple members of a distributed system. Because this class is
+ * <code>Declarable</code>, we can describe instances of it in a GemFire
+ * <code>cache.xml</code> file.
+ * 
  * @author GemStone Systems, Inc.
  * @since 4.1.1
  */

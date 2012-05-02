@@ -21,18 +21,20 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class CacheServerApp {
 
-
 	public static final String USAGE = "Usage: java CacheServerApp <cache-server-files>\n";
+
 	/**
-	 * Cache Server Application startup class. 
-	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
+	 * Cache Server Application startup class. Bootstraps the Spring container
+	 * which in turns starts GemFire and the actual application.
 	 * <p/>
-	 * Accepts as optional parameters location of one (or multiple) application contexts that will
-	 * be used for configuring the Spring container. See the reference documentation for more
-	 * {@link http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/resources.html information}.
-	 *  
-	 * Note that in most (if not all) managed environments writing such a class is not needed
-	 * as Spring already provides the required integration.
+	 * Accepts as optional parameters location of one (or multiple) application
+	 * contexts that will be used for configuring the Spring container. See the
+	 * reference documentation for more {@link http
+	 * ://static.springsource.org/spring
+	 * /docs/3.0.x/spring-framework-reference/html/resources.html information}.
+	 * 
+	 * Note that in most (if not all) managed environments writing such a class
+	 * is not needed as Spring already provides the required integration.
 	 * 
 	 * @see org.springframework.web.context.ContextLoaderListener
 	 * @author David Roberts
@@ -43,7 +45,8 @@ public class CacheServerApp {
 			System.out.println(USAGE);
 			System.exit(1);
 		}
-		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(args);
+		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
+				args);
 		// shutdown the context along with the VM
 		ctx.registerShutdownHook();
 		System.out.println("Started Cache Server");

@@ -16,16 +16,18 @@
 
 package quickstart;
 
+import java.io.File;
+
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class PartitionedRegionVM1App {
+public class DataOverflowApp {
 
-	private static final String[] CONFIGS = new String[] { "partitioned-region-vm1-app-context.xml" };
+	private static final String[] CONFIGS = new String[] { "data-overflow-app-context.xml" };
 
 	/**
-	 * Partitioned Region VM1 Application startup class. Bootstraps the Spring
-	 * container which in turns starts GemFire and the actual application.
+	 * Data Overflow Application startup class. Bootstraps the Spring container
+	 * which in turns starts GemFire and the actual application.
 	 * <p/>
 	 * Accepts as optional parameters location of one (or multiple) application
 	 * contexts that will be used for configuring the Spring container. See the
@@ -41,18 +43,36 @@ public class PartitionedRegionVM1App {
 	 */
 
 	public static void main(String[] args) {
-		String[] res = (args != null && args.length > 0 ? args : CONFIGS);
-		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(res);
-		// shutdown the context along with the VM
-		ctx.registerShutdownHook();
 
-		PartitionedRegionVM1 bean = ctx.getBean(PartitionedRegionVM1.class);
 		try {
-			bean.execute();
+			// create the directory where data is going to be stored
+			File dir = new File("overflowData1");
+
+			if (dir.exists())
+				System.out
+						.println("directory exists:" + dir.getCanonicalPath());
+			else {
+				if (dir.mkdir())
+					System.out.println("directory created:"
+							+ dir.getCanonicalPath());
+				else
+					System.out.println("directory not created:"
+							+ dir.getCanonicalPath());
+
+			}
+
+			String[] res = (args != null && args.length > 0 ? args : CONFIGS);
+			AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
+					res);
+			// shutdown the context along with the VM
+			ctx.registerShutdownHook();
+			DataOverflow bean = ctx.getBean(DataOverflow.class);
+			bean.run();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

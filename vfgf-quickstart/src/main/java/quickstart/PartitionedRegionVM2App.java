@@ -24,15 +24,17 @@ public class PartitionedRegionVM2App {
 	private static final String[] CONFIGS = new String[] { "partitioned-region-vm2-app-context.xml" };
 
 	/**
-	 * Partitioned Region VM2 Application startup class. 
-	 * Bootstraps the Spring container which in turns starts GemFire and the actual application.
+	 * Partitioned Region VM2 Application startup class. Bootstraps the Spring
+	 * container which in turns starts GemFire and the actual application.
 	 * <p/>
-	 * Accepts as optional parameters location of one (or multiple) application contexts that will
-	 * be used for configuring the Spring container. See the reference documentation for more
-	 * {@link http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/resources.html information}.
-	 *  
-	 * Note that in most (if not all) managed environments writing such a class is not needed
-	 * as Spring already provides the required integration.
+	 * Accepts as optional parameters location of one (or multiple) application
+	 * contexts that will be used for configuring the Spring container. See the
+	 * reference documentation for more {@link http
+	 * ://static.springsource.org/spring
+	 * /docs/3.0.x/spring-framework-reference/html/resources.html information}.
+	 * 
+	 * Note that in most (if not all) managed environments writing such a class
+	 * is not needed as Spring already provides the required integration.
 	 * 
 	 * @see org.springframework.web.context.ContextLoaderListener
 	 * @author David Roberts
@@ -47,7 +49,8 @@ public class PartitionedRegionVM2App {
 		PartitionedRegionVM2 bean = ctx.getBean(PartitionedRegionVM2.class);
 		try {
 			bean.execute();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

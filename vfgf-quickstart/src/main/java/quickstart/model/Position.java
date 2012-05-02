@@ -2,20 +2,18 @@ package quickstart.model;
 
 import java.io.Serializable;
 import java.util.Properties;
-
 import org.springframework.stereotype.Component;
-
 import com.gemstone.gemfire.cache.Declarable;
 
 /**
  * Represents a number of shares of a stock ("security") held in a
  * {@link Portfolio}.
  * <P>
- * This class is <code>Serializable</code> because we want it to be
- * distributed to multiple members of a distributed system.  Because
- * this class is <code>Declarable</code>, we can describe instances of
- * it in a GemFire <code>cache.xml</code> file.
- *
+ * This class is <code>Serializable</code> because we want it to be distributed
+ * to multiple members of a distributed system. Because this class is
+ * <code>Declarable</code>, we can describe instances of it in a GemFire
+ * <code>cache.xml</code> file.
+ * 
  * @author GemStone Systems, Inc.
  * @since 4.1.1
  */
@@ -57,4 +55,3 @@ public class Position implements Serializable {
     return "Position [secId="+secId+" qty="+this.qty+" mktValue="+mktValue+"]";
   }
 }
-

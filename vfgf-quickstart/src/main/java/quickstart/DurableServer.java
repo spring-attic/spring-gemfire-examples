@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 import com.gemstone.gemfire.cache.Region;
 
 /**
- * DurableServer.java has the server to which the DurableClient connects. See the DurableClient or the quickstart guide
- * for run instructions. To stop the server, type "Exit" in server console.
- *
+ * DurableServer.java has the server to which the DurableClient connects. See
+ * the DurableClient or the quickstart guide for run instructions. To stop the
+ * server, type "Exit" in server console.
+ * 
  * @author GemStone Systems, Inc.
  */
 @Component
@@ -20,23 +21,24 @@ public class DurableServer {
 
 	@Resource(name = "exampleRegion")
 	Region<String, String> exampleRegion;
-	
+
 	private void writeToStdout(String msg) {
 		System.out.print("[DurableServer] ");
 		System.out.println(msg);
 	}
-	
+
 	private void writeToStdout() {
 		System.out.println("[DurableServer]");
 	}
-	
+
 	public void run() throws Exception {
 		writeToStdout("This example demonstrates durable caching. This program is a server,");
 		writeToStdout("listening on a port for client requests. The client program connects and");
 		writeToStdout("requests data. The client in this example is also configured to forward");
 		writeToStdout("information on data destroys and updates.");
-		
-		BufferedReader stdinReader = new BufferedReader(new InputStreamReader(System.in));
+
+		BufferedReader stdinReader = new BufferedReader(new InputStreamReader(
+				System.in));
 
 		writeToStdout();
 		writeToStdout("Please start the DurableClientApp now and press Enter.");
@@ -59,7 +61,7 @@ public class DurableServer {
 			if (input == null || input.equalsIgnoreCase("Exit")) {
 				break;
 			}
-			
+
 			writeToStdout("Before updating, the values are:");
 			writeToStdout("key1 => " + exampleRegion.get("key1"));
 			writeToStdout("key2 => " + exampleRegion.get("key2"));

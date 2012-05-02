@@ -10,8 +10,6 @@
 		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:annotation-config />
-	
 	<!-- Create cache -->
 	<gfe:client-cache pool-name="client" properties-ref="props"/>
 	<util:properties id="props" location="client-cache.properties"/>

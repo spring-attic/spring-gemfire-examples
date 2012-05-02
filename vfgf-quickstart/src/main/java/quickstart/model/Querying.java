@@ -15,17 +15,17 @@ import com.gemstone.gemfire.cache.query.QueryService;
 import com.gemstone.gemfire.cache.query.SelectResults;
 
 /**
- * You can query on the data in your cached regions. Please refer to the 
- * quickstart guide for instructions on how to run this example. 
+ * You can query on the data in your cached regions. Please refer to the
+ * quickstart guide for instructions on how to run this example.
  * 
  * @author GemStone Systems, Inc.
  * @since 4.1.1
  */
 @Component
 public class Querying {
-	@Resource(name="gemfire-cache")
+	@Resource(name = "gemfire-cache")
 	Cache cache;
-	
+
 	@Resource(name = "exampleRegion")
     Region<?,?> exampleRegion;
 	

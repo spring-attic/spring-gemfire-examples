@@ -19,20 +19,12 @@ package quickstart;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import quickstart.ClientConsumer.RegisterInterestType;
+public class DataExpirationApp {
 
-public class ClientConsumerApp {
-
-	public static final String USAGE = "Usage: java ClientConsumerApp <register-interest-type>\n"
-			+ "  register-interest-type may be one of the following:\n"
-			+ "    all-keys    Register interest in all keys on the server\n"
-			+ "    keyset      Register interest in a set of keys on the server\n"
-			+ "    regex       Register interest in keys on the server matching a regular expression\n";
-
-	private static final String[] CONFIGS = new String[] { "client-consumer-app-context.xml" };
+	private static final String[] CONFIGS = new String[] { "data-expiration-app-context.xml" };
 
 	/**
-	 * Client Consumer Application startup class. Bootstraps the Spring
+	 * Data Expiration Application startup class. Bootstraps the Spring
 	 * container which in turns starts GemFire and the actual application.
 	 * <p/>
 	 * Accepts as optional parameters location of one (or multiple) application
@@ -50,34 +42,14 @@ public class ClientConsumerApp {
 
 	public static void main(String[] args) {
 
-		if (args.length != 1) {
-			System.out.println(USAGE);
-			System.exit(1);
-		}
-
-		ClientConsumer.RegisterInterestType registerInterestType;
-		if (args[0].equals("all-keys")) {
-			registerInterestType = RegisterInterestType.ALL_KEYS;
-		}
-		else if (args[0].equals("keyset")) {
-			registerInterestType = RegisterInterestType.KEYSET;
-		}
-		else if (args[0].equals("regex")) {
-			registerInterestType = RegisterInterestType.REGEX;
-		}
-		else {
-			registerInterestType = null;
-			System.out.println(USAGE);
-			System.exit(2);
-		}
-
-		String[] res = CONFIGS;
-		AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(res);
-		// shutdown the context along with the VM
-		ctx.registerShutdownHook();
-		ClientConsumer bean = ctx.getBean(ClientConsumer.class);
 		try {
-			bean.consume(registerInterestType);
+			String[] res = (args != null && args.length > 0 ? args : CONFIGS);
+			AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(
+					res);
+			// shutdown the context along with the VM
+			ctx.registerShutdownHook();
+			DataExpiration bean = ctx.getBean(DataExpiration.class);
+			bean.run();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
