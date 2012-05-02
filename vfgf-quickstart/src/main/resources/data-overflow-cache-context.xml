@@ -1,24 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:gfe="http://www.springframework.org/schema/gemfire"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd">
 
 	<!-- GemFire cache bean -->
-	<gfe:cache properties-ref="props"/>
-	<util:properties id="props" location="cache.properties"/>
-
-	<!-- since no name is given, the region will be named after the bean -->
-	<gfe:replicated-region id="exampleRegion">
- 		<gfe:disk-store queue-size="10000" auto-compact="true" max-oplog-size="1024" synchronous-write="false" time-interval="15">
-        	<gfe:disk-dir location="overflowData1" max-size="4096"/>
-    	</gfe:disk-store>
-    	<gfe:eviction type="MEMORY_SIZE" threshold="1" action="OVERFLOW_TO_DISK"/>
- 	
-    </gfe:replicated-region>
+	<gfe:cache properties-ref="props" />
+	<util:properties id="props" location="cache.properties" />
 	
+	<!-- creating disk store factory -->
+	<bean id="dsFactory" factory-bean="gemfire-cache" factory-method="createDiskStoreFactory">
+		<property name="maxOplogSize" value="1024" />
+		<property name="autoCompact" value="true" />
+		<property name="queueSize" value="10000" />
+		<property name="timeInterval" value="15" />
+	</bean>
+
+	<!-- setting more disk store factory settings -->
+	<bean id="dirs"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="dsFactory" />
+		<property name="targetMethod" value="setDiskDirsAndSizes" />
+		<property name="arguments">
+			<list>
+				<array>
+					<bean class="java.io.File">
+						<constructor-arg value="overflowData1" />
+					</bean>
+				</array>
+				<array>
+					<value>4096</value>
+				</array>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Creating Disk Store-->
+	<bean id="ds1" factory-bean="dsFactory" factory-method="create"
+		depends-on="dirs">
+		<constructor-arg value="ds1" />
+	</bean>
+
+	<util:constant id="objSizer"
+		static-field="com.gemstone.gemfire.cache.util.ObjectSizer.DEFAULT" />
+
+	<bean id="exampleRegion" class="org.springframework.data.gemfire.RegionFactoryBean"
+		p:cache-ref="gemfire-cache">
+		<property name="attributes">
+			<bean class="org.springframework.data.gemfire.RegionAttributesFactoryBean">
+				<property name="evictionAttributes">
+					<bean class="com.gemstone.gemfire.cache.EvictionAttributes"
+						factory-method="createLRUMemoryAttributes">
+						<constructor-arg value="1" />
+						<constructor-arg ref="objSizer" />
+						<constructor-arg value="OVERFLOW_TO_DISK" />
+					</bean>
+				</property>
+				<property name="diskStoreName" value="ds1" />
+				<property name="diskSynchronous" value="false" />
+			</bean>
+		</property>
+	</bean>
+
 </beans>
