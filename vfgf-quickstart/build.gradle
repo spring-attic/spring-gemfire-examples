@@ -28,6 +28,8 @@ dependencies {
     compile "javax.annotation:jsr250-api:1.0"
     compile group: "org.aspectj", name: "aspectjrt", version: "1.6.2"
     
+    runtime "cglib:cglib-nodep:2.2"
+     
     testCompile "junit:junit:$junitVersion"
     testCompile "org.springframework:spring-test:$springVersion"
 }
@@ -156,6 +158,14 @@ task startDataExpirationApp(type: JavaExec) {
 task startDataEvictionApp(type: JavaExec) {
 	description = 'Runs the application'
 	main = "quickstart.DataEvictionApp"
+	classpath = sourceSets.main.runtimeClasspath
+	standardInput = System.in
+	systemProperties['java.net.preferIPv4Stack'] = 'true'
+}
+
+task startTransactionsApp(type: JavaExec) {
+	description = 'Runs the application'
+	main = "quickstart.TransactionsApp"
 	classpath = sourceSets.main.runtimeClasspath
 	standardInput = System.in
 	systemProperties['java.net.preferIPv4Stack'] = 'true'
