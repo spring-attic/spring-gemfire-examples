@@ -7,52 +7,10 @@
 		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd">
 
 	<!-- GemFire cache bean -->
-	<gfe:cache properties-ref="props" />
+	<gfe:cache properties-ref="props" cache-xml-location="xml/DataOverflow.xml"/>
+
 	<util:properties id="props" location="cache.properties" />
-	
-	<!-- creating disk store factory -->
-	<bean id="dsFactory" factory-bean="gemfire-cache" factory-method="createDiskStoreFactory">
-		<property name="maxOplogSize" value="1024" />
-		<property name="autoCompact" value="true" />
-		<property name="queueSize" value="10000" />
-		<property name="timeInterval" value="15" />
-	</bean>
-	
-	<!-- setting more disk store factory settings -->
- 	<bean id="dirs" factory-bean="dsFactory" factory-method="setDiskDirsAndSizes">
-		<constructor-arg>
-					<bean class="java.io.File">
-						<constructor-arg value="overflowData1" />
-					</bean>
-		</constructor-arg>
-		<constructor-arg value="4096"/>
-	</bean>
-	
-	<!-- Creating Disk Store-->
-	<bean id="ds1" factory-bean="dsFactory" factory-method="create"
-		depends-on="dirs">
-		<constructor-arg value="ds1" />
-	</bean>
 
-	<util:constant id="objSizer"
-		static-field="com.gemstone.gemfire.cache.util.ObjectSizer.DEFAULT" />
-
-	<bean id="exampleRegion" class="org.springframework.data.gemfire.RegionFactoryBean"
-		p:cache-ref="gemfire-cache">
-		<property name="attributes">
-			<bean class="org.springframework.data.gemfire.RegionAttributesFactoryBean">
-				<property name="evictionAttributes">
-					<bean class="com.gemstone.gemfire.cache.EvictionAttributes"
-						factory-method="createLRUMemoryAttributes">
-						<constructor-arg value="1" />
-						<constructor-arg ref="objSizer" />
-						<constructor-arg value="OVERFLOW_TO_DISK" />
-					</bean>
-				</property>
-				<property name="diskStoreName" value="ds1" />
-				<property name="diskSynchronous" value="false" />
-			</bean>
-		</property>
-	</bean>
-
+	<gfe:lookup-region id="exampleRegion" name="exampleRegion"/>
+	
 </beans>

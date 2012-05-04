@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE cache PUBLIC
+    "-//GemStone Systems, Inc.//GemFire Declarative Caching 6.5//EN"
+    "http://www.gemstone.com/dtd/cache6_5.dtd">
+
+<!--
+  | DataOverflow.xml
+  |
+  | Configures a region to overflow to disk when the region reaches 
+  | a certain capacity. The data files are written to the subdirectories 
+  | specified in the disk-dirs elements.  
+-->
+<cache>
+    <disk-store name="ds1" auto-compact="true" max-oplog-size="1024" queue-size="10000" time-interval="15">
+	<disk-dirs>
+		<disk-dir dir-size="4096">overflowData1</disk-dir>
+	</disk-dirs>
+    </disk-store>
+	<region name="exampleRegion">
+		<region-attributes disk-store-name="ds1" disk-synchronous="false">
+			<!-- Write buffer data to disk every 10Kb or 15 milliseconds,
+			     whichever comes first -->
+
+			<eviction-attributes>
+				<lru-memory-size maximum="1" action="overflow-to-disk" />
+			</eviction-attributes>
+		</region-attributes>
+	</region>
+</cache>
