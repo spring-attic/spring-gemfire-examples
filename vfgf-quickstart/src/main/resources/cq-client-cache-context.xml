@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:gfe="http://www.springframework.org/schema/gemfire"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd">
 
 	<!-- GemFire cache bean -->
-	<gfe:client-cache pool-name="client"/>
+	<gfe:client-cache pool-name="client" />
 	<gfe:pool subscription-enabled="true" id="client">
-		<gfe:server host="localhost" port="40404"/>
+		<gfe:server host="localhost" port="40404" />
 	</gfe:pool>
 
 	<!-- create region -->
-	<gfe:client-region id="exampleRegion" shortcut="CACHING_PROXY" pool-name="client"/>
+	<gfe:client-region id="exampleRegion" shortcut="CACHING_PROXY"
+		pool-name="client" />
+		
+	<bean id="exampleRegionTemplate" class="org.springframework.data.gemfire.GemfireTemplate" p:region-ref="exampleRegion"/>
 	
-	
+	<gfe:cq-listener-container>
+  		<gfe:listener ref="listener"  query="SELECT * FROM /exampleRegion e where e='ClientFirstValue'"/>
+  	</gfe:cq-listener-container>
+
+	<bean id="listener" class="quickstart.ContinuousQueryListenerImpl" />
 </beans>

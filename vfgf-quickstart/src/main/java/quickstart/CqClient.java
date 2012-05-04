@@ -6,15 +6,8 @@ import java.io.InputStreamReader;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.stereotype.Component;
-
-import com.gemstone.gemfire.cache.Region;
-import com.gemstone.gemfire.cache.client.ClientCache;
-import com.gemstone.gemfire.cache.query.CqAttributes;
-import com.gemstone.gemfire.cache.query.CqAttributesFactory;
-import com.gemstone.gemfire.cache.query.CqListener;
-import com.gemstone.gemfire.cache.query.CqQuery;
-import com.gemstone.gemfire.cache.query.QueryService;
 
 /**
  * In this example of hierarchical caching, the server listens on a port for
@@ -28,12 +21,8 @@ import com.gemstone.gemfire.cache.query.QueryService;
 @Component
 public class CqClient {
 
-	// inject the region
-	@Resource(name = "exampleRegion")
-	private Region<String, String> exampleRegion;
-
-	@Resource(name = "gemfire-cache")
-	private ClientCache cache;
+	@Resource(name = "exampleRegionTemplate")
+	private GemfireTemplate exampleRegionTemplate;
 
 	private final BufferedReader stdinReader;
 
@@ -42,28 +31,6 @@ public class CqClient {
 	}
 
 	public void run() throws Exception {
-
-		// Get the query service
-		QueryService queryService = cache.getQueryService();
-
-		// Create CQ Attributes.
-		CqAttributesFactory cqAf = new CqAttributesFactory();
-
-		// Initialize and set CqListener.
-		CqListener[] cqListeners = { new SimpleCqListener() };
-		cqAf.initCqListeners(cqListeners);
-		CqAttributes cqa = cqAf.create();
-
-		// Construct a new CQ.
-		String cqName = "MyCq";
-		String query = "SELECT * FROM /exampleRegion e where e='ClientFirstValue'";
-		System.out.println("Creating CQ \"" + cqName + "\" with query");
-		System.out.println("\"" + query + "\"");
-
-		// Execute the Cq. This registers the cq on the server.
-		System.out.println("Executing CQ \"" + cqName + "\"...");
-		CqQuery myCq = queryService.newCq(cqName, query, cqa);
-		myCq.execute();
 
 		System.out
 				.println("This client will update the server cache and its CQ listener will");
@@ -83,7 +50,7 @@ public class CqClient {
 		System.out
 				.println("This satisfies the query, so the CqListener will report a query");
 		System.out.println("creation event from the server cache.");
-		exampleRegion.put("key1", "ClientFirstValue");
+		exampleRegionTemplate.put("key1", "ClientFirstValue");
 
 		// Wait for the events to come through so the screen output makes sense
 		Thread.sleep(2000);
@@ -99,7 +66,7 @@ public class CqClient {
 				.println("This removes key1 from the CQ result set, to the CQListener will");
 		System.out.println("report a query destroy event.");
 
-		exampleRegion.put("key1", "ClientSecondValue");
+		exampleRegionTemplate.put("key1", "ClientSecondValue");
 		Thread.sleep(2000);
 		pressEnterToContinue();
 
@@ -113,7 +80,7 @@ public class CqClient {
 				.println("This adds key1 back into the CQ result set, to the CQListener will");
 		System.out.println("report a query create event.");
 
-		exampleRegion.put("key1", "ClientFirstValue");
+		exampleRegionTemplate.put("key1", "ClientFirstValue");
 		Thread.sleep(2000);
 		pressEnterToContinue();
 
@@ -127,7 +94,7 @@ public class CqClient {
 				.println("This removes key1 from the result set, to the CQListener will");
 		System.out.println("report a query destroy event.");
 
-		exampleRegion.destroy("key1");
+		exampleRegionTemplate.remove("key1");
 		Thread.sleep(2000);
 		pressEnterToContinue();
 
