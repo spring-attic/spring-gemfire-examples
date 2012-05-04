@@ -9,8 +9,10 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<!-- GemFire cache bean -->
-	<gfe:cache properties-ref="props" />
+	<gfe:cache properties-ref="props" cache-xml-location="xml/Transactions.xml" />
 	<util:properties id="props" location="cache.properties" />
+
+	<gfe:lookup-region id="exampleRegion" name="exampleRegion"/> 
 
 	<gfe:transaction-manager id="tx-manager" cache-ref="gemfire-cache" />
 	
@@ -20,16 +22,5 @@
 
 	<bean id="gemfireTemplate" class="org.springframework.data.gemfire.GemfireTemplate"
 		p:region-ref="exampleRegion" />
-	<util:constant id="scope"
-		static-field="com.gemstone.gemfire.cache.Scope.DISTRIBUTED_NO_ACK" />
-
-	<bean id="exampleRegion" class="org.springframework.data.gemfire.RegionFactoryBean"
-		p:cache-ref="gemfire-cache">
-		<property name="attributes">
-			<bean class="org.springframework.data.gemfire.RegionAttributesFactoryBean">
-				<property name="scope" ref="scope" />
-			</bean>
-		</property>
-	</bean>
-
+ 
 </beans>
