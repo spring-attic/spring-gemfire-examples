@@ -25,7 +25,7 @@ public class DataEviction {
 	@Resource(name = "exampleRegionTemplate")
 	private GemfireTemplate exampleRegionTemplate;
 
-	public void run() throws Exception {
+	public void run() throws InterruptedException {
 		System.out
 				.println("This example keeps the region size below 10 entries by destroying the ");
 		System.out
