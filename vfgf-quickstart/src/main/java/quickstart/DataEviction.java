@@ -2,9 +2,8 @@ package quickstart;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.stereotype.Component;
-
-import com.gemstone.gemfire.cache.Region;
 
 /**
  * This example shows cached data eviction. Use eviction to keep a region size
@@ -23,8 +22,8 @@ import com.gemstone.gemfire.cache.Region;
 @Component
 public class DataEviction {
 
-	@Resource(name = "exampleRegion")
-	private Region<String, String> exampleRegion;
+	@Resource(name = "exampleRegionTemplate")
+	private GemfireTemplate exampleRegionTemplate;
 
 	public void run() throws Exception {
 		System.out
@@ -43,7 +42,7 @@ public class DataEviction {
 		System.out
 				.println("the puts and on any destroys done by the eviction controller.");
 		for (long i = 1; i < 13; i++) {
-			exampleRegion.put("key" + i, "value" + i);
+			exampleRegionTemplate.put("key" + i, "value" + i);
 			Thread.sleep(10);
 		}
 	}
