@@ -17,26 +17,17 @@
 		<property name="queueSize" value="10000" />
 		<property name="timeInterval" value="15" />
 	</bean>
-
+	
 	<!-- setting more disk store factory settings -->
-	<bean id="dirs"
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetObject" ref="dsFactory" />
-		<property name="targetMethod" value="setDiskDirsAndSizes" />
-		<property name="arguments">
-			<list>
-				<array>
+ 	<bean id="dirs" factory-bean="dsFactory" factory-method="setDiskDirsAndSizes">
+		<constructor-arg>
 					<bean class="java.io.File">
 						<constructor-arg value="overflowData1" />
 					</bean>
-				</array>
-				<array>
-					<value>4096</value>
-				</array>
-			</list>
-		</property>
+		</constructor-arg>
+		<constructor-arg value="4096"/>
 	</bean>
-
+	
 	<!-- Creating Disk Store-->
 	<bean id="ds1" factory-bean="dsFactory" factory-method="create"
 		depends-on="dirs">
