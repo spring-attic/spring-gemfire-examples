@@ -10,12 +10,18 @@
 
 	<!-- GemFire cache bean -->
 	<gfe:cache properties-ref="props"/>
+
 	<util:properties id="props" location="cache.properties"/>
+
 	<gfe:cache-server/>
+
 	<!-- since no name is given, the region will be named after the bean -->
 	<gfe:replicated-region id="exampleRegion">
 		<gfe:cache-listener>
 			<bean class="quickstart.SimpleCacheListener"/>
 		</gfe:cache-listener>
 	</gfe:replicated-region>
+
+	<bean id="exampleRegionTemplate" class="org.springframework.data.gemfire.GemfireTemplate" p:region-ref="exampleRegion"/>
+	
 </beans>

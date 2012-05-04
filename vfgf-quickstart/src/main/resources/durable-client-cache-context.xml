@@ -39,4 +39,7 @@
 	        </bean>
 	    </gfe:key-interest>		
 	</gfe:client-region>
+
+	<bean id="exampleRegionTemplate" class="org.springframework.data.gemfire.GemfireTemplate" p:region-ref="exampleRegion"/>
+	
 </beans>

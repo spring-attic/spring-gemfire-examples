@@ -1,13 +1,14 @@
 package quickstart;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.cache.client.ClientCache;
 
 /**
@@ -66,13 +67,13 @@ import com.gemstone.gemfire.cache.client.ClientCache;
 
 @Component
 public class DurableClient {
-	@Resource(name = "exampleRegion")
-	private Region<String, String> exampleRegion;
+	@Resource(name = "exampleRegionTemplate")
+	private GemfireTemplate exampleRegionTemplate;
 
 	@Resource(name = "gemfire-cache")
 	private ClientCache cache;
 
-	public void run() throws Exception {
+	public void run() throws IOException {
 		writeToStdout("Sending Client Ready...");
 		cache.readyForEvents();
 
@@ -83,10 +84,10 @@ public class DurableClient {
 
 		writeToStdout();
 		writeToStdout("After the update on the server, the region contains:");
-		writeToStdout("key1 => " + exampleRegion.get("key1"));
-		writeToStdout("key2 => " + exampleRegion.get("key2"));
-		writeToStdout("key3 => " + exampleRegion.get("key3"));
-		writeToStdout("key4 => " + exampleRegion.get("key4"));
+		writeToStdout("key1 => " + exampleRegionTemplate.get("key1"));
+		writeToStdout("key2 => " + exampleRegionTemplate.get("key2"));
+		writeToStdout("key3 => " + exampleRegionTemplate.get("key3"));
+		writeToStdout("key4 => " + exampleRegionTemplate.get("key4"));
 
 		writeToStdout("Closing cache but maintaining queues");
 		cache.close(true);

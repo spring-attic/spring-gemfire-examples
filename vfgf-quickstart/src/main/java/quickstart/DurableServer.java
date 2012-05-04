@@ -1,13 +1,13 @@
 package quickstart;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.stereotype.Component;
-
-import com.gemstone.gemfire.cache.Region;
 
 /**
  * DurableServer.java has the server to which the DurableClient connects. See
@@ -19,8 +19,8 @@ import com.gemstone.gemfire.cache.Region;
 @Component
 public class DurableServer {
 
-	@Resource(name = "exampleRegion")
-	Region<String, String> exampleRegion;
+	@Resource(name = "exampleRegionTemplate")
+	GemfireTemplate exampleRegionTemplate;
 
 	private void writeToStdout(String msg) {
 		System.out.print("[DurableServer] ");
@@ -31,7 +31,7 @@ public class DurableServer {
 		System.out.println("[DurableServer]");
 	}
 
-	public void run() throws Exception {
+	public void run() throws IOException {
 		writeToStdout("This example demonstrates durable caching. This program is a server,");
 		writeToStdout("listening on a port for client requests. The client program connects and");
 		writeToStdout("requests data. The client in this example is also configured to forward");
@@ -46,13 +46,13 @@ public class DurableServer {
 
 		writeToStdout("Initializing the cache:");
 		writeToStdout("Putting key1 => value1");
-		exampleRegion.put("key1", "value1");
+		exampleRegionTemplate.put("key1", "value1");
 		writeToStdout("Putting key2 => value2");
-		exampleRegion.put("key2", "value2");
+		exampleRegionTemplate.put("key2", "value2");
 		writeToStdout("Putting key3 => value3");
-		exampleRegion.put("key3", "value3");
+		exampleRegionTemplate.put("key3", "value3");
 		writeToStdout("Putting key4 => value4");
-		exampleRegion.put("key4", "value4");
+		exampleRegionTemplate.put("key4", "value4");
 
 		for (;;) {
 			writeToStdout();
@@ -63,24 +63,28 @@ public class DurableServer {
 			}
 
 			writeToStdout("Before updating, the values are:");
-			writeToStdout("key1 => " + exampleRegion.get("key1"));
-			writeToStdout("key2 => " + exampleRegion.get("key2"));
-			writeToStdout("key3 => " + exampleRegion.get("key3"));
-			writeToStdout("key4 => " + exampleRegion.get("key4"));
+			writeToStdout("key1 => " + exampleRegionTemplate.get("key1"));
+			writeToStdout("key2 => " + exampleRegionTemplate.get("key2"));
+			writeToStdout("key3 => " + exampleRegionTemplate.get("key3"));
+			writeToStdout("key4 => " + exampleRegionTemplate.get("key4"));
 
-			exampleRegion.put("key1", exampleRegion.get("key1") + "1");
-			exampleRegion.put("key2", exampleRegion.get("key2") + "2");
-			exampleRegion.put("key3", exampleRegion.get("key3") + "3");
-			exampleRegion.put("key4", exampleRegion.get("key4") + "4");
+			exampleRegionTemplate.put("key1", exampleRegionTemplate.get("key1")
+					+ "1");
+			exampleRegionTemplate.put("key2", exampleRegionTemplate.get("key2")
+					+ "2");
+			exampleRegionTemplate.put("key3", exampleRegionTemplate.get("key3")
+					+ "3");
+			exampleRegionTemplate.put("key4", exampleRegionTemplate.get("key4")
+					+ "4");
 
 			writeToStdout("The values have been updated in the server cache.");
 			writeToStdout("Press Enter in the client window to verify the Updates.");
 			writeToStdout();
 			writeToStdout("After updating the values, new values in server cache are:");
-			writeToStdout("key1 => " + exampleRegion.get("key1"));
-			writeToStdout("key2 => " + exampleRegion.get("key2"));
-			writeToStdout("key3 => " + exampleRegion.get("key3"));
-			writeToStdout("key4 => " + exampleRegion.get("key4"));
+			writeToStdout("key1 => " + exampleRegionTemplate.get("key1"));
+			writeToStdout("key2 => " + exampleRegionTemplate.get("key2"));
+			writeToStdout("key3 => " + exampleRegionTemplate.get("key3"));
+			writeToStdout("key4 => " + exampleRegionTemplate.get("key4"));
 		}
 
 	}
