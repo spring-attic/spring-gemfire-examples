@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.stereotype.Component;
 
 import com.gemstone.gemfire.cache.ExpirationAttributes;
-import com.gemstone.gemfire.cache.Region;
 
 /**
  * Each data region can be configured to expire entries that have not been
@@ -22,8 +22,8 @@ import com.gemstone.gemfire.cache.Region;
 @Component
 public class DataExpiration {
 
-	@Resource(name = "exampleRegion")
-	private Region<String, String> exampleRegion;
+	@Resource(name = "exampleRegionTemplate")
+	private GemfireTemplate exampleRegionTemplate;
 
 	public void run() throws Exception {
 
@@ -31,11 +31,12 @@ public class DataExpiration {
 		System.out.println();
 
 		// Get the EntryIdleTimeout setting from the region attributes
-		ExpirationAttributes expirationAttr = exampleRegion.getAttributes()
-				.getEntryIdleTimeout();
+		ExpirationAttributes expirationAttr = exampleRegionTemplate.getRegion()
+				.getAttributes().getEntryIdleTimeout();
 
 		System.out.println();
-		System.out.println("The region \"" + exampleRegion.getFullPath()
+		System.out.println("The region \""
+				+ exampleRegionTemplate.getRegion().getFullPath()
 				+ "\" is configured to");
 		System.out.println(expirationAttr.getAction()
 				+ " any cache entry that is idle for ");
@@ -45,15 +46,15 @@ public class DataExpiration {
 
 		System.out.println();
 		System.out.println("Putting entry: key1 => value1");
-		exampleRegion.put("key1", "value1");
+		exampleRegionTemplate.put("key1", "value1");
 		System.out.println("Putting entry: key2 => value2");
-		exampleRegion.put("key2", "value2");
+		exampleRegionTemplate.put("key2", "value2");
 		System.out.println("Putting entry: key3 => value3");
-		exampleRegion.put("key3", "value3");
+		exampleRegionTemplate.put("key3", "value3");
 
 		System.out.println();
 		System.out.println("The cache now contains:");
-		printRegionContents(exampleRegion);
+		printRegionContents(exampleRegionTemplate);
 
 		System.out.println();
 		System.out
@@ -62,12 +63,12 @@ public class DataExpiration {
 
 		// Get key1 to prevent it from expiring
 		System.out.println("Getting entry: key1 => "
-				+ exampleRegion.get("key1"));
+				+ exampleRegionTemplate.get("key1"));
 
 		// Update key2 to prevent it from expiring
 		System.out.println("Putting entry: key2 => value2000");
 		System.out.println();
-		exampleRegion.put("key2", "value2000");
+		exampleRegionTemplate.put("key2", "value2000");
 
 		System.out
 				.println("Next, the listener should report on an expiration action... ");
@@ -77,16 +78,18 @@ public class DataExpiration {
 		Thread.sleep((idleTime / 2) * 1000);
 
 		System.out.println("After the expiration timeout, the cache contains:");
-		printRegionContents(exampleRegion);
+		printRegionContents(exampleRegionTemplate);
 
 	}
 
-	private static void printRegionContents(Region<?, ?> region) {
-		Object[] keys = region.keySet().toArray();
+	private static void printRegionContents(
+			GemfireTemplate exampleRegionTemplate) {
+		Object[] keys = exampleRegionTemplate.getRegion().keySet().toArray();
 		Arrays.sort(keys);
 
 		for (Object key : keys) {
-			System.out.println("    " + key + " => " + region.get(key));
+			System.out.println("    " + key + " => "
+					+ exampleRegionTemplate.get(key));
 		}
 	}
 }

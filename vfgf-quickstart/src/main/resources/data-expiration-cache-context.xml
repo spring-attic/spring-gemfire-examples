@@ -7,26 +7,12 @@
 		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd">
 
 	<!-- GemFire cache bean -->
-	<gfe:cache properties-ref="props" />
+	<gfe:cache properties-ref="props" cache-xml-location="xml/DataExpiration.xml"/>
+
 	<util:properties id="props" location="cache.properties" />
 
-	<bean id="exampleRegion" class="org.springframework.data.gemfire.RegionFactoryBean"
-		p:cache-ref="gemfire-cache">
-		<property name="cacheListeners">
-			<array>
-				<bean class="quickstart.SimpleCacheListener" />
-			</array>
-		</property>
-		<property name="attributes">
-			<bean class="org.springframework.data.gemfire.RegionAttributesFactoryBean">
-				<property name="entryIdleTimeout">
-					<bean class="com.gemstone.gemfire.cache.ExpirationAttributes">
-						<constructor-arg value="10" />
-						<constructor-arg value="DESTROY" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
+	<gfe:lookup-region id="exampleRegion" name="exampleRegion"/> 
+
+	<bean id="exampleRegionTemplate" class="org.springframework.data.gemfire.GemfireTemplate" p:region-ref="exampleRegion"/>
 
 </beans>
