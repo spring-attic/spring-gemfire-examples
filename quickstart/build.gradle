@@ -1,0 +1,34 @@
+description = 'Spring Data GemFire Quickstart Examples'
+
+project('spring-cache') {
+  description = 'Spring Cache with Gemfire Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+  }
+}
+
+project('repository') {
+
+  description = 'Spring Data Gemfire Repository Example'
+  dependencies {
+       compile project(':spring-gemfire-examples-common')
+  }
+}
+ 
+ 
+project('gemfire-template') {
+  description = 'Spring Data Gemfire GemfireTemplate Example'
+  dependencies {
+    compile project(':spring-gemfire-examples-common')
+    compile "org.springframework:spring-beans:$springVersion"
+  }
+}
+
+project('cq'){
+  description = 'Spring Data GemFire Continuous Query Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+

@@ -1,0 +1,65 @@
+description = 'Spring Data GemFire Basic Examples'
+
+project('replicated') {
+  description = 'Spring Data GemFire Replicated Region (p2p) Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+  }
+}
+
+project('replicated-cs') {
+
+  description = 'Spring Data GemFire Replicated Region (Client Server) Example'
+  dependencies {
+       compile project(':spring-gemfire-examples-common')
+  }
+}
+ 
+ 
+project('partitioned') {
+  description = 'Spring Data GemFire Partitioned Region Example'
+  dependencies {
+    compile project(':spring-gemfire-examples-common')
+    compile "org.springframework:spring-beans:$springVersion"
+  }
+}
+
+project('persistence'){
+  description = 'Spring Data GemFire Persistence Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+
+project('write-through'){
+  description = 'Spring Data GemFire Write Through'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+
+project('write-behind'){
+  description = 'Spring Data GemFire Write Behind Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+
+project('transaction'){
+  description = 'Spring Data GemFire Transaction Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+
+project('function'){
+  description = 'Spring Data GemFire Function Execution Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
