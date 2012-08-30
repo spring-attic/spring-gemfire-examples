@@ -8,7 +8,7 @@ This project provides a number of examples to get you started using Spring Data 
 These examples show case the application programming model provided by Spring Data GemFire and are not concerned so much with configuration of GemFire components such as Cache and Region. This currently includes:
 
 * spring-cache - Using Spring's Cache abstraction with GemFire
-* repository - Using [Spring Data](http://www.springsource.org/spring-gemfire) Repositories with GemFire
+* repository - Using [Spring Data](http://www.springsource.org/spring-data) Repositories with GemFire
 * gemfire-template - Using GemfireTemplate to simplify and enhance accessing Region data
 * cq - Configuring and using GemFire Continuous Queries
 
@@ -32,3 +32,17 @@ These examples demonstrate additional GemFire features and require a full instal
 * gateway - Demonstrates how to use and configure a WAN Gateway
 * server-failover - Demonstrates how GemFire handles server down situations
 * locator-failover - Demonstrates how GemFire handles locator down situations
+
+# Running The Examples
+
+This project is built with gradle and each example may be run with gradle or within your Java IDE. If you are using Eclipse or SpringSource Tool Suite, go to the directory where you downloaded this project and type:
+
+        gradle eclipse
+
+If you are using IDEA, 
+
+        gradle idea
+
+Detailed instructions for each example may be found in its own README file. 
+
+
