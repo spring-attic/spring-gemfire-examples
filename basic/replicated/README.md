@@ -8,6 +8,7 @@ To run this example, open a command window, go to the the spring-gemfire-example
         gradle -q run-replicate -PmainClass=Consumer
 
 When instructed, open a second command window, and type:
+
         gradle -q run-replicate -PmainClass=Producer
 
 Or to run from your IDE, execute one of the following tasks once.

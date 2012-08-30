@@ -23,7 +23,6 @@ import org.springframework.data.gemfire.examples.domain.Order;
 
 import com.gemstone.gemfire.cache.EntryOperation;
 import com.gemstone.gemfire.cache.FixedPartitionResolver;
-import com.gemstone.gemfire.cache.PartitionResolver;
 
 /**
  * @author David Turanski

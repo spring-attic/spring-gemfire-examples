@@ -8,6 +8,7 @@ To run this example, open a command window, go to the the spring-gemfire-example
         gradle -q run-replicate-cs -PmainClass=Server
 
 Open a second command window, and type:
+
         gradle -q run-replicate-cs -PmainClass=Client
 
 Or to run from your IDE, execute one of the following tasks once.

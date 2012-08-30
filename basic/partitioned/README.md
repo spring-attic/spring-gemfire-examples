@@ -28,6 +28,7 @@ When the Client runs, it will create 100 Orders. These will be evenly distribute
 The example also includes a custom PartitionResolver (CountryPartitionResolver) that allows the application to control how entries are co-located. In this example, the order shipping address is either in the US or the UK. In fact, all the odd number orders go to UK, and the evens go to US. The Spring configuration file server/cache-config is configured with 3 Spring profiles, "default", "UK", and "US". In the "US" profile, the region is configured with a fixed partition named "US" and likewise the "UK" profile contains the "UK" partition. Both profiles are configured with the CountryPartitionResolver which routes orders to corresponding partition. So try this:
 
 In the server command windows, run the servers again, but each with a different active profile:
+
           gradle -q run-partitioned -PmainClass=Server -PjavaArgs=US
           gradle -q run-partitioned -PmainClass=Server -PjavaArgs=UK
 
