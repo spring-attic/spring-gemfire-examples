@@ -1,0 +1,187 @@
+description = 'Spring Data GemFire Examples'
+
+apply plugin: 'base'
+
+allprojects {
+  group = 'org.springframework.data'
+
+  logging.captureStandardOutput LogLevel.DEBUG
+ 
+  repositories {
+    //TODO: Resolve JMS Dependency
+    //Temporary to get the latest SGF snapshot
+    mavenLocal()
+    // Public Spring artifacts
+    maven { url 'http://repo.springsource.org/libs-milestone' }
+    maven { url 'http://repo.springsource.org/libs-snapshot'}
+    maven { url 'https://repo.springsource.org/libs-release'}
+    maven { url "http://repo.springsource.org/plugins-release"}
+ //TODO: This is temporary for the Gemfire 7.0 dependency
+   maven { url "https://repo.springsource.org/ext-private-local"}
+  }
+  
+}
+
+/* 
+apply {
+        project.allprojects.findAll{it != rootProject}.each { proj ->
+            task "run-${proj.name}" << { 
+               proj.tasks['run'].execute()
+            }
+       }
+  
+}
+*/
+ 
+task listProjects << {
+        subprojects.each { project ->
+               project.allprojects.each {
+                println it.name
+                println it.tasks
+           }
+        }
+   
+}
+
+
+subprojects { subproject ->
+        apply plugin: 'idea'
+        apply plugin: 'java'
+        apply plugin: 'eclipse'  // `gradle eclipse` to generate .classpath/.project
+        apply plugin: 'maven'
+
+        apply {
+           task "run-${subproject.name}"(dependsOn:'classes') << {
+                subproject.tasks['run'].execute()
+           }
+        }
+        
+        install {
+                repositories.mavenInstaller {
+                          customizePom(pom, subproject)
+                }
+        }
+
+        dependencies { 
+                compile "org.springframework.data:spring-data-gemfire:$version"
+                compile "javax.inject:javax.inject:1"
+                compile "javax.annotation:jsr250-api:1.0"
+                //compile group: "org.aspectj", name: "aspectjrt", version: "1.6.2"
+                runtime "cglib:cglib-nodep:2.2"
+                runtime "log4j:log4j:$log4jVersion"
+                runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+
+                testCompile "junit:junit-dep:$junitVersion"
+                
+                testCompile "org.springframework:spring-test:$springVersion"
+        }
+
+        sourceCompatibility = 1.6
+        targetCompatibility = 1.6 
+        
+        eclipse {
+		project {
+			natures += 'org.springframework.ide.eclipse.core.springnature'
+		}
+	}
+
+        [compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:-serial"]
+
+  
+
+        task sourcesJar(type: Jar) {
+                classifier = 'sources'
+        }
+
+        artifacts {
+                archives sourcesJar
+        }
+
+     task run(type: JavaExec) {
+       description = 'Runs the application'
+       def mainClass = rootProject.hasProperty('mainClass')? "$mainClass":'Main'
+       main = "org.springframework.data.gemfire.examples.$mainClass"
+       classpath = sourceSets.main.runtimeClasspath
+       standardInput = System.in
+       if (rootProject.hasProperty('javaArgs')) {
+            args = ["$javaArgs"]
+       }  
+   }
+}
+
+project('spring-gemfire-examples-common') {
+        dependencies { 
+           compile "org.springframework.data:spring-data-gemfire:$version"
+        }
+}
+
+
+task wrapper(type: Wrapper) {
+    description = 'Generates gradlew[.bat] scripts'
+    gradleVersion = '1.0'
+}
+
+def customizePom(def pom, def gradleProject) {
+    pom.whenConfigured { generatedPom ->
+        // respect 'optional' and 'provided' dependencies
+        def deps = gradleProject.configurations.runtime.allDependencies
+        def optionalDeps = deps.findAll { dep ->
+            dep.asDynamicObject.hasProperty('optional') && dep.optional
+        }
+        def providedDeps = deps.findAll { dep ->
+            dep.asDynamicObject.hasProperty('provided') && dep.provided
+        }
+        generatedPom.dependencies.each { mavenDep ->
+            mavenDep.optional = optionalDeps.any { optionalDep ->
+                optionalDep.group == mavenDep.groupId &&
+                        optionalDep.name == mavenDep.artifactId &&
+                        optionalDep.version == mavenDep.version
+            }
+            boolean isProvided = providedDeps.any { providedDep ->
+                providedDep.group == mavenDep.groupId &&
+                        providedDep.name == mavenDep.artifactId &&
+                        providedDep.version == mavenDep.version
+            }
+            if (isProvided) {
+                mavenDep.scope = 'provided'
+            }
+        }
+
+        // eliminate test-scoped dependencies (no need in maven central poms)
+        generatedPom.dependencies.removeAll { dep ->
+            dep.scope == 'test'
+        }
+
+        // add all items necessary for maven central publication
+        generatedPom.project {
+            name = gradleProject.description
+            description = gradleProject.description
+            url = 'https://github.com/SpringSource/spring-gemfire-examples'
+            organization {
+                name = 'SpringSource'
+                url = 'http://springsource.org'
+            }
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url = 'https://github.com/SpringSource/spring-gemfire-examples'
+                connection = 'scm:git:git://github.com/SpringSource/spring-gemfire-examples'
+                developerConnection = 'scm:git:git://github.com/SpringSource/spring-gemfire-examples'
+            }
+            developers {
+                developer {
+                    id = 'dturanski'
+                    name = 'David Turanski'
+                    email = 'dturanski@vmware.com'
+                }
+            }
+        }
+    }
+}
+
+
