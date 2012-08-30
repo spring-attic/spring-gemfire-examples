@@ -1,6 +1,7 @@
 tutorial/
 example/
 more-examples/
+quickstart/quickstart-other
 .settings
 .project
 .classpath
@@ -10,6 +11,8 @@ more-examples/
 *.class
 build
 vf.*
+bin
+*.iml
 
 #Packages#
 ############
