@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output/>
+    <orderEntry type="inheritedJdk"/>
+    <content url="file://$MODULE_DIR$/">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false"/>
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false"/>
+      <excludeFolder url="file://$MODULE_DIR$/build"/>
+      <excludeFolder url="file://$MODULE_DIR$/.gradle"/>
+    </content>
+    <orderEntry type="sourceFolder" forTests="false"/>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/data/spring-data-gemfire/1.2.0.BUILD-SNAPSHOT/spring-data-gemfire-1.2.0.BUILD-SNAPSHOT.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/data/spring-data-gemfire/1.2.0.BUILD-SNAPSHOT/spring-data-gemfire-1.2.0.BUILD-SNAPSHOT-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/javax/inject/javax.inject/1/javax.inject-1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.aspectj/aspectjrt/1.6.2/jar/a55e04ff1889efcf17061da55008018a1ecb1db0/aspectjrt-1.6.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.codehaus.jackson/jackson-mapper-asl/1.9.8/jar/d3443728ad3b01dd94838a6e79964b1c7ea89c9d/jackson-mapper-asl-1.9.8.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.codehaus.jackson/jackson-mapper-asl/1.9.8/source/4f5184effffd07611ea2d22cc17d161fb87bcfcf/jackson-mapper-asl-1.9.8-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.springframework/spring-beans/3.2.0.M1/jar/c1112f071bc632eddeaaf73044a71e6efbdbfb60/spring-beans-3.2.0.M1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.springframework/spring-beans/3.2.0.M1/source/145c02a15e56a28b661e488287be3c4ddf4e72af/spring-beans-3.2.0.M1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.springframework/spring-asm/3.2.0.M1/jar/4a0ea87174b937bde6a82f5233663910964a29ae/spring-asm-3.2.0.M1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.springframework/spring-asm/3.2.0.M1/source/34b6c590531cdb909892c611f1d8b0902aa083ea/spring-asm-3.2.0.M1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.springframework/spring-core/3.2.0.M1/jar/2a583f83d0baa163bab7766ee42fe0fd650ed5b8/spring-core-3.2.0.M1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.springframework/spring-core/3.2.0.M1/source/74caea9f1174df5cfa67104527fc3165dde14ec3/spring-core-3.2.0.M1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/spring-aop/3.1.2.RELEASE/spring-aop-3.1.2.RELEASE.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/spring-expression/3.1.2.RELEASE/spring-expression-3.1.2.RELEASE.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/spring-context/3.1.2.RELEASE/spring-context-3.1.2.RELEASE.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/spring-context-support/3.1.2.RELEASE/spring-context-support-3.1.2.RELEASE.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/com.gemstone.gemfire/gemfire/7.0-beta/jar/de1d47315283366f92043353da534439867f618b/gemfire-7.0-beta.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/spring-tx/3.1.2.RELEASE/spring-tx-3.1.2.RELEASE.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/data/spring-data-commons-core/1.4.0.M1/spring-data-commons-core-1.4.0.M1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.codehaus.jackson/jackson-core-asl/1.9.8/jar/e04e8b2defcbf2e365b75498a36475f2cddc44ba/jackson-core-asl-1.9.8.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.gradle/caches/artifacts-13/filestore/org.codehaus.jackson/jackson-core-asl/1.9.8/source/8679e90e6a723e5c953819c45e60cdbba277acec/jackson-core-asl-1.9.8-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/cglib/cglib-nodep/2.2/cglib-nodep-2.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/cglib/cglib-nodep/2.2/cglib-nodep-2.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/junit/junit-dep/4.8.2/junit-dep-4.8.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///home/dturanski/.m2/repository/junit/junit-dep/4.8.2/junit-dep-4.8.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/springframework/spring-test/3.1.2.RELEASE/spring-test-3.1.2.RELEASE.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///home/dturanski/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES/>
+      </library>
+    </orderEntry>
+  </component>
+  <component name="ModuleRootManager"/>
+</module>

@@ -1,5 +1,15 @@
+tutorial/
+example/
+more-examples/
+.settings
+.project
+.classpath
+.springBeans
+.gradle
 #Compile source#
 *.class
+build
+vf.*
 
 #Packages#
 ############
