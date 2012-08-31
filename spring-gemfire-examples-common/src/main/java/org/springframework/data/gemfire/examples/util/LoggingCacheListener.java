@@ -17,6 +17,7 @@ package org.springframework.data.gemfire.examples.util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 
 import com.gemstone.gemfire.cache.EntryEvent;
 import com.gemstone.gemfire.cache.util.CacheListenerAdapter;
@@ -27,6 +28,7 @@ import com.gemstone.gemfire.cache.util.CacheListenerAdapter;
  * @author David Turanski
  *
  */
+@Component
 public class LoggingCacheListener extends CacheListenerAdapter {
 	private static Log log = LogFactory.getLog(LoggingCacheListener.class);
 

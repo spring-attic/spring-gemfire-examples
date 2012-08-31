@@ -1,3 +1,4 @@
+package org.springframework.data.gemfire.examples;
 /*
  * Copyright 2012 the original author or authors.
  *
@@ -13,36 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.data.gemfire.examples;
+
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Random;
+import java.math.BigDecimal;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.gemfire.examples.domain.Address;
-import org.springframework.data.gemfire.examples.domain.Order;
-
-import com.gemstone.gemfire.cache.Region;
 
 public class Client {
-	
-	
-	@SuppressWarnings("unchecked")
-	
+
 	public static void main(String args[]) throws IOException {
-		
+		Log log = LogFactory.getLog(Client.class);
 		ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
-		Region<Long,Order> region = context.getBean(Region.class);
-	
-		//Create some orders
-		Random rand = new Random(new Date().getTime()); 
-		for (long orderId = 1; orderId <= 100; orderId++) {
-			Address shipTo = new Address("Some Street","Some City",(orderId%2 == 0)?"US":"UK"); 
-			Order order = new Order(orderId, (new Long(rand.nextInt(100)+1)),shipTo);
-			region.put(orderId, order, order);
+		
+		CalculateTotalSalesForProductInvoker calculateTotalForProduct = context.getBean(CalculateTotalSalesForProductInvoker.class);
+		
+		String[] products = new String[]{"Apple iPad","Apple iPod","Apple macBook"};
+		
+		for (String productName: products){
+			BigDecimal total = calculateTotalForProduct.forProduct(productName);
+			log.info("total sales for " + productName +  " = $" + total);
 		}
-		 
 	}
 }
