@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <util:properties id="gemfire-props">
+        <prop key="log-level">warning</prop>
+    </util:properties>
+    
+    <gfe:cache properties-ref="gemfire-props"/>
+    
+    <gfe:replicated-region id="Order" disk-store-ref="orderDiskStore" >
+        <gfe:cache-listener ref="cacheListener"/>
+        <gfe:eviction threshold="300" type="ENTRY_COUNT" action="OVERFLOW_TO_DISK"/>
+    </gfe:replicated-region>
+    
+     <gfe:replicated-region id="Product" disk-store-ref="productDiskStore" persistent="true">
+         <gfe:cache-listener ref="cacheListener"/>
+    </gfe:replicated-region>
+    
+    <gfe:disk-store id="orderDiskStore">
+    	<gfe:disk-dir location="orders"/>
+    </gfe:disk-store>
+    
+     <gfe:disk-store id="productDiskStore">
+    	<gfe:disk-dir location="products"/>
+    </gfe:disk-store>
+    
+    <bean id="cacheListener" class="org.springframework.data.gemfire.examples.util.LoggingCacheListener"/>
+
+</beans>
