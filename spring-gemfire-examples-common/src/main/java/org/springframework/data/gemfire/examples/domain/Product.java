@@ -33,10 +33,12 @@ import org.springframework.util.Assert;
  */
 @SuppressWarnings("serial")
 @Region
+@javax.persistence.Entity
 public class Product extends AbstractPersistentEntity {
 
 	private String name, description;
 	private BigDecimal price;
+	@javax.persistence.Transient
 	private Map<String, String> attributes = new HashMap<String, String>();
 
 	/**

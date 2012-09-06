@@ -14,10 +14,8 @@ allprojects {
     // Public Spring artifacts
     maven { url 'http://repo.springsource.org/libs-milestone' }
     maven { url 'http://repo.springsource.org/libs-snapshot'}
-    maven { url 'https://repo.springsource.org/libs-release'}
+    maven { url 'http://repo.springsource.org/libs-release'}
     maven { url "http://repo.springsource.org/plugins-release"}
- //TODO: This is temporary for the Gemfire 7.0 dependency
-   maven { url "https://repo.springsource.org/ext-private-local"}
   }
   
 }
@@ -63,10 +61,9 @@ subprojects { subproject ->
         }
 
         dependencies { 
-                compile "org.springframework.data:spring-data-gemfire:$version"
+                compile("org.springframework.data:spring-data-gemfire:$version")  
                 compile "javax.inject:javax.inject:1"
                 compile "javax.annotation:jsr250-api:1.0"
-                //compile group: "org.aspectj", name: "aspectjrt", version: "1.6.2"
                 runtime "cglib:cglib-nodep:2.2"
                 runtime "log4j:log4j:$log4jVersion"
                 runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
@@ -112,6 +109,7 @@ subprojects { subproject ->
 project('spring-gemfire-examples-common') {
         dependencies { 
            compile "org.springframework.data:spring-data-gemfire:$version"
+           compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
         }
 }
 

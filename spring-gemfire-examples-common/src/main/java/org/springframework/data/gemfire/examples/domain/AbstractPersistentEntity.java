@@ -17,6 +17,8 @@ package org.springframework.data.gemfire.examples.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.data.annotation.Id;
 
 /**
@@ -26,9 +28,11 @@ import org.springframework.data.annotation.Id;
  * @author David Turanski
  */
 @SuppressWarnings("serial")
+@MappedSuperclass
 public class AbstractPersistentEntity implements Serializable {
 
 	@Id
+	@javax.persistence.Id
 	private final Long id;
 
 	/**
