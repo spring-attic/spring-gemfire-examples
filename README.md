@@ -11,6 +11,7 @@ These examples show case the application programming model provided by Spring Da
 * repository - Using [Spring Data](http://www.springsource.org/spring-data) Repositories with GemFire
 * gemfire-template - Using GemfireTemplate to simplify and enhance accessing Region data
 * cq - Configuring and using GemFire Continuous Queries
+* transaction - Demonstrates the use of GemFire transactions
 
 # Basic
 
@@ -20,9 +21,7 @@ These examples are focused more on configuring GemFire components such as Caches
 * replicated-cs - Similar to the above with a client-server configuration
 * partitioned - Demonstrates the use of a partitioned region and a custom PartitionResolver
 * persistence - Demonstrates the use of persistent backup and disk overflow
-* transaction - Demonstrates the use of GemFire transactions
-* write-through - Demonstrates synchronous updates to a database
-* write-behind - Demonstrates asynchronous updates to a database
+* write-through - Demonstrates loading data from and executing synchronous (write-through) or asynchronous(write-behind) updates to a database* 
 * function - Demonstrates the use of GemFire function execution
 
 # Advanced
@@ -44,5 +43,8 @@ If you are using IDEA,
         gradle idea
 
 Detailed instructions for each example may be found in its own README file. 
+
+
+
 
 
