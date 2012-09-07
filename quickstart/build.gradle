@@ -32,3 +32,12 @@ project('cq'){
   }
 }
 
+project('transaction'){
+  description = 'Spring Data GemFire Transaction Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+
+

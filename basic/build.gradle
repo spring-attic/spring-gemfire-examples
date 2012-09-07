@@ -48,13 +48,6 @@ project('write-through'){
   }
 }
 
-project('transaction'){
-  description = 'Spring Data GemFire Transaction Example'
-  dependencies {
-      compile project(':spring-gemfire-examples-common')
-      compile "org.springframework:spring-beans:$springVersion"  
-  }
-}
 
 project('function'){
   description = 'Spring Data GemFire Function Execution Example'

@@ -1,5 +1,5 @@
-Spring Data Repository Example
-===============================
+Spring Data GemFire Repository Example
+=====================================
 
 This example demonstrates how to use Spring Data Gemfire Repositories. The Spring configuration uses environment profiles to 
 allow you to run this example with or without PDX serialization enabled.
