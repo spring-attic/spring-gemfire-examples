@@ -5,16 +5,16 @@ This demonstrates using Spring Data GemFire to create a replicated region. The d
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-        gradle -q run-replicate -Pmain=Consumer
+        ./gradlew -q run-replicate -Pmain=Consumer
 
 When instructed, open a second command window, and type:
 
-        gradle -q run-replicate -Pmain=Producer
+        ./gradlew -q run-replicate -Pmain=Producer
 
 Or to run from your IDE, execute one of the following tasks once.
 
-        gradle eclipse
-        gradle idea 
+        ./gradlew eclipse
+        ./gradlew idea 
 
 Then import the project into your IDE and run the above classes
 

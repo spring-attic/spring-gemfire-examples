@@ -9,23 +9,23 @@ This example creates simple a client server system to demonstrate what happens w
 
 Start two locators:
 
-        gradle -q start-locator-10334
-        gradle -q start-locator-10335
+        ./gradlew -q start-locator-10334
+        ./gradlew -q start-locator-10335
 
 Start the server:
 
-        gradle -q run-locator-failover -Pmain=Server
+        ./gradlew -q run-locator-failover -Pmain=Server
 
 Start the client:
 
-        gradle -q run-locator-failover -Pmain=Client
+        ./gradlew -q run-locator-failover -Pmain=Client
 
 
 The client will create two Customer entries which will be indicated by Server log messages.
 
 When prompted in the client, stop the primary locator:
 
-        gradle -q stop-locator-10334
+        ./gradlew -q stop-locator-10334
 
 The client will create two more Customer entries.
 

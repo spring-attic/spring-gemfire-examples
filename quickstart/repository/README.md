@@ -6,18 +6,18 @@ allow you to run this example with or without PDX serialization enabled.
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-		gradle -q run-repository
+		./gradlew -q run-repository
 
-To run with PDX, supply a command line argument, which is done in gradle as follows:
+To run with PDX, supply a command line argument, which is done in ./gradlew as follows:
 
-		gradle -q run-repository -Pargs=pdx
+		./gradlew -q run-repository -Pargs=pdx
 
 If pdx is enabled you will see some files created in the 'pdx' folder.
 
 Or to run from your IDE, run one of the following commands once.
 
-		gradle eclipse
-		gradle idea 
+		./gradlew eclipse
+		./gradlew idea 
 
 Then import the project into your IDE and run Main.java
 

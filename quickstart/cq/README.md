@@ -9,16 +9,16 @@ configures a CQ Listener which handles CQ Events received.
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-        gradle -q run-cq -Pmain=Server
+        ./gradlew -q run-cq -Pmain=Server
 
 in another window:
 
-        gradle -q run-qc -Pmain=Client
+        ./gradlew -q run-qc -Pmain=Client
 
 Or to run from your IDE, execute one of the following tasks once.
 
-        gradle eclipse
-        gradle idea 
+        ./gradlew eclipse
+        ./gradlew idea 
 
 Then import the project into your IDE and run the above classes
 

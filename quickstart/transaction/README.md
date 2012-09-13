@@ -6,12 +6,12 @@ a customer in the Customer region and then performs an update which throws an ex
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-		gradle -q run-transaction
+		./gradlew -q run-transaction
 
 Or to run from your IDE, run one of the following commands once.
 
-		gradle eclipse
-		gradle idea 
+		./gradlew eclipse
+		./gradlew idea 
 
 Then import the project into your IDE and run Main.java
 

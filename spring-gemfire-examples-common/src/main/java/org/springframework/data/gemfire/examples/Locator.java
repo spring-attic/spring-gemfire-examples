@@ -3,6 +3,7 @@ package org.springframework.data.gemfire.examples;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,9 +54,10 @@ public class Locator {
         /*
          * If using the default, create the directory 
          */
+        File locatorDir = null;
         if (workingDir == null) {
         	workingDir = new File(".").getAbsolutePath() + File.separator + "locator" + port;
-        	 File locatorDir = new File(workingDir);
+        	 locatorDir = new File(workingDir);
              if (!locatorDir.exists()) {
              	locatorDir.mkdir();
              }
@@ -64,7 +66,7 @@ public class Locator {
          * If directory passed as a command argument, it must exist
          */
         else {
-        	File locatorDir = new File (workingDir);
+        	locatorDir = new File (workingDir);
         	if (!locatorDir.exists()) {
         		System.err.println(" Directory " + workingDir + " does not exist.");
         		System.exit(1);
@@ -115,6 +117,17 @@ public class Locator {
                 }
 
                 if (options.get("command").equals("start")) {
+                	
+                	for (File file : locatorDir.listFiles( new FilenameFilter(){
+						@Override
+						public boolean accept(File dir, String name) {
+							return name.endsWith(".log") || name.endsWith(".dat");
+						}
+                		
+                	}) ){
+                		file.delete();
+                	}
+                	
                     if (startLocator(locator, MAX_WAIT_TIME)) {
                         System.out.println(String.format("locator running on %s[%s]", locator.getConfig().getHost(),
                                 locator.getConfig().getPort()));

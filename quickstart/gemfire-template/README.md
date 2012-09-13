@@ -5,12 +5,12 @@ This demonstrates Spring Framework's GemfireTemplate to access the Gemfire cache
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-        gradle -q run-gemfire-template
+        ./gradlew -q run-gemfire-template
 
 Or to run from your IDE, run the following command once for all projects.
 
-        gradle eclipse
-        gradle idea 
+        ./gradlew eclipse
+        ./gradlew idea 
 
 Then import the project into your IDE and run Main.java
 

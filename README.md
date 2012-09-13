@@ -36,11 +36,11 @@ These examples demonstrate additional GemFire features and require a full instal
 
 This project is built with gradle and each example may be run with gradle or within your Java IDE. If you are using Eclipse or SpringSource Tool Suite, go to the directory where you downloaded this project and type:
 
-        gradle eclipse
+        ./gradlew eclipse
 
 If you are using IDEA, 
 
-        gradle idea
+        ./gradlew idea
 
 Detailed instructions for each example may be found in its own README file. 
 

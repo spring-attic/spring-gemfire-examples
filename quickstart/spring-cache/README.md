@@ -5,12 +5,12 @@ This demonstrates Spring Framework's @Cacheable annotation backed by GemFire.
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-        gradle -q run-spring-cache
+        ./gradlew -q run-spring-cache
 
 Or to run from your IDE, execute one of the following tasks once.
 
-         gradle eclipse
-         gradle idea 
+         ./gradlew eclipse
+         ./gradlew idea 
 
 Then import the project into your IDE and run Main.java
 

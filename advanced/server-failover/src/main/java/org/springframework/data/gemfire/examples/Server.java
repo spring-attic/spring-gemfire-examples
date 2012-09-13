@@ -17,15 +17,18 @@ package org.springframework.data.gemfire.examples;
 
 import java.io.IOException;
 
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Server {
 	 public static void main(String args[]) throws IOException {
 		
-		new ClassPathXmlApplicationContext("server/cache-config.xml");
+		ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("server/cache-config.xml");
+		ac.registerShutdownHook();
 		
 		System.out.println("Press <Enter> to terminate the server");
 		System.in.read();
+		ac.close();
 		System.exit(0);
 	}
 }
