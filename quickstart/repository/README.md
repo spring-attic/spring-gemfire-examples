@@ -10,7 +10,7 @@ To run this example, open a command window, go to the the spring-gemfire-example
 
 To run with PDX, supply a command line argument, which is done in gradle as follows:
 
-		gradle -q run-repository -PjavaArgs=pdx
+		gradle -q run-repository -Pargs=pdx
 
 If pdx is enabled you will see some files created in the 'pdx' folder.
 

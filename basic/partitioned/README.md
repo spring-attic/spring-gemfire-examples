@@ -5,12 +5,12 @@ This demonstrates using Spring Data GemFire to create a partitioned region. The 
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-        gradle -q run-partitioned -PmainClass=Server
+        gradle -q run-partitioned -Pmain=Server
 
 Open a second command window and repeat the above command
 
 When both servers are running, open a third window, and type:
-        gradle -q run-partitioned -PmainClass=Client
+        gradle -q run-partitioned -Pmain=Client
 
 Or to run from your IDE, execute one of the following tasks once.
 
@@ -29,7 +29,7 @@ The example also includes a custom PartitionResolver (CountryPartitionResolver) 
 
 In the server command windows, run the servers again, but each with a different active profile:
 
-          gradle -q run-partitioned -PmainClass=Server -PjavaArgs=US
-          gradle -q run-partitioned -PmainClass=Server -PjavaArgs=UK
+          gradle -q run-partitioned -Pmain=Server -Pargs=US
+          gradle -q run-partitioned -Pmain=Server -Pargs=UK
 
 Run the client again. This time, you will observe that all the odd numbered orders go to "UK" and the evens go to "US"

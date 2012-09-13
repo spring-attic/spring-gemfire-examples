@@ -5,11 +5,11 @@ This example demonstrates the use of GemFire's Function Execution Service config
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
-        gradle -q run-function -PmainClass=Server
+        gradle -q run-function -Pmain=Server
 
 Open a second command window, and type:
 
-        gradle -q run-function -PmainClass=Client
+        gradle -q run-function -Pmain=Client
 
 Or to run from your IDE, execute one of the following tasks once.
 

@@ -16,10 +16,10 @@ To run this example, Open a command window and start two locators:
 
 Start one of the processes:
 
-        gradle -q run-gateway -PmainClass=NewYork
+        gradle -q run-gateway -Pmain=NewYork
 
 In another command window, run:
 
-        gradle -q run-gateway -PmainClass=London
+        gradle -q run-gateway -Pmain=London
 
 Each of these initializes an Order region which is gateway enabled and a gateway hub. Since each process uses a different locator, and multicast is disabled (mcast-port=0), each cache runs in a separate Distributed System, simulating two remote installations. Both processes will prompt you to press ENTER to update the region. Wait for both processes to start first. You should see a log message from the remote process's LoggingCacheListener indicating the remote region was updated. Press ENTER a second time to terminate the process.

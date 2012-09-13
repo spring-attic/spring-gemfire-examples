@@ -10,7 +10,7 @@ To run this example, open a command window, go to the the spring-gemfire-example
 
 To demonstrate write-behind, pass an 'async' argument to the command line:
 
-         gradle -q run-write-through -PjavaArgs=async
+         gradle -q run-write-through -Pargs=async
 
 Or to run from your IDE, execute one of the following tasks once.
 

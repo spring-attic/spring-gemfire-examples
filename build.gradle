@@ -96,13 +96,13 @@ subprojects { subproject ->
 
      task run(type: JavaExec) {
        description = 'Runs the application'
-       def mainClass = rootProject.hasProperty('mainClass')? "$mainClass":'Main'
+       def mainClass = rootProject.hasProperty('main')? "${rootProject.getProperty('main')}":'Main'
        main = "org.springframework.data.gemfire.examples.$mainClass"
        classpath = sourceSets.main.runtimeClasspath
        standardInput = System.in
        systemProperties = System.getProperties()
-       if (rootProject.hasProperty('javaArgs')) {
-            args = ["$javaArgs"]
+       if (rootProject.hasProperty('args')) {
+            args = ["${rootProject.getProperty('args')}"]
        }  
    }
 }
@@ -134,7 +134,6 @@ tasks.addRule("Pattern: <COMMAND>-locator-<PORT>") { String taskName ->
       }
    }  
 }
-
 
 task wrapper(type: Wrapper) {
     description = 'Generates gradlew[.bat] scripts'

@@ -14,11 +14,11 @@ Start two locators:
 
 Start the server:
 
-        gradle -q run-locator-failover -PmainClass=Server
+        gradle -q run-locator-failover -Pmain=Server
 
 Start the client:
 
-        gradle -q run-locator-failover -PmainClass=Client
+        gradle -q run-locator-failover -Pmain=Client
 
 
 The client will create two Customer entries which will be indicated by Server log messages.
