@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="file:gateway.properties" system-properties-mode="OVERRIDE"/>
+	
+	<util:properties id="gemfireProperties">
+		<prop key="mcast-port">0</prop>
+		<prop key="locators">localhost[10335]</prop>
+		<prop key="log-level">info</prop>
+		<prop key="license-data-management">${gemfire.license.key}</prop>
+<!-- 		<prop key="log-file">newyork.log</prop> -->
+	</util:properties>
+	
+	<gfe:cache properties-ref="gemfireProperties"/>
+			
+	<gfe:replicated-region id="Order" enable-gateway="true" hub-id="ny">
+		<gfe:cache-listener>
+		 	<bean class="org.springframework.data.gemfire.examples.util.LoggingCacheListener"/>
+		</gfe:cache-listener>
+	</gfe:replicated-region>
+	
+	<gfe:gateway-hub id="ny" port="12346">
+		<gfe:gateway gateway-id="london">
+ 			<gfe:gateway-endpoint port="12345" host="localhost" endpoint-id="london"/>
+		    <gfe:gateway-queue persistent="true" disk-store-ref="diskstore"/>
+		</gfe:gateway>
+	</gfe:gateway-hub>
+
+	<gfe:disk-store id="diskstore">
+		<gfe:disk-dir location="ny"/>
+	</gfe:disk-store>
+
+</beans>

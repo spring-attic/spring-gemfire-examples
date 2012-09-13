@@ -29,9 +29,13 @@ import org.springframework.util.Assert;
  * @author Oliver Gierke
  * @author David Turanski
  */
-@SuppressWarnings("serial")
+ 
 @Region
 public class Customer extends AbstractPersistentEntity {
+	
+ 
+	private static final long serialVersionUID = -3860687524824507124L;
+	
 	private EmailAddress emailAddress;
 	private String firstname, lastname;
 	private Set<Address> addresses = new HashSet<Address>();

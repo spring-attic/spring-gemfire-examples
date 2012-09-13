@@ -24,9 +24,11 @@ import org.springframework.util.Assert;
  * 
  * @author Oliver Gierke
  */
-@SuppressWarnings("serial")
+ 
 public class Address implements Serializable {
 
+	private static final long serialVersionUID = -2639944658538569230L;
+	
 	private final String street, city, country;
 
 	/**

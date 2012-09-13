@@ -1,0 +1,28 @@
+description = 'Spring Data GemFire Advanced Examples'
+
+project('gateway') {
+  
+  description = 'Spring Data GemFire Gateway Example'
+  
+ def env = System.getenv()
+
+ dependencies {
+     compile project(':spring-gemfire-examples-common')
+  }
+}
+
+project('locator-failover') {
+
+  description = 'Spring Data GemFire Locator Failover Example'
+  dependencies {
+       compile project(':spring-gemfire-examples-common')
+  }
+}
+ 
+ 
+project('server-failover') {
+  description = 'Spring Data GemFire Server Failover Example'
+  dependencies {
+    compile project(':spring-gemfire-examples-common')
+  }
+}

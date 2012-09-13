@@ -23,9 +23,10 @@ import org.springframework.util.Assert;
 /**
  * @author Oliver Gierke
  */
-@SuppressWarnings("serial")
+ 
 public class LineItem implements Serializable {
 
+	private static final long serialVersionUID = 6571108615511329726L;
 	private BigDecimal price;
 	private int amount;
 	private Long productId;

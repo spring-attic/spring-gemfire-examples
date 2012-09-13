@@ -31,11 +31,13 @@ import org.springframework.util.Assert;
  * @author Oliver Gierke
  * @author David Turanski
  */
-@SuppressWarnings("serial")
+ 
 @Region
 @javax.persistence.Entity
 public class Product extends AbstractPersistentEntity {
-
+	
+	private static final long serialVersionUID = 831295555713696643L;
+	
 	private String name, description;
 	private BigDecimal price;
 	@javax.persistence.Transient

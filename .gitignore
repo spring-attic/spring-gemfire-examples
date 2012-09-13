@@ -1,7 +1,4 @@
-tutorial/
-example/
-more-examples/
-quickstart/quickstart-other
+locator1*/
 .settings
 .project
 .classpath
@@ -9,6 +6,8 @@ quickstart/quickstart-other
 .gradle
 #Compile source#
 *.class
+*.lk
+*.if
 build
 vf.*
 bin

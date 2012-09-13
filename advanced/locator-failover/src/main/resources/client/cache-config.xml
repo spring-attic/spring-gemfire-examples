@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <util:properties id="gemfire-props">
+    	<prop key="mcast-port">0</prop>
+    </util:properties>
+    
+    <gfe:client-cache properties-ref="gemfire-props"/>
+    
+    <gfe:client-region id="Customer" data-policy="empty"/>
+    
+    <gfe:pool>
+    	<gfe:locator host="localhost" port="10334"/>
+    	<gfe:locator host="localhost" port="10335"/>
+    </gfe:pool>
+ 
+</beans>

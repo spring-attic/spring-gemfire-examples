@@ -1,40 +1,163 @@
-/*
- * Copyright 2012 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.springframework.data.gemfire.examples;
 
-/**
- * @author Wayne Lund
- * @author David Turanski
- *
- */
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.gemstone.gemfire.admin.AdminDistributedSystem;
+import com.gemstone.gemfire.admin.AdminDistributedSystemFactory;
+import com.gemstone.gemfire.admin.AdminException;
+import com.gemstone.gemfire.admin.DistributedSystemConfig;
+import com.gemstone.gemfire.admin.DistributionLocator;
+import com.gemstone.gemfire.admin.DistributionLocatorConfig;
 
 public class Locator {
+	static final int DEFAULT_PORT = 10334;
+	static final int MAX_WAIT_TIME = 15000;
+	
+	public static void main(String args[])  {
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) throws Exception {
-        String resource = ("cache-locator-context.xml");
-        ClassPathXmlApplicationContext mainContext = new ClassPathXmlApplicationContext(new String[] {resource}, false);
-        mainContext.setValidating(true);
-        mainContext.refresh();
+		if (!(System.getenv().containsKey("GEMFIRE_HOME")) ||
+				System.getenv().get("GEMFIRE_HOME") == null ||
+				System.getenv().get("GEMFIRE_HOME").isEmpty()){
+	    	System.out.println("The environment variable GEMFIRE_HOME in not defined");
+	    	System.exit(1);
+	    }  
+	
+        Map<String, Object> options = LocatorCommandParser.parseOptions(args);
+        if (options == null) {
+            System.exit(1);
+        }
 
-        Thread.sleep(Long.MAX_VALUE);
+        int port = DEFAULT_PORT;
+        if (options.containsKey("port")) {
+            port = (Integer) options.get("port");
+        }   
+
+        DistributedSystemConfig distributedSystemConfig = AdminDistributedSystemFactory.defineDistributedSystem();
+
+        AdminDistributedSystem adminDistributedSystem = AdminDistributedSystemFactory
+                .getDistributedSystem(distributedSystemConfig);
+       
+       
+        DistributionLocatorConfig locatorConfig = adminDistributedSystem.addDistributionLocator().getConfig();
+        locatorConfig.setHost("localhost");
+        locatorConfig.setPort(port);
+        
+        String workingDir = (String)options.get("dir");
+        
+        /*
+         * If using the default, create the directory 
+         */
+        if (workingDir == null) {
+        	workingDir = new File(".").getAbsolutePath() + File.separator + "locator" + port;
+        	 File locatorDir = new File(workingDir);
+             if (!locatorDir.exists()) {
+             	locatorDir.mkdir();
+             }
+        } 
+        /*
+         * If directory passed as a command argument, it must exist
+         */
+        else {
+        	File locatorDir = new File (workingDir);
+        	if (!locatorDir.exists()) {
+        		System.err.println(" Directory " + workingDir + " does not exist.");
+        		System.exit(1);
+        	}
+        }
+        
+        System.out.println("\nSetting working directory to " + workingDir);
+        
+       
+        
+        locatorConfig.setWorkingDirectory(workingDir);
+        
+        String propertiesFile = (String)options.get("properties");
+        if (propertiesFile != null && options.get("command").equals("start")){
+        	FileInputStream is;
+        	Properties properties = new Properties();
+        	properties.put("mcast-port", "0");
+        	
+			try {
+				is = new FileInputStream(propertiesFile);
+				properties.load(is);
+			}
+			catch (FileNotFoundException e) {
+				 System.out.println("cannot find properties file :" + propertiesFile);
+				 System.exit(1);
+			}
+			catch (IOException e) {
+				System.out.println("cannot read properties file :" + propertiesFile);
+				System.exit(1);
+			}
+        	
+        	locatorConfig.setDistributedSystemProperties(properties);
+        }
+       
+        locatorConfig.setProductDirectory(System.getenv().get("GEMFIRE_HOME"));
+
+        for (DistributionLocator locator : adminDistributedSystem.getDistributionLocators()) {
+
+            try {
+                if (options.get("command").equals("stop")) {
+                    if (stopLocator(locator, MAX_WAIT_TIME)) {
+                        System.out.println(String.format("locator stopped on %s[%s]", locator.getConfig().getHost(),
+                                locator.getConfig().getPort()));
+                    } else {
+                        System.out.println(String.format("failed to stop locator on %s[%s]", locator.getConfig()
+                                .getHost(), locator.getConfig().getPort()));
+                    }
+                }
+
+                if (options.get("command").equals("start")) {
+                    if (startLocator(locator, MAX_WAIT_TIME)) {
+                        System.out.println(String.format("locator running on %s[%s]", locator.getConfig().getHost(),
+                                locator.getConfig().getPort()));
+                      for (Entry<Object,Object> prop: locator. getConfig().getDistributedSystemProperties().entrySet()) {
+                    	  System.out.println( prop.getKey() + "=" + prop.getValue());
+                      }
+                    } else {
+                        System.out.println(String.format("failed to start locator on %s[%s]", locator.getConfig()
+                                .getHost(), locator.getConfig().getPort()));
+                    }
+                }
+              
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
     }
 
+    static boolean stopLocator(DistributionLocator locator, int maxWaitTime) throws AdminException,
+            InterruptedException {
+        if (locator.isRunning()) {
+            locator.stop();
+            int waitTime = 0;
+            while (waitTime < maxWaitTime && locator.isRunning()) {
+                locator.waitToStop(1000);
+                waitTime += 1000;
+            }
+        }
+        return !locator.isRunning();
+    }
+
+    static boolean startLocator(DistributionLocator locator, int maxWaitTime) throws AdminException,
+            InterruptedException {
+        if (!locator.isRunning()) {
+            locator.start();
+            int waitTime = 0;
+            while (waitTime < maxWaitTime && !locator.isRunning()) {
+                locator.waitToStart(1000);
+                waitTime += 1000;
+            }
+        }
+        return locator.isRunning();
+    }
 }

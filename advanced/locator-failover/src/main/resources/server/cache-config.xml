@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    
+	<util:properties id="gemfireProperties">
+		<prop key="mcast-port">0</prop>
+		<prop key="locators">localhost[10334],localhost[10335]</prop>
+	</util:properties>
+	
+	<gfe:cache properties-ref="gemfireProperties"/>
+	
+	<gfe:cache properties-ref="gemfire-props" />
+
+	<!-- Note the SpEL expression here used to dynamically configure an available 
+			port in the given range -->
+	<gfe:cache-server port="#{portGenerator.generatePort(40404,40410)}" />
+
+	<bean id="portGenerator"
+			class="org.springframework.data.gemfire.examples.util.ServerPortGenerator" />
+	
+    <gfe:replicated-region id="Customer">
+        <gfe:cache-listener>
+            <bean class="org.springframework.data.gemfire.examples.util.LoggingCacheListener"/>
+        </gfe:cache-listener>
+    </gfe:replicated-region>
+
+</beans>

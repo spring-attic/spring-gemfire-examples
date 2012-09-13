@@ -28,9 +28,11 @@ import org.springframework.util.Assert;
  * @author Oliver Gierke
  * @author David Turanski
  */
-@SuppressWarnings("serial")
+ 
 @Region
 public class Order extends AbstractPersistentEntity {
+
+	private static final long serialVersionUID = -3779061453639083037L;
 
 	private Long customerId;
 	private Address billingAddress;
