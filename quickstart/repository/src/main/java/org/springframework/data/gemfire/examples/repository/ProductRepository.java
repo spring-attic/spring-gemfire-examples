@@ -26,7 +26,7 @@ import org.springframework.data.repository.CrudRepository;
  * Repository interface to access {@link Product}s.
  * 
  * @author Oliver Gierke
- * @author David TuranskiGem
+ * @author David Turanski
  */
 public interface ProductRepository extends CrudRepository<Product, Long> {
 

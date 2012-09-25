@@ -60,7 +60,7 @@ public class CustomerService {
 	 */
 	
 	public boolean deleteCustomer(long id) {
-		Customer customer = customerRepository.findById(id);
+		Customer customer = customerRepository.findOne(id);
 		if (customer != null) {
 			customerRepository.delete(customer);
 			log.debug("deleted customer " + customer.getId()+ ":" + customer.getFirstname()+ " " + customer.getLastname());
@@ -86,7 +86,7 @@ public class CustomerService {
 	 * @return
 	 */
 	public Customer getCustomer(long id) {
-		return customerRepository.findById(id);
+		return customerRepository.findOne(id);
 	}
 	
 	/**

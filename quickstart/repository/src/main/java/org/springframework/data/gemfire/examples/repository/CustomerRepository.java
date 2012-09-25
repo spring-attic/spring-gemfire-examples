@@ -20,7 +20,7 @@ import java.util.Set;
 
 import org.springframework.data.gemfire.examples.domain.Customer;
 import org.springframework.data.gemfire.examples.domain.EmailAddress;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.gemfire.repository.GemfireRepository;
 
 /**
  * Repository interface to access {@link Customer}s.
@@ -29,34 +29,14 @@ import org.springframework.data.repository.Repository;
  * @author David Turanski
  */
 
-public interface CustomerRepository extends Repository<Customer, Long> {
-
+public interface CustomerRepository extends GemfireRepository<Customer, Long> {
+	
 	/**
 	 * Returns all {@link Customer}s.
 	 * 
 	 * @return
 	 */
 	Set<Customer> findAll();
-	
-	/**
-	 * Find unique customer with a given Id
-	 */
-	Customer findById(long id);
-
-	/**
-	 * Saves the given {@link Customer}.
-	 * 
-	 * @param customer the {@link Customer} to save.
-	 * @return
-	 */
-	Customer save(Customer customer);
-
-	/**
-	 * Deletes the given {@link Customer}.
-	 * 
-	 * @param customer
-	 */
-	void delete(Customer customer);
 
 	/**
 	 * Finds all {@link Customer}s with the given lastname.

@@ -97,8 +97,8 @@ public class OrderExample {
 				for (LineItem lineItem: order.getLineItems()) {
 					log.debug("product ID:" + lineItem.getProductId() + 
 						  " quantity:" + lineItem.getAmount() + 
-						  " unit price:" + lineItem.getUnitPrice() + 
-						  " total price:" + lineItem.getTotal());
+						  " unit price:" + lineItem.getUnitPrice().setScale(2,BigDecimal.ROUND_DOWN) + 
+						  " total price:" + lineItem.getTotal().setScale(2,BigDecimal.ROUND_DOWN));
 				}
 		}
 	}
