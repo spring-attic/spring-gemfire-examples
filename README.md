@@ -29,7 +29,6 @@ These examples are focused more on configuring GemFire components such as Caches
 These examples demonstrate additional GemFire features and require a full installation of GemFire. A trial version may be obtained [here](http://www.vmware.com/products/application-platform/vfabric-gemfire/overview.html).
 
 * gateway - Demonstrates how to use and configure a WAN Gateway
-* server-failover - Demonstrates how GemFire handles server down situations
 * locator-failover - Demonstrates how GemFire handles locator down situations
 
 # Running The Examples
