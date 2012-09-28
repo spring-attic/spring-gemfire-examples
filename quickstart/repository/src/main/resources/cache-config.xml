@@ -17,7 +17,7 @@
 	
 	<!-- If the 'pdx' profile is activated, pdx type information will be persisted using the configured disk store -->
 	<beans profile="pdx">
-		<gfe:cache pdx-serializer="mappingPdxSerializer" pdx-persistent="true" pdx-disk-store="pdx-disk-store"/>
+		<gfe:cache pdx-serializer-ref="mappingPdxSerializer" pdx-persistent="true" pdx-disk-store="pdx-disk-store"/>
 		
 		<bean id="mappingPdxSerializer" class="org.springframework.data.gemfire.mapping.MappingPdxSerializer"/>
 		
