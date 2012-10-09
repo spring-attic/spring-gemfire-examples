@@ -8,9 +8,6 @@ allprojects {
   logging.captureStandardOutput LogLevel.DEBUG
  
   repositories {
-    //TODO: Resolve JMS Dependency
-    //Temporary to get the latest SGF snapshot
-    mavenLocal()
     // Public Spring artifacts
     maven { url 'http://repo.springsource.org/libs-milestone' }
     maven { url 'http://repo.springsource.org/libs-snapshot'}
@@ -19,17 +16,6 @@ allprojects {
   }
   
 }
-
-/* 
-apply {
-        project.allprojects.findAll{it != rootProject}.each { proj ->
-            task "run-${proj.name}" << { 
-               proj.tasks['run'].execute()
-            }
-       }
-  
-}
-*/
  
 task listProjects << {
         subprojects.each { project ->
@@ -106,6 +92,20 @@ subprojects { subproject ->
        }  
    }
 }
+
+task 'run-generic-server'(type:JavaExec) {
+	description "Runs a generic server"
+	main = 'org.springframework.data.gemfire.examples.GenericServer'
+	classpath = subprojects.find { it.name == 'spring-gemfire-examples-common' }
+	 .sourceSets.main.runtimeClasspath;
+	 
+	 standardInput = System.in
+       systemProperties = System.getProperties()
+       if (rootProject.hasProperty('args')) {
+            args = ["${rootProject.getProperty('args')}"]
+       } 
+}
+
 
 project('spring-gemfire-examples-common') {
         dependencies { 
