@@ -41,7 +41,26 @@ If you are using IDEA,
 
         ./gradlew idea
 
-Detailed instructions for each example may be found in its own README file. 
+Detailed instructions for each example may be found in its own README file.
+
+# Running a cache server with custom configuration
+
+As a convenience, this project includes[GenericServer.java] (https://github.com/SpringSource/spring-gemfire-examples/blob/master/spring-gemfire-examples-common/src/main/java/org/springframework/data/gemfire/examples/GenericServer.java) 
+used to start a cache server with a custom spring configuration. Simply point to a valid spring configuration on the file system using the built in task:
+
+	./gradlew -q run-generic-server -Pargs=path-to-spring-config-xml-file
+
+This is useful for testing or experimentation with client server scenarios. 
+If your application requires additional jars to be deployed to the server, you can create a lib directory under the project root (e.g., spring-gemfire-examples) and drop them in there. The gradle build is already configured to look there. Note, 
+this is a 'quick and dirty' way to do this. In a shared integration or production environment, you should use The GemFire shell program, gfsh.
+																																									
+
+
+
+
+
+	
+  
 
 
 
