@@ -112,6 +112,7 @@ project('spring-gemfire-examples-common') {
            compile "org.springframework.data:spring-data-gemfire:$version"
            compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
            compile "commons-cli:commons-cli:1.2"
+           runtime fileTree(dir: '../lib', include: '*.jar')
         }
 }
 
