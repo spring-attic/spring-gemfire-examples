@@ -45,7 +45,7 @@ Detailed instructions for each example may be found in its own README file.
 
 # Running a cache server with custom configuration
 
-As a convenience, this project includes[GenericServer.java] (https://github.com/SpringSource/spring-gemfire-examples/blob/master/spring-gemfire-examples-common/src/main/java/org/springframework/data/gemfire/examples/GenericServer.java) 
+As a convenience, this project includes [GenericServer.java] (https://github.com/SpringSource/spring-gemfire-examples/blob/master/spring-gemfire-examples-common/src/main/java/org/springframework/data/gemfire/examples/GenericServer.java) 
 used to start a cache server with a custom spring configuration. Simply point to a valid spring configuration on the file system using the built in task:
 
 	./gradlew -q run-generic-server -Pargs=path-to-spring-config-xml-file
