@@ -1,7 +1,7 @@
 Spring Data Annotated Function Execution Example
 ==============================================
 
-This example demonstrates the use of Annotation Driven Function Execution configured with Spring Data GemFire. The example is functionally equivalent to the [function](../function) example and requires Spring Data GemFire 1.3.0 or above. The example includes a Server process which registers a function to calculate total $ales for a given product from cached orders. This requires searching all order line items for those containing the given product and computing the grand total. It is much more efficient to do this work at the server than to retrieve all orders over the network.
+This example demonstrates the use of Annotation Driven Function Execution configured with Spring Data GemFire. The example is functionally equivalent to the [function](../basic/function) example and requires Spring Data GemFire 1.3.0 or above. The example includes a Server process which registers a function to calculate total $ales for a given product from cached orders. This requires searching all order line items for those containing the given product and computing the grand total. It is much more efficient to do this work at the server than to retrieve all orders over the network.
 
 To run this example, open a command window, go to the the spring-gemfire-examples root directory, and type:
 
