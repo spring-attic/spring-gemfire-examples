@@ -2,5 +2,5 @@ rootProject.name = 'spring-gemfire-examples'
 
 include 'spring-gemfire-examples-common'
 include ':quickstart:spring-cache', ':quickstart:repository', ':quickstart:gemfire-template',':quickstart:cq',':quickstart:transaction'
-include ':basic:replicated',':basic:replicated-cs',':basic:partitioned',':basic:write-through',':basic:function',':basic:persistence'
+include ':basic:replicated',':basic:replicated-cs',':basic:partitioned',':basic:write-through',':basic:function',':basic:persistence', ':basic:annotated-function'
 include ':advanced:gateway',':advanced:locator-failover',':advanced:server-failover'

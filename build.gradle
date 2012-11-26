@@ -100,10 +100,10 @@ task 'run-generic-server'(type:JavaExec) {
 	 .sourceSets.main.runtimeClasspath;
 	 
 	 standardInput = System.in
-       systemProperties = System.getProperties()
-       if (rootProject.hasProperty('args')) {
-            args = ["${rootProject.getProperty('args')}"]
-       } 
+   systemProperties = System.getProperties()
+   if (rootProject.hasProperty('args')) {
+        args = ["${rootProject.getProperty('args')}"]
+    } 
 }
 
 
@@ -130,7 +130,15 @@ tasks.addRule("Pattern: <COMMAND>-locator-<PORT>") { String taskName ->
            
            classpath = project.sourceSets.main.runtimeClasspath
            standardInput = System.in
-           args = [command, '--port',"${taskName.split('-').last()}"] 
+           def targs = [command, '--port',"${taskName.split('-').last()}"] 
+           if (rootProject.hasProperty('args')) {
+              def str = "${rootProject.getProperty('args')}"
+              str.split(',').each {
+                 targs.addAll(it.tokenize('='))
+              }
+             
+           } 
+            args = targs
         }
       }
    }  

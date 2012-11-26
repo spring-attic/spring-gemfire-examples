@@ -80,6 +80,7 @@ public class Locator {
         locatorConfig.setWorkingDirectory(workingDir);
         
         String propertiesFile = (String)options.get("properties");
+   
         if (propertiesFile != null && options.get("command").equals("start")){
         	FileInputStream is;
         	Properties properties = new Properties();

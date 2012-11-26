@@ -56,3 +56,11 @@ project('function'){
       compile "org.springframework:spring-beans:$springVersion"  
   }
 }
+
+project('annotated-function'){
+  description = 'Spring Data GemFire Function Execution with Annotations Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
