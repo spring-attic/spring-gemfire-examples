@@ -138,7 +138,10 @@ tasks.addRule("Pattern: <COMMAND>-locator-<PORT>") { String taskName ->
               }
              
            } 
-            args = targs
+           if (rootProject.hasProperty('props')) {
+               targs.addAll(['--properties',"${rootProject.getProperty('props')}"])
+           }
+          args = targs
         }
       }
    }  

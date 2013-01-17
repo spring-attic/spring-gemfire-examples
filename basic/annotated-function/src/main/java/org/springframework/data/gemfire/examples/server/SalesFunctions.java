@@ -23,15 +23,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.data.gemfire.examples.domain.LineItem;
-import org.springframework.data.gemfire.examples.domain.Product;
 import org.springframework.data.gemfire.examples.domain.Order;
+import org.springframework.data.gemfire.examples.domain.Product;
 import org.springframework.data.gemfire.function.config.GemfireFunction;
 import org.springframework.stereotype.Component;
 
 import com.gemstone.gemfire.cache.Region;
-import com.gemstone.gemfire.cache.execute.FunctionAdapter;
-import com.gemstone.gemfire.cache.execute.FunctionContext;
-import com.gemstone.gemfire.cache.execute.ResultSender;
+import com.gemstone.gemfire.cache.execute.Function;
 import com.gemstone.gemfire.cache.query.SelectResults;
 
 
@@ -60,7 +58,7 @@ public class SalesFunctions {
 	 * @param productName
 	 * @return
 	 */
-	@GemfireFunction(id="totalSalesForProduct")
+	@GemfireFunction
 	public BigDecimal totalSalesForProduct(String productName) {
 		
 		log.debug("searching for product name '" + productName + "'");

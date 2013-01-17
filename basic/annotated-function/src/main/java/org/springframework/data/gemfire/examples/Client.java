@@ -37,7 +37,7 @@ public class Client {
 		String[] products = new String[]{"Apple iPad","Apple iPod","Apple macBook"};
 		
 		for (String productName: products){
-			BigDecimal total = salesCalculator.calculateTotalSalesforProduct(productName);
+			BigDecimal total = salesCalculator.totalSalesForProduct(productName);
 			log.info("total sales for " + productName +  " = $" + total);
 		}
 	}

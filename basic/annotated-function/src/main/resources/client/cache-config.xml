@@ -13,7 +13,7 @@
         <prop key="log-level">warning</prop>
     </util:properties>
     
-    <gfe:client-cache properties-ref="gemfire-props"/>
+    <gfe:client-cache properties-ref="gemfire-props" />
     
     <gfe:pool>
     	<gfe:server host="localhost" port="40404"/>

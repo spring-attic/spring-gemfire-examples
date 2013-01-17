@@ -11,6 +11,17 @@ project('gateway') {
   }
 }
 
+project('gatewayV7') {
+  
+  description = 'Spring Data GemFire Gateway (Version 7) Example'
+  
+ def env = System.getenv()
+
+ dependencies {
+     compile project(':spring-gemfire-examples-common')
+  }
+}
+
 project('locator-failover') {
 
   description = 'Spring Data GemFire Locator Failover Example'

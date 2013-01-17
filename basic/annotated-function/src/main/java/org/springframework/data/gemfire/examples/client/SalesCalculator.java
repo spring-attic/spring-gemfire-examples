@@ -28,7 +28,7 @@ import org.springframework.data.gemfire.function.config.OnServer;
  * Also since the interface is a singleton, the method invocation is associated with the function with the same Id.
  * 
  */
-@OnServer(id="totalSalesForProduct")
+@OnServer
 public interface SalesCalculator {
- 	public BigDecimal calculateTotalSalesforProduct(String productName);
+ 	public BigDecimal totalSalesForProduct(String productName);
 }
