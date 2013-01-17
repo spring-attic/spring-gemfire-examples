@@ -12,7 +12,7 @@ If you have downloaded the trial version, you will need to obtain a key from Gem
 To run this example, Open a command window and start two locators:
 
         ./gradlew -q start-locator-10334 -Pprops=advanced/gatewayV7/london/locator.properties
-        ./gradlew -q start-locator-10335 -Pprops==advanced/gatewayV7/ny/locator.properties
+        ./gradlew -q start-locator-10335 -Pprops=advanced/gatewayV7/ny/locator.properties
         
 Each properties file declares the other locator as a remote locator and identifies the remote system Id.        
 
