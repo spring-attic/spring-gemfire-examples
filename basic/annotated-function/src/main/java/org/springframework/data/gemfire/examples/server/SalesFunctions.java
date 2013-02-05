@@ -25,7 +25,8 @@ import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.data.gemfire.examples.domain.LineItem;
 import org.springframework.data.gemfire.examples.domain.Order;
 import org.springframework.data.gemfire.examples.domain.Product;
-import org.springframework.data.gemfire.function.config.GemfireFunction;
+import org.springframework.data.gemfire.function.annotation.GemfireFunction;
+
 import org.springframework.stereotype.Component;
 
 import com.gemstone.gemfire.cache.Region;

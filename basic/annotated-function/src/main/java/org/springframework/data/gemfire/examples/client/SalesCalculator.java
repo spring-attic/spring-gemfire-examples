@@ -14,7 +14,9 @@ package org.springframework.data.gemfire.examples.client;
 
 import java.math.BigDecimal;
 
-import org.springframework.data.gemfire.function.config.OnServer;
+import org.springframework.data.gemfire.function.annotation.OnServer;
+
+
 
 /**
  * @author David Turanski
