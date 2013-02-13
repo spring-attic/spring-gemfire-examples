@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:gfe="http://www.springframework.org/schema/gemfire"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="file:gateway.properties"/>
-	
+	<context:property-placeholder location="file:gateway.properties" />
+
 	<util:properties id="gemfireProperties">
 		<prop key="mcast-port">0</prop>
 		<prop key="locators">localhost[10334]</prop>
 		<prop key="distributed-system-id">1</prop>
 		<prop key="log-level">info</prop>
 		<prop key="license-data-management">${gemfire.license.key}</prop>
-<!-- 		<prop key="log-file">london.log</prop> -->
+
 	</util:properties>
-	
-	<gfe:cache properties-ref="gemfireProperties"/>
-	
+
+	<gfe:cache properties-ref="gemfireProperties" />
+
 	<gfe:replicated-region id="Order">
 		<gfe:cache-listener>
-		 	<bean class="org.springframework.data.gemfire.examples.util.LoggingCacheListener"/>
+			<bean
+				class="org.springframework.data.gemfire.examples.util.LoggingCacheListener" />
 		</gfe:cache-listener>
-		<gfe:gateway-sender-ref bean="london.sender"/>
+		<gfe:gateway-sender-ref bean="london.sender" />
 	</gfe:replicated-region>
-	
-	<gfe:gateway-sender id="london.sender" remote-distributed-system-id="2" disk-store-ref="diskstore"/>
-		
-	<gfe:gateway-receiver id="london.receiver" start-port="41000" end-port="41020" />
-	
+
+	<gfe:gateway-sender id="london.sender"
+		remote-distributed-system-id="2" disk-store-ref="diskstore" />
+
+	<gfe:gateway-receiver id="london.receiver"
+		start-port="41000" end-port="41020" />
+
 
 	<gfe:disk-store id="diskstore">
-		<gfe:disk-dir location="london"/>
+		<gfe:disk-dir location="london" />
 	</gfe:disk-store>
 </beans>
