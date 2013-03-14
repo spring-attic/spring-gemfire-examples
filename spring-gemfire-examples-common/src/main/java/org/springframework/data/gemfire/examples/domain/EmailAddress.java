@@ -59,6 +59,10 @@ public final class EmailAddress  implements Serializable {
 		Assert.hasText(source);
 		return PATTERN.matcher(source).matches();
 	}
+	
+	public String getValue() {
+		return value;
+	}
 
 	/* 
 	 * (non-Javadoc)

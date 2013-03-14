@@ -40,4 +40,12 @@ project('transaction'){
   }
 }
 
+project('json'){
+  description = 'Spring Data GemFire JSON Example'
+  dependencies {
+      compile project(':spring-gemfire-examples-common')
+      compile "org.springframework:spring-beans:$springVersion"  
+  }
+}
+
 
