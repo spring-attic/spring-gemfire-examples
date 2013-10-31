@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.gemfire.examples.domain.Address;
@@ -27,22 +29,34 @@ import org.springframework.data.gemfire.examples.domain.Order;
 import com.gemstone.gemfire.cache.Region;
 
 public class Client {
-	
-	
+	private static Log log = LogFactory.getLog(Client.class);
+	private static boolean partitionByCountry;
 	@SuppressWarnings("unchecked")
 	
 	public static void main(String args[]) throws IOException {
-		
+		 if (args.length >= 1 && args[0].equalsIgnoreCase("partitionByCountry")) {
+				log.debug("partitioning by country");
+				partitionByCountry = true;
+		}
+		 
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
-		Region<Long,Order> region = context.getBean(Region.class);
-	
+		Region<OrderKey,Order> region = context.getBean(Region.class);
+
 		//Create some orders
 		Random rand = new Random(new Date().getTime()); 
 		for (long orderId = 1; orderId <= 100; orderId++) {
-			Address shipTo = new Address("Some Street","Some City",(orderId%2 == 0)?"US":"UK"); 
+			Address shipTo = new Address("Some Street","Some City",(orderId%3 == 0)?"UK":"US"); 
 			Order order = new Order(orderId, (new Long(rand.nextInt(100)+1)),shipTo);
-			region.put(orderId, order, order);
+			OrderKey orderKey = getOrderKey(orderId,shipTo.getCountry());
+			region.put(orderKey, order);
 		}
-		 
+	}
+	
+	private static OrderKey getOrderKey(Long id, String countryCode) {
+		if (partitionByCountry) {
+			return new PartitionedOrderKey(id, countryCode);
+		}
+		return new OrderKey(id, countryCode);
 	}
 }

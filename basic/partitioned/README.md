@@ -25,11 +25,10 @@ When the Client runs, it will create 100 Orders. These will be evenly distribute
 
 # Custom Partitioning
 
-The example also includes a custom PartitionResolver (CountryPartitionResolver) that allows the application to control how entries are co-located. In this example, the order shipping address is either in the US or the UK. In fact, all the odd number orders go to UK, and the evens go to US. The Spring configuration file server/cache-config is configured with 3 Spring profiles, "default", "UK", and "US". In the "US" profile, the region is configured with a fixed partition named "US" and likewise the "UK" profile contains the "UK" partition. Both profiles are configured with the CountryPartitionResolver which routes orders to corresponding partition. So try this:
+The example also demonstrates the use of a custom PartitionResolver that allows the application to control how entries are co-located. In this example, the order shipping address is either in the US or the UK. To enable partitioning by country, an alternate implementation of the key class (OrderKey) that implements PartitionResolver replaces the normal key class. 
 
-In the server command windows, run the servers again, but each with a different active profile:
+Run the the client again, adding an argument:
 
-          ./gradlew -q run-partitioned -Pmain=Server -Pargs=US
-          ./gradlew -q run-partitioned -Pmain=Server -Pargs=UK
-
-Run the client again. This time, you will observe that all the odd numbered orders go to "UK" and the evens go to "US"
+          ./gradlew -q run-partitioned -Pmain=Client -Pargs=partitionByCountry
+        
+This time, observe that the server console log indicates orders are partitioned by country.

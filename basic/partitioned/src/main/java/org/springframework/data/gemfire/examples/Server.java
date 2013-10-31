@@ -27,11 +27,7 @@ import com.gemstone.gemfire.cache.server.CacheServer;
 public class Server {
 	private static Log log = LogFactory.getLog(Server.class);
 	 public static void main(String args[]) throws IOException {
-		 if (args.length >= 1) {
-				System.setProperty("spring.profiles.active", args[0]);
-				log.debug("setting Spring profile to " + args[0]);
-		}
-		 
+
 		ApplicationContext context = new ClassPathXmlApplicationContext("server/cache-config.xml");
 		CacheServer server = context.getBean(CacheServer.class);
 		System.out.println("server running on port " + server.getPort());

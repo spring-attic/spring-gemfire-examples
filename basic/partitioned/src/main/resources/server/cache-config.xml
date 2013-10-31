@@ -19,54 +19,14 @@
 
 		<bean id="portGenerator"
 			class="org.springframework.data.gemfire.examples.util.ServerPortGenerator" />
-	</beans>
-	
-	<!-- Here we are using Spring environment profiles to provide alternate region configurations. -->
-	
-	<beans profile="default">
-		<gfe:partitioned-region id="Order">
-			<gfe:cache-listener>
-				<bean
-					class="org.springframework.data.gemfire.examples.util.LoggingCacheListener" />
-			</gfe:cache-listener>
-		</gfe:partitioned-region>
-	</beans>
 
-<!-- A partitioned region with fixed partition named 'UK'. -->
-	<beans profile="UK">
-		<gfe:partitioned-region id="Order">	    
+		<gfe:partitioned-region id="Order">
 			
 			<gfe:cache-listener>
 				<bean
 					class="org.springframework.data.gemfire.examples.util.LoggingCacheListener" />
 			</gfe:cache-listener>
-			
-			<gfe:partition-resolver>
-				<bean
-					class="org.springframework.data.gemfire.examples.CountryPartitionResolver" />
-			</gfe:partition-resolver>
-			
-		<gfe:fixed-partition partition-name="UK"/> 
-			
-		</gfe:partitioned-region>
-	</beans>
-	
-<!-- A partitioned region with fixed partition named 'US'. -->	
-	<beans profile="US">
-		<gfe:partitioned-region id="Order">	    
-			
-			<gfe:cache-listener>
-				<bean
-					class="org.springframework.data.gemfire.examples.util.LoggingCacheListener" />
-			</gfe:cache-listener>
-			
-			<gfe:partition-resolver>
-				<bean
-					class="org.springframework.data.gemfire.examples.CountryPartitionResolver" />
-			</gfe:partition-resolver>
-		
-			<gfe:fixed-partition partition-name="US"/>
-		
+						
 		</gfe:partitioned-region>
 	</beans>
 </beans>
