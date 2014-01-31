@@ -2,6 +2,7 @@ locator1*/
 .settings
 .project
 .classpath
+.idea
 .springBeans
 .gradle
 #Compile source#
