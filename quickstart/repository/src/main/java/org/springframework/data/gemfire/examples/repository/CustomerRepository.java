@@ -16,7 +16,6 @@
 package org.springframework.data.gemfire.examples.repository;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.gemfire.examples.domain.Customer;
 import org.springframework.data.gemfire.examples.domain.EmailAddress;
