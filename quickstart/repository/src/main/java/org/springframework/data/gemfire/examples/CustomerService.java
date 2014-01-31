@@ -111,7 +111,7 @@ public class CustomerService {
 	 * Return all customers
 	 * @return
 	 */
-	public Set<Customer> findAllCustomers() {
+	public List<Customer> findAllCustomers() {
 		return customerRepository.findAll();
 	}
 }

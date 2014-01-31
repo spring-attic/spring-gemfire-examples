@@ -36,7 +36,7 @@ public interface CustomerRepository extends GemfireRepository<Customer, Long> {
 	 * 
 	 * @return
 	 */
-	Set<Customer> findAll();
+	List<Customer> findAll();
 
 	/**
 	 * Finds all {@link Customer}s with the given lastname.
