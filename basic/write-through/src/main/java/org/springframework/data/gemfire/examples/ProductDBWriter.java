@@ -57,7 +57,7 @@ public class ProductDBWriter implements CacheWriter<Long, Product> {
 	@Override
 	@Async
 	public void beforeCreate(EntryEvent<Long, Product> entryEvent) throws CacheWriterException {
-		if (productRepository.findOne(entryEvent.getKey()) == null) {
+		if (productRepository.findOne(Long.parseLong(String.valueOf(entryEvent.getKey()))) == null) {
 			update(entryEvent.getNewValue());
 		}
 	}
@@ -68,7 +68,7 @@ public class ProductDBWriter implements CacheWriter<Long, Product> {
 	@Override
 	@Async
 	public void beforeDestroy(EntryEvent<Long, Product> entryEvent) throws CacheWriterException {
-		delete(entryEvent.getKey());
+		delete(Long.parseLong(String.valueOf(entryEvent.getKey())));
 	}
 
 	/* (non-Javadoc)

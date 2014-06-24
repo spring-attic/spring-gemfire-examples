@@ -52,7 +52,7 @@ public class ProductDBLoader implements CacheLoader<Long, Product> {
 	 */
 	@Override
 	public Product load(LoaderHelper<Long, Product> loadHelper) throws CacheLoaderException {
-		Long id = loadHelper.getKey();
+		Long id = Long.parseLong(String.valueOf(loadHelper.getKey()));
 		log.debug("loading product id " + id + " from the database");
 		return productRepository.findOne(id);
 	}
