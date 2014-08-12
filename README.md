@@ -1,14 +1,14 @@
 Spring Data GemFire Examples
 ============================
 
-This project provides a number of examples to get you started using Spring Data GemFire. These examples are designed to work with [Spring Data GemFire] (http://www.springsource.org/spring-gemfire) 1.2 or higher and are organized into the following sub projects:
+This project provides a number of examples to get you started using Spring Data GemFire. These examples are designed to work with [Spring Data GemFire] (http://projects.spring.io/spring-data-gemfire) 1.2 or higher and are organized into the following sub projects:
 
 # Quickstart
 
 These examples show case the application programming model provided by Spring Data GemFire and are not concerned so much with configuration of GemFire components such as Cache and Region. This currently includes:
 
 * spring-cache - Using Spring's Cache abstraction with GemFire
-* repository - Using [Spring Data](http://www.springsource.org/spring-data) Repositories with GemFire
+* repository - Using [Spring Data](http://projects.spring.io/spring-data) Repositories with GemFire
 * gemfire-template - Using GemfireTemplate to simplify and enhance accessing Region data
 * cq - Configuring and using GemFire Continuous Queries
 * transaction - Demonstrates the use of GemFire transactions
@@ -26,7 +26,7 @@ These examples are focused more on configuring GemFire components such as Caches
 
 # Advanced
 
-These examples demonstrate additional GemFire features and require a full installation of GemFire. A trial version may be obtained [here](http://www.vmware.com/products/application-platform/vfabric-gemfire/overview.html).
+These examples demonstrate additional GemFire features and require a full installation of GemFire. A trial version may be obtained [here](http://www.pivotal.io/big-data/pivotal-gemfire).
 
 * gateway - Demonstrates how to use and configure a WAN Gateway
 * locator-failover - Demonstrates how GemFire handles locator down situations
