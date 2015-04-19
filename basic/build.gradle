@@ -51,7 +51,6 @@ project('write-through') {
 	}
 }
 
-
 project('function') {
 	description = 'Spring Data GemFire Function Execution Example'
 	dependencies {
@@ -63,7 +62,17 @@ project('function') {
 }
 
 project('annotated-function') {
-	description = 'Spring Data GemFire Function Execution with Annotations Example'
+  description = 'Spring Data GemFire Function Execution with Annotations Example'
+  dependencies {
+    compile project(':spring-gemfire-examples-common')
+    compile "org.springframework:spring-aop:$springVersion"
+    compile "org.springframework:spring-context-support:$springVersion"
+    compile "org.springframework:spring-tx:$springVersion"
+  }
+}
+
+project('java-config') {
+	description = 'Spring Data GemFire Configuration Example using Spring Java-based Container Configuration'
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
