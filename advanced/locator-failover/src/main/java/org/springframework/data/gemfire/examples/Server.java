@@ -15,22 +15,19 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.IOException;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.IOException;
+
 public class Server {
-	public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws IOException {
+        System.out.println("Start locators on 10334 and 10335 and Press <Enter> to continue");
+        System.in.read();
 
-		System.out
-				.println("Start locators on 10334 and 10335 and Press <Enter> to continue");
-		System.in.read();
+        new ClassPathXmlApplicationContext("server/cache-config.xml");
 
-		new ClassPathXmlApplicationContext("server/cache-config.xml");
-
-		System.out.println("Press <Enter> to terminate the server");
-		System.in.read();
-		System.exit(0);
-	}
-
+        System.out.println("Press <Enter> to terminate the server");
+        System.in.read();
+        System.exit(0);
+    }
 }

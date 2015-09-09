@@ -15,13 +15,12 @@
 package org.springframework.data.gemfire.examples.util;
 
 /**
-* @author Wayne Lund
-* @author David Turanski
-*
-*/
+ * @author Wayne Lund
+ * @author David Turanski
+ */
+
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
+import java.net.*;
 import java.security.SecureRandom;
 
 public class ServerPortGenerator {
@@ -38,17 +37,16 @@ public class ServerPortGenerator {
     public int generatePort(int min, int max) throws IOException {
         ServerSocket socket = new ServerSocket();
         int port = bind(socket, min, max - min);
-        if (port>0) {
+        if (port > 0) {
             socket.close();
             return port;
         } else {
-            throw new IOException("Unable to bind on to a port between "+min+" and "+max);
+            throw new IOException("Unable to bind on to a port between " + min + " and " + max);
         }
-        
     }
 
     public int bind(ServerSocket socket, int portstart, int retries) throws IOException {
-        InetSocketAddress addr = null;
+        InetSocketAddress addr;
         int port = portstart;
         while (retries > 0) {
             try {
@@ -66,5 +64,4 @@ public class ServerPortGenerator {
         }
         return -1;
     }
-
 }

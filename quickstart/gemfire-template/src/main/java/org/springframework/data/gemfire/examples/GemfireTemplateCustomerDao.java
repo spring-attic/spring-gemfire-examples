@@ -15,49 +15,45 @@
  */
 package org.springframework.data.gemfire.examples;
 
+import com.gemstone.gemfire.cache.query.SelectResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.gemfire.GemfireTemplate;
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 import org.springframework.stereotype.Repository;
 
-import com.gemstone.gemfire.cache.query.SelectResults;
-
 /**
- * An Implementation of {@link CustomerDao} using {@link GemfireTemplate} 
- * @author David Turanski
+ * An Implementation of {@link CustomerDao} using {@link GemfireTemplate}
  *
+ * @author David Turanski
  */
 @Repository
 public class GemfireTemplateCustomerDao implements CustomerDao {
-	@Autowired
-	GemfireTemplate customerTemplate;
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.data.gemfire.examples.CustomerDao#delete(long)
-	 */
-	@Override
-	public void delete(long id) {
-		customerTemplate.remove(id);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.data.gemfire.examples.CustomerDao#save(org.springframework.data.gemfire.examples.domain.Customer)
-	 */
-	@Override
-	public Customer save(Customer customer) {
-		return customerTemplate.put(customer.getId(),customer);
-	}
+    @Autowired GemfireTemplate customerTemplate;
 
-	@Override
-	public Customer get(long id) {
-		return customerTemplate.get(id);
-	}
+    /* (non-Javadoc)
+     * @see org.springframework.data.gemfire.examples.CustomerDao#delete(long)
+     */
+    @Override
+    public void delete(long id) {
+        customerTemplate.remove(id);
+    }
 
-	@Override
-	public Customer findByEmailAddress(EmailAddress emailAddress) {
-		SelectResults<Customer> customers =  customerTemplate.find("SELECT * from /Customer WHERE emailAddress=$1",emailAddress);
-		return customers.isEmpty()? null: customers.asList().get(0);
-	}
-	
+    /* (non-Javadoc)
+     * @see org.springframework.data.gemfire.examples.CustomerDao#save(org.springframework.data.gemfire.examples.domain.Customer)
+     */
+    @Override
+    public Customer save(Customer customer) {
+        return customerTemplate.put(customer.getId(), customer);
+    }
+
+    @Override
+    public Customer get(long id) {
+        return customerTemplate.get(id);
+    }
+
+    @Override
+    public Customer findByEmailAddress(EmailAddress emailAddress) {
+        SelectResults<Customer> customers = customerTemplate.find("SELECT * from /Customer WHERE emailAddress=$1", emailAddress);
+        return customers.isEmpty() ? null : customers.asList().get(0);
+    }
 }

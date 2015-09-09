@@ -15,63 +15,59 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.commons.logging.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.data.gemfire.GemfireOperations;
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.query.SelectResults;
 /**
  * Sample application demonstrating JSON support
- * @author David Turanski
  *
+ * @author David Turanski
  */
 @Component
 public class JSONCustomerExample {
-	private static Log log = LogFactory.getLog(JSONCustomerExample.class);
-	@Autowired
-	@Qualifier("customerTemplate")
-	GemfireOperations customerTemplate;
-	/**
-	 * run the example
-	 */
-	public void run() {
-		createCustomers();
-		searchCustomers();
-		deleteCustomers();
-	}
+    private static Log log = LogFactory.getLog(JSONCustomerExample.class);
+    @Autowired @Qualifier("customerTemplate") GemfireOperations customerTemplate;
 
-	/*
-	 * create some customers
-	 */
-	private void createCustomers() {
-		Customer dave = new Customer(1L,new EmailAddress("dave@matthews.com"),"Dave","Matthews");
-		Customer alicia = new Customer(2L,new EmailAddress("alicia@keys.com"),"Alicia","Keys");
-		customerTemplate.put(1L,dave);
-		customerTemplate.put(2l, alicia);
-	}
-	
-	/*
-	 * Retrieve customers
-	 */
-	private void searchCustomers() {
-		String jSonDave = (String) customerTemplate.findUnique("select * from /Customer where emailAddress.value=$1","dave@matthews.com");
-		log.info(jSonDave);
-		
-		SelectResults<String> results = customerTemplate.find("select * from /Customer where emailAddress.value=$1", "alicia@keys.com");
-		String jSonAlicia = results.iterator().next();
-		log.info(jSonAlicia);
-	}
+    /**
+     * run the example
+     */
+    public void run() {
+        createCustomers();
+        searchCustomers();
+        deleteCustomers();
+    }
 
-	/*
-	 * Delete customers
-	 */
-	private void deleteCustomers() {
-		customerTemplate.remove(1L);
-		customerTemplate.remove(2L);
-	}
+    /*
+     * create some customers
+     */
+    private void createCustomers() {
+        Customer dave = new Customer(1L, new EmailAddress("dave@matthews.com"), "Dave", "Matthews");
+        Customer alicia = new Customer(2L, new EmailAddress("alicia@keys.com"), "Alicia", "Keys");
+        customerTemplate.put(1L, dave);
+        customerTemplate.put(2l, alicia);
+    }
+
+    /*
+     * Retrieve customers
+     */
+    private void searchCustomers() {
+        String jSonDave = (String) customerTemplate.findUnique("select * from /Customer where emailAddress.value=$1", "dave@matthews.com");
+        log.info(jSonDave);
+
+        SelectResults<String> results = customerTemplate.find("select * from /Customer where emailAddress.value=$1", "alicia@keys.com");
+        String jSonAlicia = results.iterator().next();
+        log.info(jSonAlicia);
+    }
+
+    /*
+     * Delete customers
+     */
+    private void deleteCustomers() {
+        customerTemplate.remove(1L);
+        customerTemplate.remove(2L);
+    }
 }

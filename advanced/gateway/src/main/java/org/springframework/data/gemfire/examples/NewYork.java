@@ -17,11 +17,10 @@ package org.springframework.data.gemfire.examples;
 
 /**
  * @author David Turanski
- * 
  */
 public class NewYork {
-	public static void main(String args[]) {
-		GatewayExample.run("ny", 1);
-	}
+    public static void main(String args[]) {
+        GatewayExample.run("ny", 1);
+    }
 
 }

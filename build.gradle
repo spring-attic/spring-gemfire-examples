@@ -1,5 +1,8 @@
 description = 'Spring Data GemFire Examples'
 
+sourceCompatibility '1.8'
+targetCompatibility '1.8'
+
 apply plugin: 'base'
 
 allprojects {

@@ -22,25 +22,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author David Turanski
- * 
  */
 public class CustomerService {
-	
-	@Autowired CustomerRepository customerRepository;
-	
-	/**
-	 * @param customer
-	 * @param fail - set to true to simulate some downstream processing that throws an exception which should trigger a rollback 
-	 */
-	@Transactional("gemfireTransactionManager")	
-	public void updateCustomer(Customer customer, boolean fail) {
-		 customerRepository.save(customer);
-		 if (fail) {
-			 throw new RuntimeException("Updated failed - should trigger a rollback.");
-		 } 
-	}
-	
-	public Customer getCustomer(long id) {
-		return customerRepository.findOne(id);
-	}
+
+    @Autowired CustomerRepository customerRepository;
+
+    /**
+     * @param customer
+     * @param fail     - set to true to simulate some downstream processing that throws an exception which should trigger a rollback
+     */
+    @Transactional("gemfireTransactionManager")
+    public void updateCustomer(Customer customer, boolean fail) {
+        customerRepository.save(customer);
+        if (fail) {
+            throw new RuntimeException("Updated failed - should trigger a rollback.");
+        }
+    }
+
+    public Customer getCustomer(long id) {
+        return customerRepository.findOne(id);
+    }
 }

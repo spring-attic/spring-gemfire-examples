@@ -15,15 +15,14 @@
  */
 package org.springframework.data.gemfire.examples.domain;
 
-import java.io.Serializable;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.MappedSuperclass;
-
-import org.springframework.data.annotation.Id;
+import java.io.Serializable;
 
 /**
  * Base class for persistent classes.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
@@ -31,54 +30,52 @@ import org.springframework.data.annotation.Id;
 @MappedSuperclass
 public class AbstractPersistentEntity implements Serializable {
 
-	@Id
-	@javax.persistence.Id
-	private final Long id;
+    @Id @javax.persistence.Id private final Long id;
 
-	/**
-	 * Returns the identifier of the entity.
-	 * 
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
-	
-	protected AbstractPersistentEntity(Long id) {
-		this.id = id;
-	}
-	
-	protected AbstractPersistentEntity() {
-		this.id = null;
-	}
-	
+    /**
+     * Returns the identifier of the entity.
+     *
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/* 
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
+    protected AbstractPersistentEntity(Long id) {
+        this.id = id;
+    }
 
-		if (this == obj) {
-			return true;
-		}
+    protected AbstractPersistentEntity() {
+        this.id = null;
+    }
 
-		if (this.id == null || obj == null || !(this.getClass().equals(obj.getClass()))) {
-			return false;
-		}
 
-		AbstractPersistentEntity that = (AbstractPersistentEntity) obj;
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
 
-		return this.id.equals(that.getId());
-	}
+        if (this == obj) {
+            return true;
+        }
 
-	/* 
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return id == null ? 0 : id.hashCode();
-	}
+        if (this.id == null || obj == null || !(this.getClass().equals(obj.getClass()))) {
+            return false;
+        }
+
+        AbstractPersistentEntity that = (AbstractPersistentEntity) obj;
+
+        return this.id.equals(that.getId());
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.hashCode();
+    }
 }

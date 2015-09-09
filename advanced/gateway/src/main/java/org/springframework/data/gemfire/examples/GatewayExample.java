@@ -15,55 +15,48 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.File;
-import java.io.IOException;
-
+import com.gemstone.gemfire.cache.*;
+import com.gemstone.gemfire.cache.util.GatewayHub;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.gemfire.examples.domain.Address;
-import org.springframework.data.gemfire.examples.domain.Order;
+import org.springframework.data.gemfire.examples.domain.*;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.Region;
-import com.gemstone.gemfire.cache.util.GatewayHub;
+import java.io.*;
 
 /**
  * @author David Turanski
- * 
  */
 public class GatewayExample {
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public static void run(String location, long id) {  
-		
-		File diskStoreDirectory = new File(location);
-		if (!diskStoreDirectory.exists()){
-			diskStoreDirectory.mkdir();
-		}
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				location + "/cache-config.xml");
-		Cache cache = context.getBean(Cache.class);
-		GatewayHub gwh = cache.getGatewayHub(location);
-		
-		if (gwh.isRunning()){
-			System.out.println("gateway is running on " + gwh.getPort());
-		} else {
-			System.out.println("gateway is not started");
-		}
-		
-		Region<Long, Order> region = context.getBean(Region.class);
-		
-		try {
-			System.out.println("Press <Enter> to update region " + region.getName());
-			System.in.read();
-			region.put(id, new Order(1L, 1L, new Address("street", "city",
-					"country")));
-			System.out.println("Press <Enter> to quit");
-			System.in.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.exit(0);
-	}
+    @SuppressWarnings({"deprecation", "unchecked"})
+    public static void run(String location, long id) {
+
+        File diskStoreDirectory = new File(location);
+        if (!diskStoreDirectory.exists()) {
+            diskStoreDirectory.mkdir();
+        }
+
+        ApplicationContext context = new ClassPathXmlApplicationContext(location + "/cache-config.xml");
+        Cache cache = context.getBean(Cache.class);
+        GatewayHub gwh = cache.getGatewayHub(location);
+
+        if (gwh.isRunning()) {
+            System.out.println("gateway is running on " + gwh.getPort());
+        } else {
+            System.out.println("gateway is not started");
+        }
+
+        Region<Long, Order> region = context.getBean(Region.class);
+
+        try {
+            System.out.println("Press <Enter> to update region " + region.getName());
+            System.in.read();
+            region.put(id, new Order(1L, 1L, new Address("street", "city", "country")));
+            System.out.println("Press <Enter> to quit");
+            System.in.read();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.exit(0);
+    }
 }

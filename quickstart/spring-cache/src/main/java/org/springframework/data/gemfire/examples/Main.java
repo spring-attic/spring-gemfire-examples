@@ -15,35 +15,34 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.gemfire.examples.domain.Customer;
 
 public class Main {
-	private static Log log = LogFactory.getLog(Main.class);
+    private static Log log = LogFactory.getLog(Main.class);
 
-	public static void main(String args[]) {
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
-		
-		CustomerService customerService = context.getBean(CustomerService.class);
-	
-		log.info("Retrieving objects not in cache...");
-		for (long i = 1; i<=2; i++) {
-			log.info("Retrieving object with id: " + i);
-			Customer c = customerService.findCustomer(i);
-			log.info("Retrieved " + c.getFirstname()+ " " + c.getLastname());
-		}
-		
-		log.info("Retrieving the same objects again. This time, the target method is not actually invoked!");  
-		log.info("@Cacheable causes Spring to wrap CustomerService in a proxy: " + customerService.getClass().getName());
+    public static void main(String args[]) {
 
-		for (int i = 1; i<=2; i++) {
-			log.info("Retrieving object with id: " + i);
-			Customer c = customerService.findCustomer(i);
-			log.info("Retrieved " + c.getFirstname()+ " " + c.getLastname());
-		}
-	}
+        ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
+
+        CustomerService customerService = context.getBean(CustomerService.class);
+
+        log.info("Retrieving objects not in cache...");
+        for (long i = 1; i <= 2; i++) {
+            log.info("Retrieving object with id: " + i);
+            Customer c = customerService.findCustomer(i);
+            log.info("Retrieved " + c.getFirstname() + " " + c.getLastname());
+        }
+
+        log.info("Retrieving the same objects again. This time, the target method is not actually invoked!");
+        log.info("@Cacheable causes Spring to wrap CustomerService in a proxy: " + customerService.getClass().getName());
+
+        for (int i = 1; i <= 2; i++) {
+            log.info("Retrieving object with id: " + i);
+            Customer c = customerService.findCustomer(i);
+            log.info("Retrieved " + c.getFirstname() + " " + c.getLastname());
+        }
+    }
 }

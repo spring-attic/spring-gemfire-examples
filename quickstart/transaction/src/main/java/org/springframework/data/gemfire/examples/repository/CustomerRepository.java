@@ -20,7 +20,6 @@ import org.springframework.data.gemfire.repository.GemfireRepository;
 
 /**
  * @author David Turanski
- *
  */
-public interface CustomerRepository extends GemfireRepository<Customer,Long> {
+public interface CustomerRepository extends GemfireRepository<Customer, Long> {
 }

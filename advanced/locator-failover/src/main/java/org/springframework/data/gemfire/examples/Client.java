@@ -15,40 +15,38 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.IOException;
-
+import com.gemstone.gemfire.cache.Region;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 
-import com.gemstone.gemfire.cache.Region;
+import java.io.IOException;
 
 public class Client {
 
-	@SuppressWarnings("unchecked")
-	public static void main(String args[]) throws IOException {
-		
-		System.out.println("Start locators on ports 10334 and 10335 and the Server. Press <Enter> to continue");
-		System.in.read();
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
-		Region<Long,Customer> region = context.getBean(Region.class);
-	
-		
-		Customer dave = new Customer(1L,new EmailAddress("dave@matthews.com"),"Dave","Matthews");
-		Customer alicia = new Customer(2L,new EmailAddress("alicia@keys.com"),"Alicia","Keys");
-		region.put(dave.getId(),dave);
-		region.put(alicia.getId(),alicia);
-		
-		System.out.println("Stop the primary locator on port 10334. Press <Enter> to continue");
-		System.in.read();
-		
-		Customer john = new Customer(3L,new EmailAddress("john@mayer.com"),"John","Mayer");
-		Customer gwen = new Customer(4L,new EmailAddress("gwen@stefani.com"),"Gwen","Stefani");
-		region.put(john.getId(),john);
-		region.put(gwen.getId(),gwen);
-		
-		System.exit(0); 
-	}
+    @SuppressWarnings("unchecked")
+    public static void main(String args[]) throws IOException {
+
+        System.out.println("Start locators on ports 10334 and 10335 and the Server. Press <Enter> to continue");
+        System.in.read();
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
+        Region<Long, Customer> region = context.getBean(Region.class);
+
+
+        Customer dave = new Customer(1L, new EmailAddress("dave@matthews.com"), "Dave", "Matthews");
+        Customer alicia = new Customer(2L, new EmailAddress("alicia@keys.com"), "Alicia", "Keys");
+        region.put(dave.getId(), dave);
+        region.put(alicia.getId(), alicia);
+
+        System.out.println("Stop the primary locator on port 10334. Press <Enter> to continue");
+        System.in.read();
+
+        Customer john = new Customer(3L, new EmailAddress("john@mayer.com"), "John", "Mayer");
+        Customer gwen = new Customer(4L, new EmailAddress("gwen@stefani.com"), "Gwen", "Stefani");
+        region.put(john.getId(), john);
+        region.put(gwen.getId(), gwen);
+
+        System.exit(0);
+    }
 }

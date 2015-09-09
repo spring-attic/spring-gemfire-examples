@@ -1,28 +1,12 @@
 package org.springframework.data.gemfire.example;
 
-import java.util.Properties;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import com.gemstone.gemfire.cache.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.gemfire.CacheFactoryBean;
-import org.springframework.data.gemfire.EvictionActionType;
-import org.springframework.data.gemfire.EvictionAttributesFactoryBean;
-import org.springframework.data.gemfire.EvictionPolicyType;
-import org.springframework.data.gemfire.ExpirationActionType;
-import org.springframework.data.gemfire.ExpirationAttributesFactoryBean;
-import org.springframework.data.gemfire.PartitionAttributesFactoryBean;
-import org.springframework.data.gemfire.PartitionedRegionFactoryBean;
-import org.springframework.data.gemfire.RegionAttributesFactoryBean;
+import org.springframework.context.annotation.*;
+import org.springframework.data.gemfire.*;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.EvictionAttributes;
-import com.gemstone.gemfire.cache.ExpirationAttributes;
-import com.gemstone.gemfire.cache.PartitionAttributes;
-import com.gemstone.gemfire.cache.RegionAttributes;
+import java.util.Properties;
 
 /**
  * The SpringJavaBasedContainerGemFireConfiguration class is Spring Java-based Container Configuration class used to
@@ -46,155 +30,138 @@ import com.gemstone.gemfire.cache.RegionAttributes;
 @SuppressWarnings("unused")
 public class SpringJavaBasedContainerGemFireConfiguration {
 
-	// NOTE ideally, "placeholder" properties used by Spring's PropertyPlaceholderConfigurer would be externalized
-	// in order to avoid re-compilation on property value changes (so... this is just an example)!
-	@Bean
-	public Properties placeholderProperties() {
-		Properties placeholders = new Properties();
+    // NOTE ideally, "placeholder" properties used by Spring's PropertyPlaceholderConfigurer would be externalized
+    // in order to avoid re-compilation on property value changes (so... this is just an example)!
+    @Bean
+    public Properties placeholderProperties() {
+        Properties placeholders = new Properties();
 
-		placeholders.setProperty("app.gemfire.region.eviction.action", "LOCAL_DESTROY");
-		placeholders.setProperty("app.gemfire.region.eviction.policy-type", "MEMORY_SIZE");
-		placeholders.setProperty("app.gemfire.region.eviction.threshold", "4096");
-		placeholders.setProperty("app.gemfire.region.expiration.entry.tti.action", "INVALIDATE");
-		placeholders.setProperty("app.gemfire.region.expiration.entry.tti.timeout", "300");
-		placeholders.setProperty("app.gemfire.region.expiration.entry.ttl.action", "DESTROY");
-		placeholders.setProperty("app.gemfire.region.expiration.entry.ttl.timeout", "600");
-		placeholders.setProperty("app.gemfire.region.partition.local-max-memory", "16384");
-		placeholders.setProperty("app.gemfire.region.partition.redundant-copies", "1");
-		placeholders.setProperty("app.gemfire.region.partition.total-max-memory", "32768");
+        placeholders.setProperty("app.gemfire.region.eviction.action", "LOCAL_DESTROY");
+        placeholders.setProperty("app.gemfire.region.eviction.policy-type", "MEMORY_SIZE");
+        placeholders.setProperty("app.gemfire.region.eviction.threshold", "4096");
+        placeholders.setProperty("app.gemfire.region.expiration.entry.tti.action", "INVALIDATE");
+        placeholders.setProperty("app.gemfire.region.expiration.entry.tti.timeout", "300");
+        placeholders.setProperty("app.gemfire.region.expiration.entry.ttl.action", "DESTROY");
+        placeholders.setProperty("app.gemfire.region.expiration.entry.ttl.timeout", "600");
+        placeholders.setProperty("app.gemfire.region.partition.local-max-memory", "16384");
+        placeholders.setProperty("app.gemfire.region.partition.redundant-copies", "1");
+        placeholders.setProperty("app.gemfire.region.partition.total-max-memory", "32768");
 
-		return placeholders;
-	}
+        return placeholders;
+    }
 
-	@Bean
-	public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(
-			@Qualifier("placeholderProperties") Properties placeholders) {
-		PropertyPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertyPlaceholderConfigurer();
-		propertyPlaceholderConfigurer.setProperties(placeholders);
-		return propertyPlaceholderConfigurer;
-	}
+    @Bean
+    public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(@Qualifier("placeholderProperties") Properties placeholders) {
+        PropertyPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertyPlaceholderConfigurer();
+        propertyPlaceholderConfigurer.setProperties(placeholders);
+        return propertyPlaceholderConfigurer;
+    }
 
-	@Bean
-	public Properties gemfireProperties() {
-		Properties gemfireProperties = new Properties();
+    @Bean
+    public Properties gemfireProperties() {
+        Properties gemfireProperties = new Properties();
 
-		gemfireProperties.setProperty("name", "SpringGemFireJavaConfigTest");
-		gemfireProperties.setProperty("mcast-port", "0");
-		gemfireProperties.setProperty("log-level", "config");
+        gemfireProperties.setProperty("name", "SpringGemFireJavaConfigTest");
+        gemfireProperties.setProperty("mcast-port", "0");
+        gemfireProperties.setProperty("log-level", "config");
 
-		return gemfireProperties;
-	}
+        return gemfireProperties;
+    }
 
-	@Bean
-	@Autowired
-	public CacheFactoryBean gemfireCache(@Qualifier("gemfireProperties") Properties gemfireProperties) throws Exception {
-		CacheFactoryBean cacheFactory = new CacheFactoryBean();
-		cacheFactory.setProperties(gemfireProperties);
-		return cacheFactory;
-	}
+    @Bean
+    @Autowired
+    public CacheFactoryBean gemfireCache(@Qualifier("gemfireProperties") Properties gemfireProperties) throws Exception {
+        CacheFactoryBean cacheFactory = new CacheFactoryBean();
+        cacheFactory.setProperties(gemfireProperties);
+        return cacheFactory;
+    }
 
-	/*
-	  NOTE need to qualify the RegionAttributes bean definition reference since GemFire's
-	  com.gemstone.gemfire.internal.cache.AbstractRegion class "implements" RegionAttributes (face-palm),
-	  which led Spring to the following Exception...
+    /*
+      NOTE need to qualify the RegionAttributes bean definition reference since GemFire's
+      com.gemstone.gemfire.internal.cache.AbstractRegion class "implements" RegionAttributes (face-palm),
+      which led Spring to the following Exception...
 
-	  java.lang.IllegalStateException: Failed to load ApplicationContext ...
-	  Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
-	  Error creating bean with name 'ExamplePartition' defined in class org.spring.data.gemfire.config.GemFireConfiguration:
-	  Unsatisfied dependency expressed through constructor argument with index 1 of type [com.gemstone.gemfire.cache.RegionAttributes]:
-	  No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
-	  expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes;
-	  nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException:
-	  No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
-	  expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes
-	  */
-	@Bean(name = "ExamplePartition")
-	@Autowired
-	public PartitionedRegionFactoryBean<Object, Object> examplePartitionRegion(Cache gemfireCache,
-			@Qualifier("partitionRegionAttributes") RegionAttributes<Object, Object> regionAttributes) throws Exception {
+      java.lang.IllegalStateException: Failed to load ApplicationContext ...
+      Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
+      Error creating bean with name 'ExamplePartition' defined in class org.spring.data.gemfire.config.GemFireConfiguration:
+      Unsatisfied dependency expressed through constructor argument with index 1 of type [com.gemstone.gemfire.cache.RegionAttributes]:
+      No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
+      expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes;
+      nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException:
+      No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
+      expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes
+      */
+    @Bean(name = "ExamplePartition")
+    @Autowired
+    public PartitionedRegionFactoryBean<Object, Object> examplePartitionRegion(Cache gemfireCache, @Qualifier("partitionRegionAttributes") RegionAttributes<Object, Object> regionAttributes) throws Exception {
 
-		PartitionedRegionFactoryBean<Object, Object> examplePartitionRegion =
-			new PartitionedRegionFactoryBean<Object, Object>();
+        PartitionedRegionFactoryBean<Object, Object> examplePartitionRegion = new PartitionedRegionFactoryBean<Object, Object>();
 
-		examplePartitionRegion.setAttributes(regionAttributes);
-		examplePartitionRegion.setCache(gemfireCache);
-		examplePartitionRegion.setName("ExamplePartitionRegion");
-		examplePartitionRegion.setPersistent(false);
+        examplePartitionRegion.setAttributes(regionAttributes);
+        examplePartitionRegion.setCache(gemfireCache);
+        examplePartitionRegion.setName("ExamplePartitionRegion");
+        examplePartitionRegion.setPersistent(false);
 
-		return examplePartitionRegion;
-	}
+        return examplePartitionRegion;
+    }
 
-	@Bean
-	@Autowired
-	public RegionAttributesFactoryBean partitionRegionAttributes(PartitionAttributes partitionAttributes,
-			EvictionAttributes evictionAttributes,
-			@Qualifier("entryTtiExpirationAttributes") ExpirationAttributes entryTti,
-			@Qualifier("entryTtlExpirationAttributes") ExpirationAttributes entryTtl) {
+    @Bean
+    @Autowired
+    public RegionAttributesFactoryBean partitionRegionAttributes(PartitionAttributes partitionAttributes, EvictionAttributes evictionAttributes, @Qualifier("entryTtiExpirationAttributes") ExpirationAttributes entryTti, @Qualifier("entryTtlExpirationAttributes") ExpirationAttributes entryTtl) {
 
-		RegionAttributesFactoryBean regionAttributes = new RegionAttributesFactoryBean();
+        RegionAttributesFactoryBean regionAttributes = new RegionAttributesFactoryBean();
 
-		regionAttributes.setEvictionAttributes(evictionAttributes);
-		regionAttributes.setEntryIdleTimeout(entryTti);
-		regionAttributes.setEntryTimeToLive(entryTtl);
-		regionAttributes.setPartitionAttributes(partitionAttributes);
+        regionAttributes.setEvictionAttributes(evictionAttributes);
+        regionAttributes.setEntryIdleTimeout(entryTti);
+        regionAttributes.setEntryTimeToLive(entryTtl);
+        regionAttributes.setPartitionAttributes(partitionAttributes);
 
-		return regionAttributes;
-	}
+        return regionAttributes;
+    }
 
-	@Bean
-	public EvictionAttributesFactoryBean defaultEvictionAttributes(
-			@Value("${app.gemfire.region.eviction.action}") String action,
-			@Value("${app.gemfire.region.eviction.policy-type}") String policyType,
-			@Value("${app.gemfire.region.eviction.threshold}") int threshold) {
+    @Bean
+    public EvictionAttributesFactoryBean defaultEvictionAttributes(@Value("${app.gemfire.region.eviction.action}") String action, @Value("${app.gemfire.region.eviction.policy-type}") String policyType, @Value("${app.gemfire.region.eviction.threshold}") int threshold) {
 
-		EvictionAttributesFactoryBean evictionAttributes = new EvictionAttributesFactoryBean();
+        EvictionAttributesFactoryBean evictionAttributes = new EvictionAttributesFactoryBean();
 
-		evictionAttributes.setAction(EvictionActionType.valueOfIgnoreCase(action).getEvictionAction());
-		evictionAttributes.setThreshold(threshold);
-		evictionAttributes.setType(EvictionPolicyType.valueOfIgnoreCase(policyType));
+        evictionAttributes.setAction(EvictionActionType.valueOfIgnoreCase(action).getEvictionAction());
+        evictionAttributes.setThreshold(threshold);
+        evictionAttributes.setType(EvictionPolicyType.valueOfIgnoreCase(policyType));
 
-		return evictionAttributes;
-	}
+        return evictionAttributes;
+    }
 
-	@Bean
-	public ExpirationAttributesFactoryBean entryTtiExpirationAttributes(
-			@Value("${app.gemfire.region.expiration.entry.tti.action}") String action,
-			@Value("${app.gemfire.region.expiration.entry.tti.timeout}") int timeout) {
+    @Bean
+    public ExpirationAttributesFactoryBean entryTtiExpirationAttributes(@Value("${app.gemfire.region.expiration.entry.tti.action}") String action, @Value("${app.gemfire.region.expiration.entry.tti.timeout}") int timeout) {
 
-		ExpirationAttributesFactoryBean expirationAttributes = new ExpirationAttributesFactoryBean();
+        ExpirationAttributesFactoryBean expirationAttributes = new ExpirationAttributesFactoryBean();
 
-		expirationAttributes.setAction(ExpirationActionType.valueOfIgnoreCase(action).getExpirationAction());
-		expirationAttributes.setTimeout(timeout);
+        expirationAttributes.setAction(ExpirationActionType.valueOfIgnoreCase(action).getExpirationAction());
+        expirationAttributes.setTimeout(timeout);
 
-		return expirationAttributes;
-	}
+        return expirationAttributes;
+    }
 
-	@Bean
-	public ExpirationAttributesFactoryBean entryTtlExpirationAttributes(
-			@Value("${app.gemfire.region.expiration.entry.ttl.action}") String action,
-			@Value("${app.gemfire.region.expiration.entry.ttl.timeout}") int timeout) {
+    @Bean
+    public ExpirationAttributesFactoryBean entryTtlExpirationAttributes(@Value("${app.gemfire.region.expiration.entry.ttl.action}") String action, @Value("${app.gemfire.region.expiration.entry.ttl.timeout}") int timeout) {
 
-		ExpirationAttributesFactoryBean expirationAttributes = new ExpirationAttributesFactoryBean();
+        ExpirationAttributesFactoryBean expirationAttributes = new ExpirationAttributesFactoryBean();
 
-		expirationAttributes.setAction(ExpirationActionType.valueOfIgnoreCase(action).getExpirationAction());
-		expirationAttributes.setTimeout(timeout);
+        expirationAttributes.setAction(ExpirationActionType.valueOfIgnoreCase(action).getExpirationAction());
+        expirationAttributes.setTimeout(timeout);
 
-		return expirationAttributes;
-	}
+        return expirationAttributes;
+    }
 
-	@Bean
-	public PartitionAttributesFactoryBean defaultPartitionAttributes(
-			@Value("${app.gemfire.region.partition.local-max-memory}") int localMaxMemory,
-			@Value("${app.gemfire.region.partition.redundant-copies}") int redundantCopies,
-			@Value("${app.gemfire.region.partition.total-max-memory}") int totalMaxMemory) {
+    @Bean
+    public PartitionAttributesFactoryBean defaultPartitionAttributes(@Value("${app.gemfire.region.partition.local-max-memory}") int localMaxMemory, @Value("${app.gemfire.region.partition.redundant-copies}") int redundantCopies, @Value("${app.gemfire.region.partition.total-max-memory}") int totalMaxMemory) {
 
-		PartitionAttributesFactoryBean partitionAttributes = new PartitionAttributesFactoryBean();
+        PartitionAttributesFactoryBean partitionAttributes = new PartitionAttributesFactoryBean();
 
-		partitionAttributes.setLocalMaxMemory(localMaxMemory);
-		partitionAttributes.setRedundantCopies(redundantCopies);
-		partitionAttributes.setTotalMaxMemory(totalMaxMemory);
+        partitionAttributes.setLocalMaxMemory(localMaxMemory);
+        partitionAttributes.setRedundantCopies(redundantCopies);
+        partitionAttributes.setTotalMaxMemory(totalMaxMemory);
 
-		return partitionAttributes;
-	}
-
+        return partitionAttributes;
+    }
 }

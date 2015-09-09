@@ -21,17 +21,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Creates a cache client
- * 
- * @author David Turanski
  *
+ * @author David Turanski
  */
 public class Client {
-	
-	public static void main(String args[]) throws IOException {
-		new ClassPathXmlApplicationContext("client/cache-config.xml");
-		System.out.println("Press <ENTER> to quit");
-		System.in.read();
-		System.exit(0);
-	}
-	 
+
+    public static void main(String args[]) throws IOException {
+        new ClassPathXmlApplicationContext("client/cache-config.xml");
+        System.out.println("Press <ENTER> to quit");
+        System.in.read();
+        System.exit(0);
+    }
+
 }

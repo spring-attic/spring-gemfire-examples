@@ -15,115 +15,114 @@
  */
 package org.springframework.data.gemfire.examples.domain;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
+import java.util.*;
+
 
 /**
  * A product.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
- 
+
 @Region
 @javax.persistence.Entity
 public class Product extends AbstractPersistentEntity {
-	
-	private static final long serialVersionUID = 831295555713696643L;
-	
-	private String name, description;
-	private BigDecimal price;
-	@javax.persistence.Transient
-	private Map<String, String> attributes = new HashMap<String, String>();
 
-	/**
-	 * Creates a new {@link Product} with the given name.
-	 * @param id a unique Id
-	 * @param name must not be {@literal null} or empty.
-	 * @param price must not be {@literal null} or less than or equal to zero.
-	 */
-	public Product(Long id, String name, BigDecimal price) {
-		this(id, name, price, null);
-	}
+    private static final long serialVersionUID = 831295555713696643L;
 
-	/**
-	 * Creates a new {@link Product} from the given name and description.
-	 * @param id a unique Id
-	 * @param name must not be {@literal null} or empty.
-	 * @param price must not be {@literal null} or less than or equal to zero.
-	 * @param description
-	 */
-	@PersistenceConstructor
-	public Product(Long id, String name, BigDecimal price, String description) {
-		super(id);
-		Assert.hasText(name, "Name must not be null or empty!");
-		Assert.isTrue(BigDecimal.ZERO.compareTo(price) < 0, "Price must be greater than zero!");
+    private String name, description;
+    private BigDecimal price;
+    @javax.persistence.Transient private Map<String, String> attributes = new HashMap<String, String>();
 
-		this.name = name;
-		this.price = price;
-		this.description = description;
-	}
-	
-	protected Product() {
-	}
+    /**
+     * Creates a new {@link Product} with the given name.
+     *
+     * @param id    a unique Id
+     * @param name  must not be {@literal null} or empty.
+     * @param price must not be {@literal null} or less than or equal to zero.
+     */
+    public Product(Long id, String name, BigDecimal price) {
+        this(id, name, price, null);
+    }
 
-	/**
-	 * Sets the attribute with the given name to the given value.
-	 * 
-	 * @param name must not be {@literal null} or empty.
-	 * @param value
-	 */
-	public void setAttribute(String name, String value) {
+    /**
+     * Creates a new {@link Product} from the given name and description.
+     *
+     * @param id          a unique Id
+     * @param name        must not be {@literal null} or empty.
+     * @param price       must not be {@literal null} or less than or equal to zero.
+     * @param description
+     */
+    @PersistenceConstructor
+    public Product(Long id, String name, BigDecimal price, String description) {
+        super(id);
+        Assert.hasText(name, "Name must not be null or empty!");
+        Assert.isTrue(BigDecimal.ZERO.compareTo(price) < 0, "Price must be greater than zero!");
 
-		Assert.hasText(name);
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
 
-		if (value == null) {
-			this.attributes.remove(value);
-		} else {
-			this.attributes.put(name, value);
-		}
-	}
+    protected Product() {
+    }
 
-	/**
-	 * Returns the {@link Product}'s name.
-	 * 
-	 * @return
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * Sets the attribute with the given name to the given value.
+     *
+     * @param name  must not be {@literal null} or empty.
+     * @param value
+     */
+    public void setAttribute(String name, String value) {
 
-	/**
-	 * Returns the {@link Product}'s description.
-	 * 
-	 * @return
-	 */
-	public String getDescription() {
-		return description;
-	}
+        Assert.hasText(name);
 
-	/**
-	 * Returns all the custom attributes of the {@link Product}.
-	 * 
-	 * @return
-	 */
-	public Map<String, String> getAttributes() {
-		return Collections.unmodifiableMap(attributes);
-	}
+        if (value == null) {
+            this.attributes.remove(value);
+        } else {
+            this.attributes.put(name, value);
+        }
+    }
 
-	/**
-	 * Returns the price of the {@link Product}.
-	 * 
-	 * @return
-	 */
-	public BigDecimal getPrice() {
-		return price;
-	}
+    /**
+     * Returns the {@link Product}'s name.
+     *
+     * @return
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the {@link Product}'s description.
+     *
+     * @return
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns all the custom attributes of the {@link Product}.
+     *
+     * @return
+     */
+    public Map<String, String> getAttributes() {
+        return Collections.unmodifiableMap(attributes);
+    }
+
+    /**
+     * Returns the price of the {@link Product}.
+     *
+     * @return
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
 }

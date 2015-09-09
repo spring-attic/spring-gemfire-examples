@@ -15,28 +15,26 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.IOException;
-
+import com.gemstone.gemfire.cache.Region;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 
-import com.gemstone.gemfire.cache.Region;
+import java.io.IOException;
 
 public class Client {
 
-	@SuppressWarnings("unchecked")
-	public static void main(String args[]) throws IOException {
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
-		Region<Long,Customer> region = context.getBean(Region.class);
-	
-		
-		Customer dave = new Customer(1L,new EmailAddress("dave@matthews.com"),"Dave","Matthews");
-		Customer alicia = new Customer(2L,new EmailAddress("alicia@keys.com"),"Alicia","Keys");
-		region.put(dave.getId(),dave);
-		region.put(alicia.getId(),alicia);
-		 
-	}
+    @SuppressWarnings("unchecked")
+    public static void main(String args[]) throws IOException {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
+        Region<Long, Customer> region = context.getBean(Region.class);
+
+
+        Customer dave = new Customer(1L, new EmailAddress("dave@matthews.com"), "Dave", "Matthews");
+        Customer alicia = new Customer(2L, new EmailAddress("alicia@keys.com"), "Alicia", "Keys");
+        region.put(dave.getId(), dave);
+        region.put(alicia.getId(), alicia);
+
+    }
 }

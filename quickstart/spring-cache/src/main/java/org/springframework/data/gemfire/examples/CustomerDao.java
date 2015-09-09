@@ -19,16 +19,16 @@ import org.springframework.data.gemfire.examples.domain.Customer;
 
 /**
  * Customer data access interface
- * @author David Turanski
  *
+ * @author David Turanski
  */
 public interface CustomerDao {
 
-	/**
-	 * Get a Customer by ID
-	 * @param id
-	 * @return
-	 */
-	public abstract Customer get(long id);
-
+    /**
+     * Get a Customer by ID
+     *
+     * @param id
+     * @return
+     */
+    Customer get(long id);
 }

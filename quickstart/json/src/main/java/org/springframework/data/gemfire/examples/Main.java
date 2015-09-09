@@ -20,11 +20,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
 
-	public static void main(String args[]) {
-		@SuppressWarnings("resource")
-		ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
-		JSONCustomerExample example = context.getBean(JSONCustomerExample.class); 
-		example.run();
-	}
-	 
+    public static void main(String args[]) {
+        @SuppressWarnings("resource") ApplicationContext context = new ClassPathXmlApplicationContext("app-context.xml");
+        JSONCustomerExample example = context.getBean(JSONCustomerExample.class);
+        example.run();
+    }
 }
