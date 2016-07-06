@@ -9,12 +9,11 @@ allprojects {
 
 	repositories {
 		// Public Spring artifacts
+		maven { url 'http://repo.spring.io/libs-release' }
 		maven { url 'http://repo.spring.io/libs-milestone' }
 		maven { url 'http://repo.spring.io/libs-snapshot' }
-		maven { url 'http://repo.spring.io/libs-release' }
 		maven { url "http://repo.spring.io/plugins-release" }
 	}
-
 }
 
 task listProjects << {
@@ -24,7 +23,6 @@ task listProjects << {
 			println it.tasks
 		}
 	}
-
 }
 
 subprojects { subproject ->
@@ -46,14 +44,15 @@ subprojects { subproject ->
 	}
 
 	dependencies {
-		compile("org.springframework.data:spring-data-gemfire:$version")
+		compile "org.springframework.data:spring-data-gemfire:$version"
 		compile "javax.inject:javax.inject:1"
 		compile "javax.annotation:jsr250-api:1.0"
 		runtime "cglib:cglib-nodep:3.0"
 		runtime "log4j:log4j:$log4jVersion"
 		runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+		runtime "org.springframework.shell:spring-shell:$springShellVersion"
 
-		testCompile "junit:junit-dep:$junitVersion"
+		testCompile "junit:junit:$junitVersion"
 
 		testCompile "org.springframework:spring-test:$springVersion"
 	}
@@ -68,8 +67,6 @@ subprojects { subproject ->
 	}
 
 	[compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:-serial"]
-
-
 
 	task sourcesJar(type: Jar) {
 		classifier = 'sources'
@@ -185,7 +182,7 @@ def customizePom(def pom, def gradleProject) {
 		generatedPom.project {
 			name = gradleProject.description
 			description = gradleProject.description
-			url = 'https://github.com/SpringSource/spring-gemfire-examples'
+			url = 'https://github.com/spring-projects/spring-gemfire-examples'
 			organization {
 				name = 'SpringSource'
 				url = 'http://springsource.org'
@@ -198,9 +195,9 @@ def customizePom(def pom, def gradleProject) {
 				}
 			}
 			scm {
-				url = 'https://github.com/SpringSource/spring-gemfire-examples'
-				connection = 'scm:git:git://github.com/SpringSource/spring-gemfire-examples'
-				developerConnection = 'scm:git:git://github.com/SpringSource/spring-gemfire-examples'
+				url = 'https://github.com/spring-projects/spring-gemfire-examples'
+				connection = 'scm:git:git://github.com/spring-projects/spring-gemfire-examples'
+				developerConnection = 'scm:git:git://github.com/spring-projects/spring-gemfire-examples'
 			}
 			developers {
 				developer {

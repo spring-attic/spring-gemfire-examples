@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:gfe="http://www.springframework.org/schema/gemfire"
-	xsi:schemaLocation="http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+	   xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	   	http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+">
 
-	<beans>
-		<util:properties id="gemfire-props">
-			<prop key="log-level">warning</prop>
-		</util:properties>
+	<util:properties id="gemfire-props">
+		<prop key="log-level">config</prop>
+	</util:properties>
 
-		<gfe:cache properties-ref="gemfire-props" />
+	<gfe:cache properties-ref="gemfire-props" />
 
-		<!-- Note the SpEL expression here used to dynamically configure an available 
-			port in the given range -->
-		<gfe:cache-server port="#{portGenerator.generatePort(40404,40406)}" />
+	<!-- Note the SpEL expression here used to dynamically configure an available port in the given range -->
+	<gfe:cache-server port="#{portGenerator.generatePort(40404,40406)}" />
 
-		<bean id="portGenerator"
-			class="org.springframework.data.gemfire.examples.util.ServerPortGenerator" />
+	<bean id="portGenerator" class="org.springframework.data.gemfire.examples.util.ServerPortGenerator" />
 
-		<gfe:partitioned-region id="Order">
-			
-			<gfe:cache-listener>
-				<bean
-					class="org.springframework.data.gemfire.examples.util.LoggingCacheListener" />
-			</gfe:cache-listener>
-						
-		</gfe:partitioned-region>
-	</beans>
+	<gfe:partitioned-region id="Order">
+		<gfe:cache-listener>
+			<bean class="org.springframework.data.gemfire.examples.util.LoggingCacheListener" />
+		</gfe:cache-listener>
+	</gfe:partitioned-region>
+
 </beans>
