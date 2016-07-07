@@ -15,76 +15,67 @@
  */
 package org.springframework.data.gemfire.examples.server;
 
-import java.math.BigDecimal;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.data.gemfire.GemfireTemplate;
-import org.springframework.data.gemfire.examples.domain.LineItem;
-import org.springframework.data.gemfire.examples.domain.Order;
-import org.springframework.data.gemfire.examples.domain.Product;
-import org.springframework.data.gemfire.function.annotation.GemfireFunction;
-
-import org.springframework.stereotype.Component;
-
 import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.cache.execute.Function;
 import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.commons.logging.*;
+import org.springframework.data.gemfire.GemfireTemplate;
+import org.springframework.data.gemfire.examples.domain.*;
+import org.springframework.data.gemfire.function.annotation.GemfireFunction;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 
 /**
- * A function for aggregating and calculating results on the cache server.  * 
- * 
- * @author David Turanski
+ * A function for aggregating and calculating results on the cache server.  *
  *
+ * @author David Turanski
  */
 
 @Component
 public class SalesFunctions {
-	private static Log log = LogFactory.getLog(SalesFunctions.class);
+    private static Log log = LogFactory.getLog(SalesFunctions.class);
 
-	@Resource(name="productTemplate")
-	private GemfireTemplate productTemplate; 
-	@Resource(name="Order")
-	private Region<Long,Order> orderRegion;
- 
+    @Resource(name = "productTemplate") private GemfireTemplate productTemplate;
+    @Resource(name = "Order") private Region<Long, Order> orderRegion;
 
-	/**
-	 * This method computes total sales for a given product. The <code>@GemfireFunction</code> 
-	 * annotation allows this function to be wrapped in a GemFire {@link Function} and registered with the given 
-	 * id.
-	 * 
-	 * @param productName
-	 * @return
-	 */
-	@GemfireFunction
-	public BigDecimal totalSalesForProduct(String productName) {
-		
-		log.debug("searching for product name '" + productName + "'");
-		
-		SelectResults<Product> results = productTemplate.query("name = '" + productName + "'");
 
-		if (results.isEmpty()) {
-			log.warn("cannot find product '" + productName + "'");
-			return new BigDecimal(0.0);
-		}
-		
-		Product product = results.asList().get(0);
-		
-		long productId = product.getId();
-		
-		BigDecimal total = new BigDecimal(0.0);
-		
-		for (Order order: orderRegion.values()) {
-			for (LineItem lineItem: order.getLineItems()) {
-				if (lineItem.getProductId() == productId) {
-					total = total.add(lineItem.getTotal());
-				}
-			}
-		}
-		
-		return total.setScale(2,BigDecimal.ROUND_CEILING);
-	}
+    /**
+     * This method computes total sales for a given product. The <code>@GemfireFunction</code>
+     * annotation allows this function to be wrapped in a GemFire {@link Function} and registered with the given
+     * id.
+     *
+     * @param productName
+     * @return
+     */
+    @GemfireFunction
+    public BigDecimal totalSalesForProduct(String productName) {
+
+        log.debug("searching for product name '" + productName + "'");
+
+        SelectResults<Product> results = productTemplate.query("name = '" + productName + "'");
+
+        if (results.isEmpty()) {
+            log.warn("cannot find product '" + productName + "'");
+            return new BigDecimal(0.0);
+        }
+
+        Product product = results.asList().get(0);
+
+        long productId = product.getId();
+
+        BigDecimal total = new BigDecimal(0.0);
+
+        for (Order order : orderRegion.values()) {
+            for (LineItem lineItem : order.getLineItems()) {
+                if (lineItem.getProductId() == productId) {
+                    total = total.add(lineItem.getTotal());
+                }
+            }
+        }
+
+        return total.setScale(2, BigDecimal.ROUND_CEILING);
+    }
 }

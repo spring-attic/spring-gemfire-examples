@@ -15,84 +15,74 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.math.BigDecimal;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.gemstone.gemfire.cache.Region;
+import com.gemstone.gemfire.cache.execute.*;
+import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.commons.logging.*;
 import org.springframework.data.gemfire.GemfireTemplate;
-import org.springframework.data.gemfire.examples.domain.LineItem;
-import org.springframework.data.gemfire.examples.domain.Product;
-import org.springframework.data.gemfire.examples.domain.Order;
+import org.springframework.data.gemfire.examples.domain.*;
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.Region;
-import com.gemstone.gemfire.cache.execute.FunctionAdapter;
-import com.gemstone.gemfire.cache.execute.FunctionContext;
-import com.gemstone.gemfire.cache.execute.ResultSender;
-import com.gemstone.gemfire.cache.query.SelectResults;
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 
 /**
- * A GemFire Function for aggregating and calculating results on the cache server. 
- * 
+ * A GemFire Function for aggregating and calculating results on the cache server.
+ * <p/>
  * This function computes the total sales for a given product.
- * 
- * @author David Turanski
  *
+ * @author David Turanski
  */
 @SuppressWarnings("serial")
 @Component
 public class CalculateTotalSalesForProduct extends FunctionAdapter {
-	private static Log log = LogFactory.getLog(CalculateTotalSalesForProduct.class);
+    private static Log log = LogFactory.getLog(CalculateTotalSalesForProduct.class);
 
-	@Resource(name="productTemplate")
-	private GemfireTemplate productTemplate; 
-	@Resource(name="Order")
-	private Region<Long,Order> orderRegion;
-	
-	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.execute.FunctionAdapter#execute(com.gemstone.gemfire.cache.execute.FunctionContext)
-	 */
-	@Override
-	public void execute(FunctionContext functionContext) {
-		ResultSender<BigDecimal> resultSender = functionContext.getResultSender();
-		
-		String productName = (String)functionContext.getArguments();
-		
-		log.debug("searching for product name '" + productName + "'");
-		
-		SelectResults<Product> results = productTemplate.query("name = '" + productName + "'");
+    @Resource(name = "productTemplate") private GemfireTemplate productTemplate;
+    @Resource(name = "Order") private Region<Long, Order> orderRegion;
 
-		if (results.isEmpty()) {
-			log.warn("cannot find product '" + productName + "'");
-			resultSender.lastResult(new BigDecimal(0.0));
-			return;
-		}
-		
-		Product product = results.asList().get(0);
-		
-		long productId = product.getId();
-		
-		BigDecimal total = new BigDecimal(0.0);
-		
-		for (Order order: orderRegion.values()) {
-			for (LineItem lineItem: order.getLineItems()) {
-				if (lineItem.getProductId() == productId) {
-					total = total.add(lineItem.getTotal());
-				}
-			}
-		}
-		
-		resultSender.lastResult(total.setScale(2,BigDecimal.ROUND_CEILING));
-	}
+    /* (non-Javadoc)
+     * @see com.gemstone.gemfire.cache.execute.FunctionAdapter#execute(com.gemstone.gemfire.cache.execute.FunctionContext)
+     */
+    @Override
+    public void execute(FunctionContext functionContext) {
+        ResultSender<BigDecimal> resultSender = functionContext.getResultSender();
 
-	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.execute.FunctionAdapter#getId()
-	 */
-	@Override
-	public String getId() {
-		return getClass().getSimpleName();
-	}
+        String productName = (String) functionContext.getArguments();
+
+        log.debug("searching for product name '" + productName + "'");
+
+        SelectResults<Product> results = productTemplate.query("name = '" + productName + "'");
+
+        if (results.isEmpty()) {
+            log.warn("cannot find product '" + productName + "'");
+            resultSender.lastResult(new BigDecimal(0.0));
+            return;
+        }
+
+        Product product = results.asList().get(0);
+
+        long productId = product.getId();
+
+        BigDecimal total = new BigDecimal(0.0);
+
+        for (Order order : orderRegion.values()) {
+            for (LineItem lineItem : order.getLineItems()) {
+                if (lineItem.getProductId() == productId) {
+                    total = total.add(lineItem.getTotal());
+                }
+            }
+        }
+
+        resultSender.lastResult(total.setScale(2, BigDecimal.ROUND_CEILING));
+    }
+
+    /* (non-Javadoc)
+     * @see com.gemstone.gemfire.cache.execute.FunctionAdapter#getId()
+     */
+    @Override
+    public String getId() {
+        return getClass().getSimpleName();
+    }
 }

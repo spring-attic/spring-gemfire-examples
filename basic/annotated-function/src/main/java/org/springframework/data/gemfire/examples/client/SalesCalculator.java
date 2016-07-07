@@ -12,25 +12,23 @@
  */
 package org.springframework.data.gemfire.examples.client;
 
-import java.math.BigDecimal;
-
 import org.springframework.data.gemfire.function.annotation.OnServer;
+
+import java.math.BigDecimal;
 
 
 
 /**
  * @author David Turanski
- *
-  
- * By default this will run on a server connected to the default client cache. e.g., the declaration is equivalent to 
- * <code>
- * @OnServer(id="totalSalesForProduct",cache="gemfireCache")
- * </code>
- * 
+ *         <p/>
+ *         <p/>
+ *         By default this will run on a server connected to the default client cache. e.g., the declaration is equivalent to
+ *         <code>
+ * @OnServer(id="totalSalesForProduct",cache="gemfireCache") </code>
+ * <p/>
  * Also since the interface is a singleton, the method invocation is associated with the function with the same Id.
- * 
  */
 @OnServer
 public interface SalesCalculator {
- 	public BigDecimal totalSalesForProduct(String productName);
+    BigDecimal totalSalesForProduct(String productName);
 }

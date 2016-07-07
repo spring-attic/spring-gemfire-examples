@@ -12,37 +12,35 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import com.gemstone.gemfire.cache.EntryOperation;
-import com.gemstone.gemfire.cache.PartitionResolver;
+import com.gemstone.gemfire.cache.*;
 
 /**
  * @author David Turanski
- *
  */
-@SuppressWarnings({ "rawtypes", "serial" })
+@SuppressWarnings({"rawtypes", "serial"})
 public class PartitionedOrderKey extends OrderKey implements PartitionResolver {
 
+    public PartitionedOrderKey(Long id, String countryCode) {
+        super(id, countryCode);
+    }
 
-	public PartitionedOrderKey(Long id, String countryCode) {
-		super(id,countryCode);
-	}
-	@Override
-	public void close() {
-	}
+    @Override
+    public void close() {
+    }
 
-	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.PartitionResolver#getName()
-	 */
-	@Override
-	public String getName() {
-		return this.getClass().getName();
-	}
+    /* (non-Javadoc)
+     * @see com.gemstone.gemfire.cache.PartitionResolver#getName()
+     */
+    @Override
+    public String getName() {
+        return this.getClass().getName();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.PartitionResolver#getRoutingObject(com.gemstone.gemfire.cache.EntryOperation)
-	 */
-	@Override
-	public Object getRoutingObject(EntryOperation op) {
-		return this.countryCode;
-	}
+    /* (non-Javadoc)
+     * @see com.gemstone.gemfire.cache.PartitionResolver#getRoutingObject(com.gemstone.gemfire.cache.EntryOperation)
+     */
+    @Override
+    public Object getRoutingObject(EntryOperation op) {
+        return this.countryCode;
+    }
 }

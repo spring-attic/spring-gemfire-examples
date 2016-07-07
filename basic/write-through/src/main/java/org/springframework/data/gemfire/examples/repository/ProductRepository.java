@@ -20,10 +20,9 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  * A Product Repository to perform simple CRUD operations
- * 
- * @author David Turanski
  *
+ * @author David Turanski
  */
-public interface ProductRepository extends CrudRepository<Product,Long> {
+public interface ProductRepository extends CrudRepository<Product, Long> {
 
 }

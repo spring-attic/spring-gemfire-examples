@@ -1,4 +1,3 @@
-package org.springframework.data.gemfire.examples;
 /*
  * Copyright 2012 the original author or authors.
  *
@@ -14,31 +13,29 @@ package org.springframework.data.gemfire.examples;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.springframework.data.gemfire.examples;
 
+import org.apache.commons.logging.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.gemfire.examples.client.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.gemfire.examples.client.ClientConfig;
-import org.springframework.data.gemfire.examples.client.SalesCalculator;
-
 public class Client {
 
-	public static void main(String args[]) throws IOException {
-		Log log = LogFactory.getLog(Client.class);
-		ApplicationContext context = new AnnotationConfigApplicationContext(ClientConfig.class);
-		
-		SalesCalculator salesCalculator = context.getBean(SalesCalculator.class);
-		
-		String[] products = new String[]{"Apple iPad","Apple iPod","Apple macBook"};
-		
-		for (String productName: products){
-			BigDecimal total = salesCalculator.totalSalesForProduct(productName);
-			log.info("total sales for " + productName +  " = $" + total);
-		}
-	}
+    public static void main(String args[]) throws IOException {
+        Log log = LogFactory.getLog(Client.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(ClientConfig.class);
+
+        SalesCalculator salesCalculator = context.getBean(SalesCalculator.class);
+
+        String[] products = new String[]{"Apple iPad", "Apple iPod", "Apple macBook"};
+
+        for (String productName : products) {
+            BigDecimal total = salesCalculator.totalSalesForProduct(productName);
+            log.info("total sales for " + productName + " = $" + total);
+        }
+    }
 }

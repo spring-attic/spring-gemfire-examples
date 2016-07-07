@@ -12,16 +12,14 @@
  */
 package org.springframework.data.gemfire.examples.client;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.gemfire.function.config.EnableGemfireFunctionExecutions;
- 
+
 /**
  * @author David Turanski
- *
  */
 @ImportResource("client/cache-config.xml")
-@EnableGemfireFunctionExecutions(basePackages="org.springframework.data.gemfire.examples.client")
+@EnableGemfireFunctionExecutions(basePackages = "org.springframework.data.gemfire.examples.client")
 @Configuration
 public class ClientConfig {
 

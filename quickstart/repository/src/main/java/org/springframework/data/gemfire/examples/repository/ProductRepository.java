@@ -15,37 +15,39 @@
  */
 package org.springframework.data.gemfire.examples.repository;
 
-import java.util.List;
-
 import org.springframework.data.gemfire.examples.domain.Product;
 import org.springframework.data.gemfire.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 
 /**
  * Repository interface to access {@link Product}s.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
-	/**
-	 * Returns a list of {@link Product}s having a description which contains the given snippet.
-	 * @param the search string
-	 * @return
-	 */
-	
-	List<Product> findByDescriptionContaining(String description);
+    /**
+     * Returns a list of {@link Product}s having a description which contains the given snippet.
+     *
+     * @param the search string
+     * @return
+     */
 
-	/**
-	 * Returns all {@link Product}s having the given attribute value.
-	 * @param attribute
-	 * @param value
-	 * @return
-	 */
-	@Query("SELECT * FROM /Product where attributes[$1] = $2")
-	List<Product> findByAttributes(String key, String value);
-	
-	List<Product> findByName(String name);
+    List<Product> findByDescriptionContaining(String description);
+
+    /**
+     * Returns all {@link Product}s having the given attribute value.
+     *
+     * @param attribute
+     * @param value
+     * @return
+     */
+    @Query("SELECT * FROM /Product where attributes[$1] = $2")
+    List<Product> findByAttributes(String key, String value);
+
+    List<Product> findByName(String name);
 }

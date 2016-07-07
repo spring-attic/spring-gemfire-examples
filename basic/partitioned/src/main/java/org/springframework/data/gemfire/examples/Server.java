@@ -15,26 +15,19 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.IOException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.gemstone.gemfire.cache.server.CacheServer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.gemstone.gemfire.cache.server.CacheServer;
+import java.io.IOException;
 
 public class Server {
-	private static Log log = LogFactory.getLog(Server.class);
-	 public static void main(String args[]) throws IOException {
-
-		ApplicationContext context = new ClassPathXmlApplicationContext("server/cache-config.xml");
-		CacheServer server = context.getBean(CacheServer.class);
-		System.out.println("server running on port " + server.getPort());
-		System.out.println("Press <Enter> to terminate the server");
-		System.in.read();
-		System.exit(0);
-	}
-
-	
+    public static void main(String args[]) throws IOException {
+        ApplicationContext context = new ClassPathXmlApplicationContext("server/cache-config.xml");
+        CacheServer server = context.getBean(CacheServer.class);
+        System.out.println("server running on port " + server.getPort());
+        System.out.println("Press <Enter> to terminate the server");
+        System.in.read();
+        System.exit(0);
+    }
 }

@@ -15,25 +15,21 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author David Turanski
- *
  */
 @Configuration
 @ImportResource("cache-config.xml")
 @EnableTransactionManagement
 @EnableGemfireRepositories
 public class ApplicationConfig {
-	 
-	@Bean
-	CustomerService customerService() {
-		return new CustomerService();
-	}
-	
+
+    @Bean
+    CustomerService customerService() {
+        return new CustomerService();
+    }
 }

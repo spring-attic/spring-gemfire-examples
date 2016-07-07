@@ -15,34 +15,32 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.gemfire.examples.util.ServerPortGenerator;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+
 public class Server {
-	 public static void main(String args[]) throws IOException {
-		
+    public static void main(String args[]) throws IOException {
+
 		/*
-		 *  Check if port is open. Currently the client pool is hard coded to look for a server on 40404, the default. If already taken, 
+         *  Check if port is open. Currently the client pool is hard coded to look for a server on 40404, the default. If already taken,
 		 *  this process will wait for a while so this forces an immediate exit if the port is in use. There are better ways to handle this 
 		 *  situation, but hey, this is sample code.   
 		 */
-		try {
-			new ServerPortGenerator().bind(new ServerSocket(), 40404,1);
-		} catch (IOException e) {
-			System.out.println("Sorry port 40404 is in use. Do you have another cache server process already running?");
-			System.exit(1);
-			
-		}
-		
-		new ClassPathXmlApplicationContext("server/cache-config.xml");
-		
-		System.out.println("Press <Enter> to terminate the server");
-		System.in.read();
-		System.exit(0);
-	}
+        try {
+            new ServerPortGenerator().bind(new ServerSocket(), 40404, 1);
+        } catch (IOException e) {
+            System.out.println("Sorry port 40404 is in use. Do you have another cache server process already running?");
+            System.exit(1);
 
-	
+        }
+
+        new ClassPathXmlApplicationContext("server/cache-config.xml");
+
+        System.out.println("Press <Enter> to terminate the server");
+        System.in.read();
+        System.exit(0);
+    }
 }

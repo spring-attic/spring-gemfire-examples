@@ -18,10 +18,9 @@ package org.springframework.data.gemfire.examples;
 
 /**
  * @author David Turanski
- *
  */
 public class London {
-	public static void main(String args[]) {
-		GatewayExample.run("london",2);
-	}
+    public static void main(String args[]) {
+        GatewayExample.run("london", 2);
+    }
 }

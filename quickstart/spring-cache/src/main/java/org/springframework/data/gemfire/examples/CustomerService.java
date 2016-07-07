@@ -15,27 +15,25 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.gemfire.examples.domain.Customer;
 import org.springframework.stereotype.Component;
 
-@Component
 /**
  * A Service for accessing Customer Data
- * @author "David Turanski"
  *
+ * @author "David Turanski"
  */
+@Component
 public class CustomerService {
-	private static Log log = LogFactory.getLog(CustomerService.class);
-	@Autowired
-	CustomerDao customerDao;
-	
-	@Cacheable("Customer")
-	public Customer findCustomer(long id) {
-		log.info("Retrieving a customer instance from the data store on a cache miss. The return value will be cached");
-		return customerDao.get(id);
-	}
+    private static Log log = LogFactory.getLog(CustomerService.class);
+    @Autowired CustomerDao customerDao;
+
+    @Cacheable("Customer")
+    public Customer findCustomer(long id) {
+        log.info("Retrieving a customer instance from the data store on a cache miss. The return value will be cached");
+        return customerDao.get(id);
+    }
 }

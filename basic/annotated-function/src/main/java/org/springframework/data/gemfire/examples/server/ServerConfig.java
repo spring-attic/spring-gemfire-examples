@@ -12,28 +12,25 @@
  */
 package org.springframework.data.gemfire.examples.server;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.gemfire.examples.util.LoggingCacheListener;
 import org.springframework.data.gemfire.function.config.EnableGemfireFunctions;
 
 /**
  * @author David Turanski
- *
  */
 @ImportResource("server/cache-config.xml")
 @EnableGemfireFunctions
 @Configuration
 public class ServerConfig {
-	
-	@Bean
-	SalesFunctions salesFunctions() {
-		return new SalesFunctions();
-	}
-	
-	@Bean
-	LoggingCacheListener loggingCacheListener() {
-		return new LoggingCacheListener();
-	}
+
+    @Bean
+    SalesFunctions salesFunctions() {
+        return new SalesFunctions();
+    }
+
+    @Bean
+    LoggingCacheListener loggingCacheListener() {
+        return new LoggingCacheListener();
+    }
 }

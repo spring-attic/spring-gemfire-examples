@@ -15,35 +15,33 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * Retrieve Customer data from a simulated data store
- * @author David Turanski
  *
+ * @author David Turanski
  */
 @Component
 public class HashMapCustomerDao implements CustomerDao {
-	private Map<Long,Customer> customerData;
-	
-	public HashMapCustomerDao() {
-		customerData = new HashMap<Long,Customer>();
-		Customer dave = new Customer(1L,new EmailAddress("dave@matthews.com"),"Dave","Matthews");
-		Customer alicia = new Customer(2L,new EmailAddress("alicia@keys.com"),"Alicia","Keys");
-		customerData.put(dave.getId(),dave);
-		customerData.put(alicia.getId(), alicia);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.data.gemfire.examples.CustomerDao#get(long)
-	 */
-	@Override
-	public Customer get(long id){
-		return customerData.get(id);
-	}
+    private Map<Long, Customer> customerData;
+
+    public HashMapCustomerDao() {
+        customerData = new HashMap<Long, Customer>();
+        Customer dave = new Customer(1L, new EmailAddress("dave@matthews.com"), "Dave", "Matthews");
+        Customer alicia = new Customer(2L, new EmailAddress("alicia@keys.com"), "Alicia", "Keys");
+        customerData.put(dave.getId(), dave);
+        customerData.put(alicia.getId(), alicia);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.data.gemfire.examples.CustomerDao#get(long)
+     */
+    @Override
+    public Customer get(long id) {
+        return customerData.get(id);
+    }
 }

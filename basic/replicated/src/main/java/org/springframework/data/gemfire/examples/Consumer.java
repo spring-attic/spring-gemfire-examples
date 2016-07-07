@@ -15,42 +15,36 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.io.IOException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.gemstone.gemfire.cache.Region;
+import org.apache.commons.logging.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.gemfire.examples.domain.Address;
-import org.springframework.data.gemfire.examples.domain.Customer;
+import org.springframework.data.gemfire.examples.domain.*;
 
-import com.gemstone.gemfire.cache.Region;
+import java.io.IOException;
 
 public class Consumer {
-	 private static Log log = LogFactory.getLog(Consumer.class);
+    private static Log log = LogFactory.getLog(Consumer.class);
 
-	 
-	@SuppressWarnings("unchecked")
-	public static void main(String args[]) throws IOException {
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("consumer/cache-config.xml");
-		Region<Long,Customer> region = context.getBean(Region.class);
-		
-		System.out.println("Please Start the Producer. Then press <Enter>");
-		System.in.read();
-		
-		Customer dave = region.get(1L);
-		if (dave != null) {
-			log.debug("retrieved " + dave.getFirstname() + " " + dave.getLastname());
-		}
-		
-		Customer alicia = region.get(2L);
-		if (alicia !=null) {
-			log.debug("retrieved " + alicia.getFirstname() + " " + alicia.getLastname());
-			alicia.add(new Address("Keys Street","Alicia","UK"));
-			region.put(alicia.getId(), alicia);
-		}
-	}
+    @SuppressWarnings("unchecked")
+    public static void main(String args[]) throws IOException {
 
-	
+        ApplicationContext context = new ClassPathXmlApplicationContext("consumer/cache-config.xml");
+        Region<Long, Customer> region = context.getBean(Region.class);
+
+        System.out.println("Please Start the Producer. Then press <Enter>");
+        System.in.read();
+
+        Customer dave = region.get(1L);
+        if (dave != null) {
+            log.debug("retrieved " + dave.getFirstname() + " " + dave.getLastname());
+        }
+
+        Customer alicia = region.get(2L);
+        if (alicia != null) {
+            log.debug("retrieved " + alicia.getFirstname() + " " + alicia.getLastname());
+            alicia.add(new Address("Keys Street", "Alicia", "UK"));
+            region.put(alicia.getId(), alicia);
+        }
+    }
 }

@@ -15,41 +15,45 @@
  */
 package org.springframework.data.gemfire.examples;
 
+import org.springframework.data.gemfire.examples.domain.Order;
+
 import java.util.List;
 
-import org.springframework.data.gemfire.examples.domain.Order;
 /**
  * Interface for Order data access
- * @author David Turanski
  *
+ * @author David Turanski
  */
 public interface OrderDao {
 
-	/**
-	 * find all orders for a customer
-	 * @param customerId
-	 * @return
-	 */
-	public abstract List<Order> findCustomerOrders(long customerId);
+    /**
+     * find all orders for a customer
+     *
+     * @param customerId
+     * @return
+     */
+    List<Order> findCustomerOrders(long customerId);
 
-	/**
-	 * Delete an order
-	 * @param id
-	 */
-	public abstract void delete(long id);
+    /**
+     * Delete an order
+     *
+     * @param id
+     */
+    void delete(long id);
 
-	/**
-	 * Save an order
-	 * @param order
-	 * @return
-	 */
-	public abstract Order save(Order order);
-	
-	/**
-	 * Retrieve an order by ID
-	 * @param id
-	 * @return
-	 */
-	public abstract Order get(long id);
+    /**
+     * Save an order
+     *
+     * @param order
+     * @return
+     */
+    Order save(Order order);
 
+    /**
+     * Retrieve an order by ID
+     *
+     * @param id
+     * @return
+     */
+    Order get(long id);
 }

@@ -15,41 +15,40 @@
  */
 package org.springframework.data.gemfire.examples.repository;
 
-import java.util.List;
-
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 import org.springframework.data.gemfire.repository.GemfireRepository;
+
+import java.util.List;
 
 /**
  * Repository interface to access {@link Customer}s.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
 
 public interface CustomerRepository extends GemfireRepository<Customer, Long> {
-	
-	/**
-	 * Returns all {@link Customer}s.
-	 * 
-	 * @return
-	 */
-	List<Customer> findAll();
 
-	/**
-	 * Finds all {@link Customer}s with the given lastname.
-	 * 
-	 * @param lastname
-	 * @return
-	 */
-	List<Customer> findByLastname(String lastname);
+    /**
+     * Returns all {@link Customer}s.
+     *
+     * @return
+     */
+    List<Customer> findAll();
 
-	/**
-	 * Finds the Customer with the given {@link EmailAddress}.
-	 * 
-	 * @param emailAddress
-	 * @return
-	 */
-	Customer findByEmailAddress(EmailAddress emailAddress);
+    /**
+     * Finds all {@link Customer}s with the given lastname.
+     *
+     * @param lastname
+     * @return
+     */
+    List<Customer> findByLastname(String lastname);
+
+    /**
+     * Finds the Customer with the given {@link EmailAddress}.
+     *
+     * @param emailAddress
+     * @return
+     */
+    Customer findByEmailAddress(EmailAddress emailAddress);
 }

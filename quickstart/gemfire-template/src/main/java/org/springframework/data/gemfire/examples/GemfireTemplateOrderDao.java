@@ -15,52 +15,50 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import java.util.List;
-
+import com.gemstone.gemfire.cache.query.SelectResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.data.gemfire.examples.domain.Order;
 import org.springframework.stereotype.Repository;
 
-import com.gemstone.gemfire.cache.query.SelectResults;
+import java.util.List;
 
 /**
  * An implementation of {@link OrderDao} using {@link GemfireTemplate}
- * @author David Turanski
  *
+ * @author David Turanski
  */
 @Repository
 public class GemfireTemplateOrderDao implements OrderDao {
-	@Autowired
-	GemfireTemplate orderTemplate;
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.data.gemfire.examples.OrderDao#findCustomerOrders(long)
-	 */
-	@Override
-	public List<Order> findCustomerOrders(long customerId) {
-		SelectResults<Order> orders = orderTemplate.find("SELECT * from /Order WHERE customerId = $1", customerId);
-		return (orders == null)?null : orders.asList();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.data.gemfire.examples.OrderDao#delete(long)
-	 */
-	@Override
-	public void delete(long id) {
-		orderTemplate.remove(id);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.data.gemfire.examples.OrderDao#save(org.springframework.data.gemfire.examples.domain.Order)
-	 */
-	@Override
-	public Order save(Order order) {
-		return orderTemplate.put(order.getId(), order);
-	}
+    @Autowired GemfireTemplate orderTemplate;
 
-	@Override
-	public Order get(long id) {
-		return orderTemplate.get(id);
-	}
+    /* (non-Javadoc)
+     * @see org.springframework.data.gemfire.examples.OrderDao#findCustomerOrders(long)
+     */
+    @Override
+    public List<Order> findCustomerOrders(long customerId) {
+        SelectResults<Order> orders = orderTemplate.find("SELECT * from /Order WHERE customerId = $1", customerId);
+        return (orders == null) ? null : orders.asList();
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.data.gemfire.examples.OrderDao#delete(long)
+     */
+    @Override
+    public void delete(long id) {
+        orderTemplate.remove(id);
+    }
+
+    /* (non-Javadoc)
+     * @see org.springframework.data.gemfire.examples.OrderDao#save(org.springframework.data.gemfire.examples.domain.Order)
+     */
+    @Override
+    public Order save(Order order) {
+        return orderTemplate.put(order.getId(), order);
+    }
+
+    @Override
+    public Order get(long id) {
+        return orderTemplate.get(id);
+    }
 }

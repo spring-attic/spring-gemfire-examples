@@ -15,15 +15,15 @@
  */
 package org.springframework.data.gemfire.examples.repository;
 
-import java.util.List;
-
 import org.springframework.data.gemfire.examples.domain.Order;
 import org.springframework.data.repository.CrudRepository;
+
+import java.util.List;
 
 /**
  * @author Oliver Gierke
  * @author David Turanski
  */
 public interface OrderRepository extends CrudRepository<Order, Long> {
-	List<Order> findByCustomerId(Long customerId);
+    List<Order> findByCustomerId(Long customerId);
 }

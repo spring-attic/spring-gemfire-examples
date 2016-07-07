@@ -15,41 +15,43 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import org.springframework.data.gemfire.examples.domain.Customer;
-import org.springframework.data.gemfire.examples.domain.EmailAddress;
+import org.springframework.data.gemfire.examples.domain.*;
 
 /**
  * Interface for Customer data access
- * @author David Turanski
  *
+ * @author David Turanski
  */
 public interface CustomerDao {
 
-	/**
-	 * Delete a customer by ID
-	 * @param id
-	 */
-	public abstract void delete(long id);
+    /**
+     * Delete a customer by ID
+     *
+     * @param id
+     */
+    void delete(long id);
 
-	/**
-	 * Save a customer
-	 * @param customer
-	 * @return
-	 */
-	public abstract Customer save(Customer customer);
-	
-	/**
-	 * Retrieve a customer by ID
-	 * @param id
-	 * @return
-	 */
-	public abstract Customer get(long id);
-	
-	/**
-	 * Find a Customer by email address
-	 * @param emailAddress
-	 * @return
-	 */
-	public abstract Customer findByEmailAddress(EmailAddress emailAddress);
+    /**
+     * Save a customer
+     *
+     * @param customer
+     * @return
+     */
+    Customer save(Customer customer);
 
+    /**
+     * Retrieve a customer by ID
+     *
+     * @param id
+     * @return
+     */
+    Customer get(long id);
+
+    /**
+     * Find a Customer by email address
+     *
+     * @param emailAddress
+     * @return
+     */
+    Customer findByEmailAddress(EmailAddress emailAddress);
 }

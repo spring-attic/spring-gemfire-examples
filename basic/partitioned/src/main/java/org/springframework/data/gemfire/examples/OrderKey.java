@@ -16,30 +16,29 @@ import java.io.Serializable;
 
 /**
  * @author David Turanski
- *
  */
 @SuppressWarnings("serial")
 public class OrderKey implements Serializable {
-	final String countryCode;
-	final Long id;
-	
-	public OrderKey(Long id, String countryCode) {
-		this.id = id;
-		this.countryCode = countryCode;
-	}
-	
-	public int hashCode() {
-		return id.hashCode();
-	}
-	
-	public boolean equals(Object other) {
-		if (!(other instanceof OrderKey)) {
-			return false;
-		}
-		return ((OrderKey)other).id.equals(this.id);
-	}
-	
-	public String toString() {
-		return id + ":" + countryCode;
-	}
+    final String countryCode;
+    final Long id;
+
+    public OrderKey(Long id, String countryCode) {
+        this.id = id;
+        this.countryCode = countryCode;
+    }
+
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    public boolean equals(Object other) {
+        if (!(other instanceof OrderKey)) {
+            return false;
+        }
+        return ((OrderKey) other).id.equals(this.id);
+    }
+
+    public String toString() {
+        return id + ":" + countryCode;
+    }
 }

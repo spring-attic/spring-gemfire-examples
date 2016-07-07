@@ -15,14 +15,12 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
 /**
  * Spring JavaConfig configuration class to setup a Spring container and infrastructure components.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
@@ -30,20 +28,24 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
 @ImportResource("classpath:cache-config.xml")
 @EnableGemfireRepositories
 public class ApplicationConfig {
-	
-	@Bean CustomerService customerService() {
-		return new CustomerService();
-	}
-	
-	@Bean OrderService orderService() {
-		return new OrderService();
-	}
-	
-	@Bean ProductService productService() {
-		return new ProductService();
-	}
-	
-	@Bean OrderExample orderExample() {
-		return new OrderExample(customerService(), productService(), orderService());
-	}
+
+    @Bean
+    CustomerService customerService() {
+        return new CustomerService();
+    }
+
+    @Bean
+    OrderService orderService() {
+        return new OrderService();
+    }
+
+    @Bean
+    ProductService productService() {
+        return new ProductService();
+    }
+
+    @Bean
+    OrderExample orderExample() {
+        return new OrderExample(customerService(), productService(), orderService());
+    }
 }

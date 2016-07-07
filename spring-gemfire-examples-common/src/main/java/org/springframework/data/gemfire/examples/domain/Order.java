@@ -15,103 +15,100 @@
  */
 package org.springframework.data.gemfire.examples.domain;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.data.gemfire.mapping.Region;
-
 import org.springframework.util.Assert;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * @author Oliver Gierke
  * @author David Turanski
  */
- 
+
 @Region
 public class Order extends AbstractPersistentEntity {
 
-	private static final long serialVersionUID = -3779061453639083037L;
+    private static final long serialVersionUID = -3779061453639083037L;
 
-	private Long customerId;
-	private Address billingAddress;
-	private Address shippingAddress;
-	private Set<LineItem> lineItems = new HashSet<LineItem>();
+    private Long customerId;
+    private Address billingAddress;
+    private Address shippingAddress;
+    private Set<LineItem> lineItems = new HashSet<LineItem>();
 
-	/**
-	 * Creates a new {@link Order} for the given {@link Customer}.
-	 * 
-	 * @param customer must not be {@literal null}.
-	 */
-	public Order(Long id, Long customerId, Address billingAddress) {
-		super(id);
-		Assert.notNull(customerId);
-		Assert.notNull(billingAddress);
+    /**
+     * Creates a new {@link Order} for the given {@link Customer}.
+     *
+     * @param customer must not be {@literal null}.
+     */
+    public Order(Long id, Long customerId, Address billingAddress) {
+        super(id);
+        Assert.notNull(customerId);
+        Assert.notNull(billingAddress);
 
-		this.customerId = customerId;
-		this.billingAddress = billingAddress;
-		this.shippingAddress = billingAddress;
-	}
+        this.customerId = customerId;
+        this.billingAddress = billingAddress;
+        this.shippingAddress = billingAddress;
+    }
 
-	/**
-	 * Adds the given {@link LineItem} to the {@link Order}.
-	 * 
-	 * @param lineItem
-	 */
-	public void add(LineItem lineItem) {
-		this.lineItems.add(lineItem);
-	}
+    /**
+     * Adds the given {@link LineItem} to the {@link Order}.
+     *
+     * @param lineItem
+     */
+    public void add(LineItem lineItem) {
+        this.lineItems.add(lineItem);
+    }
 
-	/**
-	 * Returns the id of the {@link Customer} who placed the {@link Order}.
-	 * 
-	 * @return
-	 */
-	public Long getCustomerId() {
-		return customerId;
-	}
+    /**
+     * Returns the id of the {@link Customer} who placed the {@link Order}.
+     *
+     * @return
+     */
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-	/**
-	 * Returns the billing {@link Address} for this order.
-	 * 
-	 * @return
-	 */
-	public Address getBillingAddress() {
-		return billingAddress;
-	}
+    /**
+     * Returns the billing {@link Address} for this order.
+     *
+     * @return
+     */
+    public Address getBillingAddress() {
+        return billingAddress;
+    }
 
-	/**
-	 * Returns the shipping {@link Address} for this order;
-	 * 
-	 * @return
-	 */
-	public Address getShippingAddress() {
-		return shippingAddress;
-	}
+    /**
+     * Returns the shipping {@link Address} for this order;
+     *
+     * @return
+     */
+    public Address getShippingAddress() {
+        return shippingAddress;
+    }
 
-	/**
-	 * Returns all {@link LineItem}s currently belonging to the {@link Order}.
-	 * 
-	 * @return
-	 */
-	public Set<LineItem> getLineItems() {
-		return Collections.unmodifiableSet(lineItems);
-	}
+    /**
+     * Returns all {@link LineItem}s currently belonging to the {@link Order}.
+     *
+     * @return
+     */
+    public Set<LineItem> getLineItems() {
+        return Collections.unmodifiableSet(lineItems);
+    }
 
-	/**
-	 * Returns the total of the {@link Order}.
-	 * 
-	 * @return
-	 */
-	public BigDecimal getTotal() {
+    /**
+     * Returns the total of the {@link Order}.
+     *
+     * @return
+     */
+    public BigDecimal getTotal() {
 
-		BigDecimal total = BigDecimal.ZERO;
+        BigDecimal total = BigDecimal.ZERO;
 
-		for (LineItem item : lineItems) {
-			total = total.add(item.getTotal());
-		}
+        for (LineItem item : lineItems) {
+            total = total.add(item.getTotal());
+        }
 
-		return total;
-	}
+        return total;
+    }
 }
