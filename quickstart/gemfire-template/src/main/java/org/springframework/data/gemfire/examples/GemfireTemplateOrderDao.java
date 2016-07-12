@@ -40,7 +40,7 @@ public class GemfireTemplateOrderDao implements OrderDao {
 	@Override
 	public List<Order> findCustomerOrders(long customerId) {
 		SelectResults<Order> orders = orderTemplate.find("SELECT * from /Order WHERE customerId = $1", customerId);
-		return (orders == null)?null : orders.asList();
+		return (orders == null) ? null : orders.asList();
 	}
 	
 	/* (non-Javadoc)
