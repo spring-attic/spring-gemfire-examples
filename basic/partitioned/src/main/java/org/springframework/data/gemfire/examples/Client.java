@@ -46,7 +46,7 @@ public class Client {
 		//Create some orders
 		Random rand = new Random(new Date().getTime()); 
 		for (long orderId = 1; orderId <= 100; orderId++) {
-			Address shipTo = new Address("Some Street","Some City",(orderId%3 == 0)?"UK":"US"); 
+			Address shipTo = new Address("Some Street","Some City",(orderId%3 == 0) ? "UK" : "US"); 
 			Order order = new Order(orderId, (new Long(rand.nextInt(100)+1)),shipTo);
 			OrderKey orderKey = getOrderKey(orderId,shipTo.getCountry());
 			region.put(orderKey, order);

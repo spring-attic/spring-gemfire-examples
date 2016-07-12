@@ -57,7 +57,7 @@ public class GemfireTemplateCustomerDao implements CustomerDao {
 	@Override
 	public Customer findByEmailAddress(EmailAddress emailAddress) {
 		SelectResults<Customer> customers =  customerTemplate.find("SELECT * from /Customer WHERE emailAddress=$1",emailAddress);
-		return customers.isEmpty()? null: customers.asList().get(0);
+		return customers.isEmpty() ? null : customers.asList().get(0);
 	}
 	
 }
