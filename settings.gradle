@@ -2,5 +2,7 @@ rootProject.name = 'spring-gemfire-examples'
 
 include 'spring-gemfire-examples-common'
 include ':quickstart:spring-cache', ':quickstart:repository', ':quickstart:gemfire-template',':quickstart:cq',':quickstart:transaction','quickstart:json'
-include ':basic:replicated',':basic:replicated-cs',':basic:partitioned',':basic:write-through',':basic:function',':basic:persistence', ':basic:annotated-function', ":basic:java-config"
+include ':basic:replicated',':basic:replicated-cs',':basic:partitioned',':basic:write-through',':basic:function',':basic:persistence', ':basic:annotated-function', ":basic:java-config", ':basic:cq-with-javaconfig'
 include ':advanced:gateway',':advanced:gatewayV7',':advanced:locator-failover',':advanced:server-failover'
+findProject(':basic:cq-with-javaconfig')?.name = 'cq-with-javaconfig'
+
