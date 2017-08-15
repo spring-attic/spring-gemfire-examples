@@ -18,14 +18,14 @@ package org.springframework.data.gemfire.examples;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.gemstone.gemfire.cache.query.CqEvent;
+import org.apache.geode.cache.query.CqEvent;
 /**
  * A simple CQ listener
  * @author David Turanski
  *
  */
 public class CQListener {
-	
+
 	private static Log log = LogFactory.getLog(CQListener.class);
 
 	public void handleEvent(CqEvent event) {

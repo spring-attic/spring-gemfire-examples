@@ -3,12 +3,12 @@ description = 'Spring Data GemFire Examples'
 apply plugin: 'base'
 
 allprojects {
+
 	group = 'org.springframework.data'
 
 	logging.captureStandardOutput LogLevel.DEBUG
 
 	repositories {
-		// Public Spring artifacts
 		maven { url 'http://repo.spring.io/libs-release' }
 		maven { url 'http://repo.spring.io/libs-milestone' }
 		maven { url 'http://repo.spring.io/libs-snapshot' }
@@ -17,7 +17,9 @@ allprojects {
 }
 
 task listProjects << {
+
 	subprojects.each { project ->
+
 		project.allprojects.each {
 			println it.name
 			println it.tasks
@@ -26,8 +28,9 @@ task listProjects << {
 }
 
 subprojects { subproject ->
-	apply plugin: 'idea'
+
 	apply plugin: 'java'
+	apply plugin: 'idea'
 	apply plugin: 'eclipse'  // `gradle eclipse` to generate .classpath/.project
 	apply plugin: 'maven'
 
@@ -44,6 +47,7 @@ subprojects { subproject ->
 	}
 
 	dependencies {
+
 		compile "org.springframework.data:spring-data-gemfire:$version"
 		compile "javax.inject:javax.inject:1"
 		compile "javax.annotation:jsr250-api:1.0"
@@ -55,10 +59,11 @@ subprojects { subproject ->
 		testCompile "junit:junit:$junitVersion"
 
 		testCompile "org.springframework:spring-test:$springVersion"
+
 	}
 
-	sourceCompatibility = 1.6
-	targetCompatibility = 1.6
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
 
 	eclipse {
 		project {
@@ -112,30 +117,38 @@ project('spring-gemfire-examples-common') {
 }
 
 tasks.addRule("Pattern: <COMMAND>-locator-<PORT>") { String taskName ->
-	def command
-	if (taskName.startsWith('start-locator') || taskName.startsWith('stop-locator')) {
-		command = '--' + taskName.split('-')[0]
 
+	def command
+
+	if (taskName.startsWith('start-locator') || taskName.startsWith('stop-locator')) {
+
+		command = '--' + taskName.split('-')[0]
 
 		def project = rootProject.allprojects.find { it.name == 'spring-gemfire-examples-common' }
 
 		task(taskName, dependsOn: project.classes) << {
 			javaexec {
+
 				main = 'org.springframework.data.gemfire.examples.Locator'
 
 				classpath = project.sourceSets.main.runtimeClasspath
 				standardInput = System.in
+
 				def targs = [command, '--port', "${taskName.split('-').last()}"]
+
 				if (rootProject.hasProperty('args')) {
+
 					def str = "${rootProject.getProperty('args')}"
+
 					str.split(',').each {
 						targs.addAll(it.tokenize('='))
 					}
-
 				}
+
 				if (rootProject.hasProperty('props')) {
 					targs.addAll(['--properties', "${rootProject.getProperty('props')}"])
 				}
+
 				args = targs
 			}
 		}
@@ -148,26 +161,33 @@ task wrapper(type: Wrapper) {
 }
 
 def customizePom(def pom, def gradleProject) {
+
 	pom.whenConfigured { generatedPom ->
+
 		// respect 'optional' and 'provided' dependencies
 		def deps = gradleProject.configurations.runtime.allDependencies
+
 		def optionalDeps = deps.findAll { dep ->
 			dep.asDynamicObject.hasProperty('optional') && dep.optional
 		}
+
 		def providedDeps = deps.findAll { dep ->
 			dep.asDynamicObject.hasProperty('provided') && dep.provided
 		}
+
 		generatedPom.dependencies.each { mavenDep ->
 			mavenDep.optional = optionalDeps.any { optionalDep ->
 				optionalDep.group == mavenDep.groupId &&
 					optionalDep.name == mavenDep.artifactId &&
 					optionalDep.version == mavenDep.version
 			}
+
 			boolean isProvided = providedDeps.any { providedDep ->
 				providedDep.group == mavenDep.groupId &&
 					providedDep.name == mavenDep.artifactId &&
 					providedDep.version == mavenDep.version
 			}
+
 			if (isProvided) {
 				mavenDep.scope = 'provided'
 			}
@@ -180,13 +200,16 @@ def customizePom(def pom, def gradleProject) {
 
 		// add all items necessary for maven central publication
 		generatedPom.project {
+
 			name = gradleProject.description
 			description = gradleProject.description
 			url = 'https://github.com/spring-projects/spring-gemfire-examples'
+
 			organization {
 				name = 'SpringSource'
 				url = 'http://springsource.org'
 			}
+
 			licenses {
 				license {
 					name 'The Apache Software License, Version 2.0'
@@ -194,11 +217,13 @@ def customizePom(def pom, def gradleProject) {
 					distribution 'repo'
 				}
 			}
+
 			scm {
 				url = 'https://github.com/spring-projects/spring-gemfire-examples'
 				connection = 'scm:git:git://github.com/spring-projects/spring-gemfire-examples'
 				developerConnection = 'scm:git:git://github.com/spring-projects/spring-gemfire-examples'
 			}
+
 			developers {
 				developer {
 					id = 'jblum'

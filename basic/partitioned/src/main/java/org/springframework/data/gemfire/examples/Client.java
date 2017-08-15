@@ -26,33 +26,33 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.gemfire.examples.domain.Address;
 import org.springframework.data.gemfire.examples.domain.Order;
 
-import com.gemstone.gemfire.cache.Region;
+import org.apache.geode.cache.Region;
 
 public class Client {
 	private static Log log = LogFactory.getLog(Client.class);
 	private static boolean partitionByCountry;
 	@SuppressWarnings("unchecked")
-	
+
 	public static void main(String args[]) throws IOException {
 		 if (args.length >= 1 && args[0].equalsIgnoreCase("partitionByCountry")) {
 				log.debug("partitioning by country");
 				partitionByCountry = true;
 		}
-		 
+
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("client/cache-config.xml");
 		Region<OrderKey,Order> region = context.getBean(Region.class);
 
 		//Create some orders
-		Random rand = new Random(new Date().getTime()); 
+		Random rand = new Random(new Date().getTime());
 		for (long orderId = 1; orderId <= 100; orderId++) {
-			Address shipTo = new Address("Some Street","Some City",(orderId%3 == 0)?"UK":"US"); 
+			Address shipTo = new Address("Some Street","Some City",(orderId%3 == 0)?"UK":"US");
 			Order order = new Order(orderId, (new Long(rand.nextInt(100)+1)),shipTo);
 			OrderKey orderKey = getOrderKey(orderId,shipTo.getCountry());
 			region.put(orderKey, order);
 		}
 	}
-	
+
 	private static OrderKey getOrderKey(Long id, String countryCode) {
 		if (partitionByCountry) {
 			return new PartitionedOrderKey(id, countryCode);

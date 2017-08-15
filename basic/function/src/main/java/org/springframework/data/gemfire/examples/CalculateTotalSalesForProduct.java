@@ -27,18 +27,18 @@ import org.springframework.data.gemfire.examples.domain.Product;
 import org.springframework.data.gemfire.examples.domain.Order;
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.Region;
-import com.gemstone.gemfire.cache.execute.FunctionAdapter;
-import com.gemstone.gemfire.cache.execute.FunctionContext;
-import com.gemstone.gemfire.cache.execute.ResultSender;
-import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.geode.cache.Region;
+import org.apache.geode.cache.execute.FunctionAdapter;
+import org.apache.geode.cache.execute.FunctionContext;
+import org.apache.geode.cache.execute.ResultSender;
+import org.apache.geode.cache.query.SelectResults;
 
 
 /**
- * A GemFire Function for aggregating and calculating results on the cache server. 
- * 
+ * A GemFire Function for aggregating and calculating results on the cache server.
+ *
  * This function computes the total sales for a given product.
- * 
+ *
  * @author David Turanski
  *
  */
@@ -48,21 +48,21 @@ public class CalculateTotalSalesForProduct extends FunctionAdapter {
 	private static Log log = LogFactory.getLog(CalculateTotalSalesForProduct.class);
 
 	@Resource(name="productTemplate")
-	private GemfireTemplate productTemplate; 
+	private GemfireTemplate productTemplate;
 	@Resource(name="Order")
 	private Region<Long,Order> orderRegion;
-	
+
 	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.execute.FunctionAdapter#execute(com.gemstone.gemfire.cache.execute.FunctionContext)
+	 * @see org.apache.geode.cache.execute.FunctionAdapter#execute(org.apache.geode.cache.execute.FunctionContext)
 	 */
 	@Override
 	public void execute(FunctionContext functionContext) {
 		ResultSender<BigDecimal> resultSender = functionContext.getResultSender();
-		
+
 		String productName = (String)functionContext.getArguments();
-		
+
 		log.debug("searching for product name '" + productName + "'");
-		
+
 		SelectResults<Product> results = productTemplate.query("name = '" + productName + "'");
 
 		if (results.isEmpty()) {
@@ -70,13 +70,13 @@ public class CalculateTotalSalesForProduct extends FunctionAdapter {
 			resultSender.lastResult(new BigDecimal(0.0));
 			return;
 		}
-		
+
 		Product product = results.asList().get(0);
-		
+
 		long productId = product.getId();
-		
+
 		BigDecimal total = new BigDecimal(0.0);
-		
+
 		for (Order order: orderRegion.values()) {
 			for (LineItem lineItem: order.getLineItems()) {
 				if (lineItem.getProductId() == productId) {
@@ -84,12 +84,12 @@ public class CalculateTotalSalesForProduct extends FunctionAdapter {
 				}
 			}
 		}
-		
+
 		resultSender.lastResult(total.setScale(2,BigDecimal.ROUND_CEILING));
 	}
 
 	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.execute.FunctionAdapter#getId()
+	 * @see org.apache.geode.cache.execute.FunctionAdapter#getId()
 	 */
 	@Override
 	public String getId() {

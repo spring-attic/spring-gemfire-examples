@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.gemfire.examples.domain;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.data.gemfire.mapping.Region;
+import org.springframework.data.gemfire.mapping.annotation.Region;
 import org.springframework.util.Assert;
-
 
 /**
  * A customer.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
- 
 @Region
 public class Customer extends AbstractPersistentEntity {
-	
- 
+
 	private static final long serialVersionUID = -3860687524824507124L;
-	
+
 	private EmailAddress emailAddress;
-	private String firstname, lastname;
 	private Set<Address> addresses = new HashSet<Address>();
+	private String firstname, lastname;
 
 	/**
 	 * Creates a new {@link Customer} from the given parameters.
@@ -58,12 +56,12 @@ public class Customer extends AbstractPersistentEntity {
 		this.emailAddress = emailAddress;
 	}
 
-	protected Customer() {	
+	protected Customer() {
 	}
 
 	/**
 	 * Adds the given {@link Address} to the {@link Customer}.
-	 * 
+	 *
 	 * @param address must not be {@literal null}.
 	 */
 	public void add(Address address) {
@@ -74,16 +72,16 @@ public class Customer extends AbstractPersistentEntity {
 
 	/**
 	 * Returns the firstname of the {@link Customer}.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getFirstname() {
 		return firstname;
 	}
-	
+
 	/**
 	 * Sets the firstname of the {@link Customer}.
-	 * 
+	 *
 	 * @param firstname
 	 */
 	public void setFirstname(String firstname) {
@@ -92,7 +90,7 @@ public class Customer extends AbstractPersistentEntity {
 
 	/**
 	 * Returns the lastname of the {@link Customer}.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getLastname() {
@@ -101,7 +99,7 @@ public class Customer extends AbstractPersistentEntity {
 
 	/**
 	 * Sets the lastname of the {@link Customer}.
-	 * 
+	 *
 	 * @param lastname
 	 */
 	public void setLastname(String lastname) {
@@ -110,16 +108,16 @@ public class Customer extends AbstractPersistentEntity {
 
 	/**
 	 * Returns the {@link EmailAddress} of the {@link Customer}.
-	 * 
+	 *
 	 * @return
 	 */
 	public EmailAddress getEmailAddress() {
 		return emailAddress;
 	}
-	
+
 	/**
 	 * Sets the emailAddress of the {@link Customer}.
-	 * 
+	 *
 	 * @param emailAddress
 	 */
 	public void setEmailAddress(EmailAddress emailAddress) {
@@ -128,7 +126,7 @@ public class Customer extends AbstractPersistentEntity {
 
 	/**
 	 * Return the {@link Customer}'s addresses.
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<Address> getAddresses() {

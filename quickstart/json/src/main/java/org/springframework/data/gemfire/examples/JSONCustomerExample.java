@@ -24,7 +24,7 @@ import org.springframework.data.gemfire.examples.domain.Customer;
 import org.springframework.data.gemfire.examples.domain.EmailAddress;
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.geode.cache.query.SelectResults;
 /**
  * Sample application demonstrating JSON support
  * @author David Turanski
@@ -54,14 +54,14 @@ public class JSONCustomerExample {
 		customerTemplate.put(1L,dave);
 		customerTemplate.put(2l, alicia);
 	}
-	
+
 	/*
 	 * Retrieve customers
 	 */
 	private void searchCustomers() {
 		String jSonDave = (String) customerTemplate.findUnique("select * from /Customer where emailAddress.value=$1","dave@matthews.com");
 		log.info(jSonDave);
-		
+
 		SelectResults<String> results = customerTemplate.find("select * from /Customer where emailAddress.value=$1", "alicia@keys.com");
 		String jSonAlicia = results.iterator().next();
 		log.info(jSonAlicia);

@@ -21,23 +21,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.gemfire.mapping.Region;
+import org.springframework.data.gemfire.mapping.annotation.Region;
 import org.springframework.util.Assert;
 
 
 /**
  * A product.
- * 
+ *
  * @author Oliver Gierke
  * @author David Turanski
  */
- 
+
 @Region
 @javax.persistence.Entity
 public class Product extends AbstractPersistentEntity {
-	
+
 	private static final long serialVersionUID = 831295555713696643L;
-	
+
 	private String name, description;
 	private BigDecimal price;
 	@javax.persistence.Transient
@@ -70,13 +70,13 @@ public class Product extends AbstractPersistentEntity {
 		this.price = price;
 		this.description = description;
 	}
-	
+
 	protected Product() {
 	}
 
 	/**
 	 * Sets the attribute with the given name to the given value.
-	 * 
+	 *
 	 * @param name must not be {@literal null} or empty.
 	 * @param value
 	 */
@@ -93,7 +93,7 @@ public class Product extends AbstractPersistentEntity {
 
 	/**
 	 * Returns the {@link Product}'s name.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getName() {
@@ -102,7 +102,7 @@ public class Product extends AbstractPersistentEntity {
 
 	/**
 	 * Returns the {@link Product}'s description.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getDescription() {
@@ -111,7 +111,7 @@ public class Product extends AbstractPersistentEntity {
 
 	/**
 	 * Returns all the custom attributes of the {@link Product}.
-	 * 
+	 *
 	 * @return
 	 */
 	public Map<String, String> getAttributes() {
@@ -120,7 +120,7 @@ public class Product extends AbstractPersistentEntity {
 
 	/**
 	 * Returns the price of the {@link Product}.
-	 * 
+	 *
 	 * @return
 	 */
 	public BigDecimal getPrice() {

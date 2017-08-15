@@ -29,14 +29,14 @@ import org.springframework.data.gemfire.function.annotation.GemfireFunction;
 
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.Region;
-import com.gemstone.gemfire.cache.execute.Function;
-import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.geode.cache.Region;
+import org.apache.geode.cache.execute.Function;
+import org.apache.geode.cache.query.SelectResults;
 
 
 /**
- * A function for aggregating and calculating results on the cache server.  * 
- * 
+ * A function for aggregating and calculating results on the cache server.  *
+ *
  * @author David Turanski
  *
  */
@@ -46,37 +46,37 @@ public class SalesFunctions {
 	private static Log log = LogFactory.getLog(SalesFunctions.class);
 
 	@Resource(name="productTemplate")
-	private GemfireTemplate productTemplate; 
+	private GemfireTemplate productTemplate;
 	@Resource(name="Order")
 	private Region<Long,Order> orderRegion;
- 
+
 
 	/**
-	 * This method computes total sales for a given product. The <code>@GemfireFunction</code> 
-	 * annotation allows this function to be wrapped in a GemFire {@link Function} and registered with the given 
+	 * This method computes total sales for a given product. The <code>@GemfireFunction</code>
+	 * annotation allows this function to be wrapped in a GemFire {@link Function} and registered with the given
 	 * id.
-	 * 
+	 *
 	 * @param productName
 	 * @return
 	 */
 	@GemfireFunction
 	public BigDecimal totalSalesForProduct(String productName) {
-		
+
 		log.debug("searching for product name '" + productName + "'");
-		
+
 		SelectResults<Product> results = productTemplate.query("name = '" + productName + "'");
 
 		if (results.isEmpty()) {
 			log.warn("cannot find product '" + productName + "'");
 			return new BigDecimal(0.0);
 		}
-		
+
 		Product product = results.asList().get(0);
-		
+
 		long productId = product.getId();
-		
+
 		BigDecimal total = new BigDecimal(0.0);
-		
+
 		for (Order order: orderRegion.values()) {
 			for (LineItem lineItem: order.getLineItems()) {
 				if (lineItem.getProductId() == productId) {
@@ -84,7 +84,7 @@ public class SalesFunctions {
 				}
 			}
 		}
-		
+
 		return total.setScale(2,BigDecimal.ROUND_CEILING);
 	}
 }

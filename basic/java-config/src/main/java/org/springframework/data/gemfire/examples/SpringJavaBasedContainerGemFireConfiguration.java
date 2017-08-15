@@ -1,4 +1,4 @@
-package org.springframework.data.gemfire.example;
+package org.springframework.data.gemfire.examples;
 
 import java.util.Properties;
 
@@ -9,20 +9,20 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.gemfire.CacheFactoryBean;
-import org.springframework.data.gemfire.EvictionActionType;
-import org.springframework.data.gemfire.EvictionAttributesFactoryBean;
-import org.springframework.data.gemfire.EvictionPolicyType;
-import org.springframework.data.gemfire.ExpirationActionType;
-import org.springframework.data.gemfire.ExpirationAttributesFactoryBean;
 import org.springframework.data.gemfire.PartitionAttributesFactoryBean;
 import org.springframework.data.gemfire.PartitionedRegionFactoryBean;
 import org.springframework.data.gemfire.RegionAttributesFactoryBean;
+import org.springframework.data.gemfire.eviction.EvictionActionType;
+import org.springframework.data.gemfire.eviction.EvictionAttributesFactoryBean;
+import org.springframework.data.gemfire.eviction.EvictionPolicyType;
+import org.springframework.data.gemfire.expiration.ExpirationActionType;
+import org.springframework.data.gemfire.expiration.ExpirationAttributesFactoryBean;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.EvictionAttributes;
-import com.gemstone.gemfire.cache.ExpirationAttributes;
-import com.gemstone.gemfire.cache.PartitionAttributes;
-import com.gemstone.gemfire.cache.RegionAttributes;
+import org.apache.geode.cache.Cache;
+import org.apache.geode.cache.EvictionAttributes;
+import org.apache.geode.cache.ExpirationAttributes;
+import org.apache.geode.cache.PartitionAttributes;
+import org.apache.geode.cache.RegionAttributes;
 
 /**
  * The SpringJavaBasedContainerGemFireConfiguration class is Spring Java-based Container Configuration class used to
@@ -35,11 +35,11 @@ import com.gemstone.gemfire.cache.RegionAttributes;
  * @see org.springframework.data.gemfire.PartitionAttributesFactoryBean
  * @see org.springframework.data.gemfire.PartitionedRegionFactoryBean
  * @see org.springframework.data.gemfire.RegionAttributesFactoryBean
- * @see com.gemstone.gemfire.cache.Cache
- * @see com.gemstone.gemfire.cache.EvictionAttributes
- * @see com.gemstone.gemfire.cache.PartitionAttributes
- * @see com.gemstone.gemfire.cache.Region
- * @see com.gemstone.gemfire.cache.RegionAttributes
+ * @see org.apache.geode.cache.Cache
+ * @see org.apache.geode.cache.EvictionAttributes
+ * @see org.apache.geode.cache.PartitionAttributes
+ * @see org.apache.geode.cache.Region
+ * @see org.apache.geode.cache.RegionAttributes
  * @since 1.6.0
  */
 @Configuration
@@ -50,6 +50,7 @@ public class SpringJavaBasedContainerGemFireConfiguration {
 	// in order to avoid re-compilation on property value changes (so... this is just an example)!
 	@Bean
 	public Properties placeholderProperties() {
+
 		Properties placeholders = new Properties();
 
 		placeholders.setProperty("app.gemfire.region.eviction.action", "LOCAL_DESTROY");
@@ -69,13 +70,17 @@ public class SpringJavaBasedContainerGemFireConfiguration {
 	@Bean
 	public PropertyPlaceholderConfigurer propertyPlaceholderConfigurer(
 			@Qualifier("placeholderProperties") Properties placeholders) {
+
 		PropertyPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertyPlaceholderConfigurer();
+
 		propertyPlaceholderConfigurer.setProperties(placeholders);
+
 		return propertyPlaceholderConfigurer;
 	}
 
 	@Bean
 	public Properties gemfireProperties() {
+
 		Properties gemfireProperties = new Properties();
 
 		gemfireProperties.setProperty("name", "SpringGemFireJavaConfigTest");
@@ -87,31 +92,36 @@ public class SpringJavaBasedContainerGemFireConfiguration {
 
 	@Bean
 	@Autowired
-	public CacheFactoryBean gemfireCache(@Qualifier("gemfireProperties") Properties gemfireProperties) throws Exception {
+	public CacheFactoryBean gemfireCache(@Qualifier("gemfireProperties") Properties gemfireProperties)
+			throws Exception {
+
 		CacheFactoryBean cacheFactory = new CacheFactoryBean();
+
 		cacheFactory.setProperties(gemfireProperties);
+
 		return cacheFactory;
 	}
 
 	/*
 	  NOTE need to qualify the RegionAttributes bean definition reference since GemFire's
-	  com.gemstone.gemfire.internal.cache.AbstractRegion class "implements" RegionAttributes (face-palm),
+	  org.apache.geode.internal.cache.AbstractRegion class "implements" RegionAttributes (face-palm),
 	  which led Spring to the following Exception...
 
 	  java.lang.IllegalStateException: Failed to load ApplicationContext ...
 	  Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException:
 	  Error creating bean with name 'ExamplePartition' defined in class org.spring.data.gemfire.config.GemFireConfiguration:
-	  Unsatisfied dependency expressed through constructor argument with index 1 of type [com.gemstone.gemfire.cache.RegionAttributes]:
-	  No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
+	  Unsatisfied dependency expressed through constructor argument with index 1 of type [org.apache.geode.cache.RegionAttributes]:
+	  No qualifying bean of type [org.apache.geode.cache.RegionAttributes] is defined:
 	  expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes;
 	  nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException:
-	  No qualifying bean of type [com.gemstone.gemfire.cache.RegionAttributes] is defined:
+	  No qualifying bean of type [org.apache.geode.cache.RegionAttributes] is defined:
 	  expected single matching bean but found 2: ExampleLocal,defaultRegionAttributes
 	  */
 	@Bean(name = "ExamplePartition")
 	@Autowired
 	public PartitionedRegionFactoryBean<Object, Object> examplePartitionRegion(Cache gemfireCache,
-			@Qualifier("partitionRegionAttributes") RegionAttributes<Object, Object> regionAttributes) throws Exception {
+			@Qualifier("partitionRegionAttributes") RegionAttributes<Object, Object> regionAttributes)
+			throws Exception {
 
 		PartitionedRegionFactoryBean<Object, Object> examplePartitionRegion =
 			new PartitionedRegionFactoryBean<Object, Object>();
@@ -196,5 +206,4 @@ public class SpringJavaBasedContainerGemFireConfiguration {
 
 		return partitionAttributes;
 	}
-
 }

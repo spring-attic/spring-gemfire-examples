@@ -13,28 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.gemfire.examples;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.gemstone.gemfire.cache.server.CacheServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.geode.cache.server.CacheServer;
 
 public class Server {
+
 	private static Log log = LogFactory.getLog(Server.class);
-	 public static void main(String args[]) throws IOException {
+
+	public static void main(String args[]) throws IOException {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("server/cache-config.xml");
+
 		CacheServer server = context.getBean(CacheServer.class);
+
 		System.out.println("server running on port " + server.getPort());
 		System.out.println("Press <Enter> to terminate the server");
 		System.in.read();
+
 		System.exit(0);
 	}
-
-	
 }

@@ -21,10 +21,10 @@ import org.springframework.data.gemfire.examples.domain.Customer;
 import org.springframework.data.gemfire.examples.domain.EmailAddress;
 import org.springframework.stereotype.Repository;
 
-import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.geode.cache.query.SelectResults;
 
 /**
- * An Implementation of {@link CustomerDao} using {@link GemfireTemplate} 
+ * An Implementation of {@link CustomerDao} using {@link GemfireTemplate}
  * @author David Turanski
  *
  */
@@ -32,7 +32,7 @@ import com.gemstone.gemfire.cache.query.SelectResults;
 public class GemfireTemplateCustomerDao implements CustomerDao {
 	@Autowired
 	GemfireTemplate customerTemplate;
-	
+
 	/* (non-Javadoc)
 	 * @see org.springframework.data.gemfire.examples.CustomerDao#delete(long)
 	 */
@@ -40,7 +40,7 @@ public class GemfireTemplateCustomerDao implements CustomerDao {
 	public void delete(long id) {
 		customerTemplate.remove(id);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.springframework.data.gemfire.examples.CustomerDao#save(org.springframework.data.gemfire.examples.domain.Customer)
 	 */
@@ -59,5 +59,5 @@ public class GemfireTemplateCustomerDao implements CustomerDao {
 		SelectResults<Customer> customers =  customerTemplate.find("SELECT * from /Customer WHERE emailAddress=$1",emailAddress);
 		return customers.isEmpty()? null: customers.asList().get(0);
 	}
-	
+
 }

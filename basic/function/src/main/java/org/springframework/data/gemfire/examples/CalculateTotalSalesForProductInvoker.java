@@ -22,10 +22,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.gemstone.gemfire.cache.client.Pool;
-import com.gemstone.gemfire.cache.execute.Execution;
-import com.gemstone.gemfire.cache.execute.FunctionService;
-import com.gemstone.gemfire.cache.execute.ResultCollector;
+import org.apache.geode.cache.client.Pool;
+import org.apache.geode.cache.execute.Execution;
+import org.apache.geode.cache.execute.FunctionService;
+import org.apache.geode.cache.execute.ResultCollector;
 
 /**
  * Invokes a registered function using GemFire's {@link FunctionService}
@@ -43,14 +43,14 @@ public class CalculateTotalSalesForProductInvoker {
 	 * @return
 	 */
 	public BigDecimal forProduct(String productName) {
-		
+
 		Execution functionExecution = FunctionService.onServer(pool)
 				.withArgs(productName);
-		
+
 		ResultCollector<?,?> results = functionExecution.execute("CalculateTotalSalesForProduct");
-		
+
 		List<?> list = (List<?>)results.getResult();
-		
+
 		return ((BigDecimal)list.get(0));
 	}
 }

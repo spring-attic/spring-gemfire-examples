@@ -22,7 +22,7 @@ import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.data.gemfire.examples.domain.Order;
 import org.springframework.stereotype.Repository;
 
-import com.gemstone.gemfire.cache.query.SelectResults;
+import org.apache.geode.cache.query.SelectResults;
 
 /**
  * An implementation of {@link OrderDao} using {@link GemfireTemplate}
@@ -33,7 +33,7 @@ import com.gemstone.gemfire.cache.query.SelectResults;
 public class GemfireTemplateOrderDao implements OrderDao {
 	@Autowired
 	GemfireTemplate orderTemplate;
-	
+
 	/* (non-Javadoc)
 	 * @see org.springframework.data.gemfire.examples.OrderDao#findCustomerOrders(long)
 	 */
@@ -42,7 +42,7 @@ public class GemfireTemplateOrderDao implements OrderDao {
 		SelectResults<Order> orders = orderTemplate.find("SELECT * from /Order WHERE customerId = $1", customerId);
 		return (orders == null)?null : orders.asList();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.springframework.data.gemfire.examples.OrderDao#delete(long)
 	 */
@@ -50,7 +50,7 @@ public class GemfireTemplateOrderDao implements OrderDao {
 	public void delete(long id) {
 		orderTemplate.remove(id);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.springframework.data.gemfire.examples.OrderDao#save(org.springframework.data.gemfire.examples.domain.Order)
 	 */

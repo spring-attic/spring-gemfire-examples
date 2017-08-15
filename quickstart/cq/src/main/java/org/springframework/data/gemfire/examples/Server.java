@@ -27,7 +27,7 @@ import org.springframework.data.gemfire.examples.domain.Order;
 import org.springframework.data.gemfire.examples.domain.Product;
 import org.springframework.data.gemfire.examples.util.ServerPortGenerator;
 
-import com.gemstone.gemfire.cache.Region;
+import org.apache.geode.cache.Region;
 
 /**
  * Creates a cache server in this process and adds some data to the cache
@@ -38,25 +38,25 @@ public class Server {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
-		
+
 		/*
-		 *  Check if port is open. Currently the client pool is hard coded to look for a server on 40404, the default. If already taken, 
-		 *  this process will wait for a while so this forces an immediate exit if the port is in use. There are better ways to handle this 
-		 *  situation, but hey, this is sample code.   
+		 *  Check if port is open. Currently the client pool is hard coded to look for a server on 40404, the default. If already taken,
+		 *  this process will wait for a while so this forces an immediate exit if the port is in use. There are better ways to handle this
+		 *  situation, but hey, this is sample code.
 		 */
 		try {
 			new ServerPortGenerator().bind(new ServerSocket(), 40404,1);
 		} catch (IOException e) {
 			System.out.println("Sorry port 40404 is in use. Do you have another cache server process already running?");
 			System.exit(1);
-			
+
 		}
-		
+
 		ApplicationContext context = new ClassPathXmlApplicationContext("server/cache-config.xml");
 
 		Region<Long, Order> region = context.getBean("Order", Region.class);
-		
-	 
+
+
 		/*
 		 * Create some customer orders
 		 */
@@ -86,11 +86,11 @@ public class Server {
 		aliciasNextOrder.add(new LineItem(macbook, 4));
 		aliciasNextOrder.add(new LineItem(ipad));
 
-		
+
 
 		System.out.println("Press <ENTER> to update cache");
 		System.in.read();
-		
+
 		region.put(davesOrder.getId(), davesOrder);
 		region.put(aliciasFirstOrder.getId(), aliciasFirstOrder);
 		region.put(aliciasNextOrder.getId(), aliciasNextOrder);

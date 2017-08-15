@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.gemfire.examples.util;
+
+import org.springframework.stereotype.Component;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
+import org.apache.geode.cache.EntryEvent;
+import org.apache.geode.cache.util.CacheListenerAdapter;
 
-import com.gemstone.gemfire.cache.EntryEvent;
-import com.gemstone.gemfire.cache.util.CacheListenerAdapter;
-
-@SuppressWarnings("rawtypes")
 /**
  * A simple CacheListener to log cache events
  * @author David Turanski
- *
  */
 @Component
+@SuppressWarnings("rawtypes")
 public class LoggingCacheListener extends CacheListenerAdapter {
+
 	private static Log log = LogFactory.getLog(LoggingCacheListener.class);
 
-	 
 	@Override
 	  public void afterCreate(EntryEvent event) {
 	    final String regionName = event.getRegion().getName();

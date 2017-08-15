@@ -12,8 +12,8 @@
  */
 package org.springframework.data.gemfire.examples;
 
-import com.gemstone.gemfire.cache.EntryOperation;
-import com.gemstone.gemfire.cache.PartitionResolver;
+import org.apache.geode.cache.EntryOperation;
+import org.apache.geode.cache.PartitionResolver;
 
 /**
  * @author David Turanski
@@ -31,7 +31,7 @@ public class PartitionedOrderKey extends OrderKey implements PartitionResolver {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.PartitionResolver#getName()
+	 * @see org.apache.geode.cache.PartitionResolver#getName()
 	 */
 	@Override
 	public String getName() {
@@ -39,7 +39,7 @@ public class PartitionedOrderKey extends OrderKey implements PartitionResolver {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.gemstone.gemfire.cache.PartitionResolver#getRoutingObject(com.gemstone.gemfire.cache.EntryOperation)
+	 * @see org.apache.geode.cache.PartitionResolver#getRoutingObject(org.apache.geode.cache.EntryOperation)
 	 */
 	@Override
 	public Object getRoutingObject(EntryOperation op) {

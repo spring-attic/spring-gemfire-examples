@@ -1,4 +1,4 @@
-package org.springframework.data.gemfire.example;
+package org.springframework.data.gemfire.examples;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -11,15 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.DataPolicy;
-import com.gemstone.gemfire.cache.EvictionAction;
-import com.gemstone.gemfire.cache.EvictionAlgorithm;
-import com.gemstone.gemfire.cache.EvictionAttributes;
-import com.gemstone.gemfire.cache.ExpirationAction;
-import com.gemstone.gemfire.cache.ExpirationAttributes;
-import com.gemstone.gemfire.cache.PartitionAttributes;
-import com.gemstone.gemfire.cache.Region;
+import org.apache.geode.cache.Cache;
+import org.apache.geode.cache.DataPolicy;
+import org.apache.geode.cache.EvictionAction;
+import org.apache.geode.cache.EvictionAlgorithm;
+import org.apache.geode.cache.EvictionAttributes;
+import org.apache.geode.cache.ExpirationAction;
+import org.apache.geode.cache.ExpirationAttributes;
+import org.apache.geode.cache.PartitionAttributes;
+import org.apache.geode.cache.Region;
 
 /**
  * The SpringJavaBasedContainerGemFireConfigurationTest class is a test suite of test cases testing the configuration
@@ -31,11 +31,11 @@ import com.gemstone.gemfire.cache.Region;
  * @see org.junit.runner.RunWith
  * @see org.springframework.test.context.ContextConfiguration
  * @see org.springframework.test.context.junit4.SpringJUnit4ClassRunner
- * @see com.gemstone.gemfire.cache.Cache
- * @see com.gemstone.gemfire.cache.EvictionAttributes
- * @see com.gemstone.gemfire.cache.ExpirationAttributes
- * @see com.gemstone.gemfire.cache.PartitionAttributes
- * @see com.gemstone.gemfire.cache.Region
+ * @see org.apache.geode.cache.Cache
+ * @see org.apache.geode.cache.EvictionAttributes
+ * @see org.apache.geode.cache.ExpirationAttributes
+ * @see org.apache.geode.cache.PartitionAttributes
+ * @see org.apache.geode.cache.Region
  * @since 1.6.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
