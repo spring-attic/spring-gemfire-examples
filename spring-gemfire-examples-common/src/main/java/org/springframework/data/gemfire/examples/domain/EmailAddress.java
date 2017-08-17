@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.gemfire.examples.domain;
 
 import java.io.Serializable;
@@ -25,46 +26,50 @@ import org.springframework.util.StringUtils;
 
 /**
  * Value object to represent email addresses.
- * 
+ *
  * @author Oliver Gierke
  */
-
 public final class EmailAddress  implements Serializable {
-	
+
 	private static final long serialVersionUID = -2990839949384592331L;
-	
-	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+	private static final String EMAIL_REGEX =
+		"^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
 	private static final Pattern PATTERN = Pattern.compile(EMAIL_REGEX);
 
-	 
 	private final String value;
 
 	/**
 	 * Creates a new {@link EmailAddress} from the given {@link String} representation.
-	 * 
+	 *
 	 * @param emailAddress must not be {@literal null} or empty.
 	 */
 	public EmailAddress(String emailAddress) {
+
 		Assert.isTrue(isValid(emailAddress), "Invalid email address!");
+
 		this.value = emailAddress;
 	}
 
 	/**
 	 * Returns whether the given value is a valid {@link EmailAddress}.
-	 * 
+	 *
 	 * @param source must not be {@literal null} or empty.
 	 * @return
 	 */
 	public static boolean isValid(String source) {
-		Assert.hasText(source);
+
+		Assert.hasText(source, "Source is required");
+
 		return PATTERN.matcher(source).matches();
 	}
-	
+
 	public String getValue() {
 		return value;
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -73,7 +78,7 @@ public final class EmailAddress  implements Serializable {
 		return value;
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -92,7 +97,7 @@ public final class EmailAddress  implements Serializable {
 		return this.value.equals(that.value);
 	}
 
-	/* 
+	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -104,7 +109,7 @@ public final class EmailAddress  implements Serializable {
 	@Component
 	static class EmailAddressToStringConverter implements Converter<EmailAddress, String> {
 
-		/* 
+		/*
 		 * (non-Javadoc)
 		 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
 		 */

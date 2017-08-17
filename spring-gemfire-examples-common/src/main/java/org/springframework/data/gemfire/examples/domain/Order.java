@@ -19,6 +19,7 @@ package org.springframework.data.gemfire.examples.domain;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.springframework.data.gemfire.mapping.annotation.Region;
@@ -28,16 +29,17 @@ import org.springframework.util.Assert;
  * @author Oliver Gierke
  * @author David Turanski
  */
-
 @Region
-public class Order extends AbstractPersistentEntity {
+public class Order extends AbstractPersistentEntity implements Iterable<LineItem> {
 
 	private static final long serialVersionUID = -3779061453639083037L;
 
-	private Long customerId;
 	private Address billingAddress;
 	private Address shippingAddress;
-	private Set<LineItem> lineItems = new HashSet<LineItem>();
+
+	private Long customerId;
+
+	private Set<LineItem> lineItems = new HashSet<>();
 
 	/**
 	 * Creates a new {@link Order} for the given {@link Customer}.
@@ -45,9 +47,11 @@ public class Order extends AbstractPersistentEntity {
 	 * @param customer must not be {@literal null}.
 	 */
 	public Order(Long id, Long customerId, Address billingAddress) {
+
 		super(id);
-		Assert.notNull(customerId);
-		Assert.notNull(billingAddress);
+
+		Assert.notNull(customerId, "Customer ID must not be null");
+		Assert.notNull(billingAddress, "Billing Address must not be null");
 
 		this.customerId = customerId;
 		this.billingAddress = billingAddress;
@@ -64,15 +68,6 @@ public class Order extends AbstractPersistentEntity {
 	}
 
 	/**
-	 * Returns the id of the {@link Customer} who placed the {@link Order}.
-	 *
-	 * @return
-	 */
-	public Long getCustomerId() {
-		return customerId;
-	}
-
-	/**
 	 * Returns the billing {@link Address} for this order.
 	 *
 	 * @return
@@ -82,12 +77,12 @@ public class Order extends AbstractPersistentEntity {
 	}
 
 	/**
-	 * Returns the shipping {@link Address} for this order;
+	 * Returns the id of the {@link Customer} who placed the {@link Order}.
 	 *
 	 * @return
 	 */
-	public Address getShippingAddress() {
-		return shippingAddress;
+	public Long getCustomerId() {
+		return customerId;
 	}
 
 	/**
@@ -100,6 +95,15 @@ public class Order extends AbstractPersistentEntity {
 	}
 
 	/**
+	 * Returns the shipping {@link Address} for this order;
+	 *
+	 * @return
+	 */
+	public Address getShippingAddress() {
+		return shippingAddress;
+	}
+
+	/**
 	 * Returns the total of the {@link Order}.
 	 *
 	 * @return
@@ -108,10 +112,20 @@ public class Order extends AbstractPersistentEntity {
 
 		BigDecimal total = BigDecimal.ZERO;
 
-		for (LineItem item : lineItems) {
+		for (LineItem item : this) {
 			total = total.add(item.getTotal());
 		}
 
 		return total;
+	}
+
+	@Override
+	public Iterator<LineItem> iterator() {
+		return getLineItems().iterator();
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(getId());
 	}
 }

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.gemfire.examples.domain;
 
 import java.math.BigDecimal;
@@ -24,24 +25,24 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.gemfire.mapping.annotation.Region;
 import org.springframework.util.Assert;
 
-
 /**
  * A product.
  *
  * @author Oliver Gierke
  * @author David Turanski
  */
-
 @Region
 @javax.persistence.Entity
 public class Product extends AbstractPersistentEntity {
 
 	private static final long serialVersionUID = 831295555713696643L;
 
-	private String name, description;
 	private BigDecimal price;
+
 	@javax.persistence.Transient
-	private Map<String, String> attributes = new HashMap<String, String>();
+	private Map<String, String> attributes = new HashMap<>();
+
+	private String name, description;
 
 	/**
 	 * Creates a new {@link Product} with the given name.
@@ -62,16 +63,15 @@ public class Product extends AbstractPersistentEntity {
 	 */
 	@PersistenceConstructor
 	public Product(Long id, String name, BigDecimal price, String description) {
+
 		super(id);
-		Assert.hasText(name, "Name must not be null or empty!");
-		Assert.isTrue(BigDecimal.ZERO.compareTo(price) < 0, "Price must be greater than zero!");
+
+		Assert.hasText(name, "Name must not be null or empty");
+		Assert.isTrue(BigDecimal.ZERO.compareTo(price) < 0, "Price must be greater than zero");
 
 		this.name = name;
 		this.price = price;
 		this.description = description;
-	}
-
-	protected Product() {
 	}
 
 	/**
@@ -82,11 +82,12 @@ public class Product extends AbstractPersistentEntity {
 	 */
 	public void setAttribute(String name, String value) {
 
-		Assert.hasText(name);
+		Assert.hasText(name, "Name is required");
 
 		if (value == null) {
 			this.attributes.remove(value);
-		} else {
+		}
+		else {
 			this.attributes.put(name, value);
 		}
 	}
@@ -125,5 +126,10 @@ public class Product extends AbstractPersistentEntity {
 	 */
 	public BigDecimal getPrice() {
 		return price;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

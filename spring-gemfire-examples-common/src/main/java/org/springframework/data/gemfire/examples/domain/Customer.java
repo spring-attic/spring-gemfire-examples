@@ -35,7 +35,7 @@ public class Customer extends AbstractPersistentEntity {
 	private static final long serialVersionUID = -3860687524824507124L;
 
 	private EmailAddress emailAddress;
-	private Set<Address> addresses = new HashSet<Address>();
+	private Set<Address> addresses = new HashSet<>();
 	private String firstname, lastname;
 
 	/**
@@ -46,17 +46,16 @@ public class Customer extends AbstractPersistentEntity {
 	 * @param lastname must not be {@literal null} or empty.
 	 */
 	public Customer(Long id, EmailAddress emailAddress, String firstname, String lastname) {
+
 		super(id);
-		Assert.hasText(firstname);
-		Assert.hasText(lastname);
-		Assert.notNull(emailAddress);
+
+		Assert.hasText(firstname, "First Name is required");
+		Assert.hasText(lastname, "Last Name is required");
+		Assert.notNull(emailAddress, "Email Address is required");
 
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.emailAddress = emailAddress;
-	}
-
-	protected Customer() {
 	}
 
 	/**
@@ -66,7 +65,8 @@ public class Customer extends AbstractPersistentEntity {
 	 */
 	public void add(Address address) {
 
-		Assert.notNull(address);
+		Assert.notNull(address, "Address is required");
+
 		this.addresses.add(address);
 	}
 
@@ -131,5 +131,10 @@ public class Customer extends AbstractPersistentEntity {
 	 */
 	public Set<Address> getAddresses() {
 		return Collections.unmodifiableSet(addresses);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%1$s %2$s", getFirstname(), getLastname());
 	}
 }

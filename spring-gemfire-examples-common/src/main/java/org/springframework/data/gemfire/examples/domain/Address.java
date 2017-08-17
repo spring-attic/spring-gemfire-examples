@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.data.gemfire.examples.domain;
 
 import java.io.Serializable;
@@ -21,28 +22,27 @@ import org.springframework.util.Assert;
 
 /**
  * An address.
- * 
+ *
  * @author Oliver Gierke
  */
- 
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = -2639944658538569230L;
-	
+
 	private final String street, city, country;
 
 	/**
 	 * Creates a new {@link Address} from the given street, city and country.
-	 * 
+	 *
 	 * @param street must not be {@literal null} or empty.
 	 * @param city must not be {@literal null} or empty.
 	 * @param country must not be {@literal null} or empty.
 	 */
 	public Address(String street, String city, String country) {
 
-		Assert.hasText(street, "Street must not be null or empty!");
-		Assert.hasText(city, "City must not be null or empty!");
-		Assert.hasText(country, "Country must not be null or empty!");
+		Assert.hasText(street, "Street is required");
+		Assert.hasText(city, "City is required");
+		Assert.hasText(country, "Country is required");
 
 		this.street = street;
 		this.city = city;
@@ -51,7 +51,7 @@ public class Address implements Serializable {
 
 	/**
 	 * Returns a copy of the current {@link Address} instance which is a new entity in terms of persistence.
-	 * 
+	 *
 	 * @return
 	 */
 	public Address getCopy() {
@@ -60,7 +60,7 @@ public class Address implements Serializable {
 
 	/**
 	 * Returns the street.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getStreet() {
@@ -69,7 +69,7 @@ public class Address implements Serializable {
 
 	/**
 	 * Returns the city.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getCity() {
@@ -78,10 +78,15 @@ public class Address implements Serializable {
 
 	/**
 	 * Returns the country.
-	 * 
+	 *
 	 * @return
 	 */
 	public String getCountry() {
 		return country;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%1$s, %2$s - %3$s", getStreet(), getCity(), getCountry());
 	}
 }
