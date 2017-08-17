@@ -1,14 +1,18 @@
 description = 'Spring Data GemFire Quickstart Examples'
 
 project('spring-cache') {
-	description = 'Spring Cache with Gemfire Example'
+
+	description = 'Spring Cache with GemFire Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 	}
 }
 
 project('repository') {
+
 	description = 'Spring Data Gemfire Repository Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 	}
@@ -16,7 +20,9 @@ project('repository') {
 
 
 project('gemfire-template') {
+
 	description = 'Spring Data Gemfire GemfireTemplate Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -26,7 +32,9 @@ project('gemfire-template') {
 }
 
 project('cq') {
+
 	description = 'Spring Data GemFire Continuous Query Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -36,7 +44,9 @@ project('cq') {
 }
 
 project('transaction') {
+
 	description = 'Spring Data GemFire Transaction Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -46,7 +56,9 @@ project('transaction') {
 }
 
 project('json') {
+
 	description = 'Spring Data GemFire JSON Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"

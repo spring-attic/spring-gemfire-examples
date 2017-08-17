@@ -1,19 +1,8 @@
 description = 'Spring Data GemFire Advanced Examples'
 
-project('gateway') {
-	description = 'Spring Data GemFire Gateway Example'
-
-	def env = System.getenv()
-
-	dependencies {
-		compile project(':spring-gemfire-examples-common')
-	}
-}
-
 project('gatewayV7') {
-	description = 'Spring Data GemFire Gateway (Version 7) Example'
 
-	def env = System.getenv()
+	description = 'Spring Data GemFire Gateway (Version 7) Example'
 
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
@@ -21,7 +10,9 @@ project('gatewayV7') {
 }
 
 project('locator-failover') {
+
 	description = 'Spring Data GemFire Locator Failover Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 	}
@@ -29,7 +20,9 @@ project('locator-failover') {
 
 
 project('server-failover') {
+
 	description = 'Spring Data GemFire Server Failover Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 	}

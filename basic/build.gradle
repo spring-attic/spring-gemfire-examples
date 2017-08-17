@@ -1,14 +1,18 @@
 description = 'Spring Data GemFire Basic Examples'
 
 project('replicated') {
+
 	description = 'Spring Data GemFire Replicated Region (p2p) Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 	}
 }
 
 project('replicated-cs') {
+
 	description = 'Spring Data GemFire Replicated Region (Client Server) Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 	}
@@ -16,7 +20,9 @@ project('replicated-cs') {
 
 
 project('partitioned') {
+
 	description = 'Spring Data GemFire Partitioned Region Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -26,7 +32,9 @@ project('partitioned') {
 }
 
 project('persistence') {
+
 	description = 'Spring Data GemFire Persistence Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -36,7 +44,9 @@ project('persistence') {
 }
 
 project('write-through') {
+
 	description = 'Spring Data GemFire Write Through Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -52,7 +62,9 @@ project('write-through') {
 }
 
 project('function') {
+
 	description = 'Spring Data GemFire Function Execution Example'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -62,7 +74,9 @@ project('function') {
 }
 
 project('annotated-function') {
+
   description = 'Spring Data GemFire Function Execution with Annotations Example'
+
   dependencies {
     compile project(':spring-gemfire-examples-common')
     compile "org.springframework:spring-aop:$springVersion"
@@ -72,7 +86,9 @@ project('annotated-function') {
 }
 
 project('java-config') {
+
 	description = 'Spring Data GemFire Configuration Example using Spring Java-based Container Configuration'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
@@ -82,11 +98,16 @@ project('java-config') {
 }
 
 project('cq-with-javaconfig') {
+
 	description = 'Continuous Query example using the Spring Data GemFire ContinuousQueryListenerContainer configured with JavaConfig'
+
 	dependencies {
 		compile project(':spring-gemfire-examples-common')
 		compile "org.springframework:spring-aop:$springVersion"
 		compile "org.springframework:spring-context-support:$springVersion"
 		compile "org.springframework:spring-tx:$springVersion"
+		compile ("org.springframework.boot:spring-boot-starter:$springBootVersion") {
+			exclude group: "ch.qos.logback", module: "logback-classic"
+		}
 	}
 }
