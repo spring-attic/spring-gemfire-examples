@@ -34,7 +34,7 @@ public final class EmailAddress  implements Serializable {
 	private static final long serialVersionUID = -2990839949384592331L;
 
 	private static final String EMAIL_REGEX =
-		"^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		"^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9\\-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 	private static final Pattern PATTERN = Pattern.compile(EMAIL_REGEX);
 
