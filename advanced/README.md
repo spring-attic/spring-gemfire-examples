@@ -1,7 +1,7 @@
 Spring Data GemFire - Advanced Examples
 ========================================
 
-These examples demonstrate additional GemFire features and require a full installation of GemFire. A trial version may be obtained [here](http://www.vmware.com/products/application-platform/vfabric-gemfire/overview.html).
+These examples demonstrate additional GemFire features and require a full installation of GemFire. A trial version may be obtained [here](https://www.vmware.com/products/application-platform/vfabric-gemfire/overview.html).
 
 
 #Starting and Stopping Locators
