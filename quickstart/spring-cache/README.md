@@ -21,6 +21,6 @@ retrieved again the cached instance will be returned.
 The method CustomerService.findCustomer() is annotated with @Cacheable("Customer"), which refers to a GemFire Region named 'Customer'. 
 The GemFire cache and region are configured in cache-context.xml and the cacheManager are Spring beans configured in app-context.xml
 
-See [This section of the Spring Reference](http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#new-in-3.1-cache-abstraction) 
+See [This section of the Spring Reference](https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#new-in-3.1-cache-abstraction) 
 for more information.
 

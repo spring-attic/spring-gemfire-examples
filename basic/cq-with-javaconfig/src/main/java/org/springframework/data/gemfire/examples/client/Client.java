@@ -51,7 +51,7 @@ import org.apache.geode.cache.client.ClientRegionShortcut;
  * @see org.springframework.data.gemfire.listener.ContinuousQueryDefinition
  * @see org.springframework.data.gemfire.listener.ContinuousQueryListener
  * @see org.springframework.data.gemfire.listener.ContinuousQueryListenerContainer
- * @see <a href="http://gemfire.docs.pivotal.io/geode/developing/continuous_querying/chapter_overview.html">Continuous Query</a>
+ * @see <a href="https://gemfire.docs.pivotal.io/geode/developing/continuous_querying/chapter_overview.html">Continuous Query</a>
  * @since 2.0.0
  */
 @SpringBootApplication

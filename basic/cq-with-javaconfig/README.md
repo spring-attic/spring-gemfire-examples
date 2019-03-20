@@ -1,13 +1,13 @@
 GemFire Continuous Query (CQ) Configured with Spring JavaConfig
 ===============================================================
 
-This example demonstrates GemFire's [Continuous Query (CQ)](http://gemfire.docs.pivotal.io/geode/developing/continuous_querying/chapter_overview.html) functionality.
-Specifically, this example shows how to use _Spring's_ [Java-based Container Configuration](http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-java)
-along with _Spring Data GemFire's_ [ContinuousQueryListenerContainer](http://docs.spring.io/spring-data-gemfire/docs/current/reference/html/#apis:cq-container)
+This example demonstrates GemFire's [Continuous Query (CQ)](https://gemfire.docs.pivotal.io/geode/developing/continuous_querying/chapter_overview.html) functionality.
+Specifically, this example shows how to use _Spring's_ [Java-based Container Configuration](https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-java)
+along with _Spring Data GemFire's_ [ContinuousQueryListenerContainer](https://docs.spring.io/spring-data-gemfire/docs/current/reference/html/#apis:cq-container)
 declared in JavaConfig to define cache client _Continuous Queries_ (CQ),
 register for notifications and process CQ events.
 
-This examples uses GemFire's [client/server](http://gemfire.docs.pivotal.io/geode/topologies_and_comm/cs_configuration/chapter_overview.html)
+This examples uses GemFire's [client/server](https://gemfire.docs.pivotal.io/geode/topologies_and_comm/cs_configuration/chapter_overview.html)
 topology.
 
 The `Server` class in this example is a _Spring Boot_ application that bootstraps
@@ -16,7 +16,7 @@ and starts a GemFire `CacheServer` allowing cache clients to connect.
 In addition, it also creates a `/Orders` _Region_ in which `Orders`
 will be placed and CQ events generated.
 
-The application simulates `Orders` from `Customers` using _Spring's_ [scheduling infrastructure](http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling),
+The application simulates `Orders` from `Customers` using _Spring's_ [scheduling infrastructure](https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#scheduling),
 placing `Orders` into the `/Orders` _Region_.
 
 The `Client` class in this example is also a _Spring Boot_ application

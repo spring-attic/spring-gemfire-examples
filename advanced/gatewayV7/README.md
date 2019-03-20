@@ -3,7 +3,7 @@ Spring Data GemFire - Gateway V7 Example
 
 See the [README](..README.md) in the advanced root directory for information about locators. 
 
-Note: This example requires a valid [GemFire license key](http://pubs.vmware.com/vfabric51/topic/com.vmware.vfabric.gemfire.6.6/deploying/licensing/licensing.html?resultof=%22%6c%69%63%65%6e%73%69%6e%67%22%20%22%6c%69%63%65%6e%73%22%20) for a Data Management Node. GemFire checks for a valid license before starting a gateway.
+Note: This example requires a valid [GemFire license key](https://pubs.vmware.com/vfabric51/topic/com.vmware.vfabric.gemfire.6.6/deploying/licensing/licensing.html?resultof=%22%6c%69%63%65%6e%73%69%6e%67%22%20%22%6c%69%63%65%6e%73%22%20) for a Data Management Node. GemFire checks for a valid license before starting a gateway.
 
 If you have downloaded the trial version, you will need to obtain a key from GemFire sales. Edit gateway.properties to set the license key:
 

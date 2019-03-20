@@ -1,7 +1,7 @@
 GemFire Configuration Using Spring Java-based Container Configuration
 =====================================================================
 
-This example demonstrates how to configure a GemFire Server (data node) using _Spring's_ [Java-based Container Configuration](http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-java)
+This example demonstrates how to configure a GemFire Server (data node) using _Spring's_ [Java-based Container Configuration](https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-java)
 along with _Spring Data GemFire's_ custom [GemFire FactoryBean components and classes](https://github.com/spring-projects/spring-data-gemfire/tree/master/src/main/java/org/springframework/data/gemfire).
 
 After reviewing this example, a developer should gain a general understanding of how to configure a single GemFire Server

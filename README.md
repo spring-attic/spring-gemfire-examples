@@ -2,10 +2,10 @@ Spring Data For Pivotal GemFire and Apache Geode Examples
 =========================================================
 
 This project provides a number of examples to get you started using Spring Data for Apache Geode or Pivotal GemFire.
-These examples are designed to work with [Spring Data for Pivotal GemFire] (http://projects.spring.io/spring-data-gemfire) 1.2
+These examples are designed to work with [Spring Data for Pivotal GemFire] (https://projects.spring.io/spring-data-gemfire) 1.2
 or higher and are organized into the following sub projects:
 
-> NOTE: [Apache Geode](http://geode.apache.org/) is the open source core
+> NOTE: [Apache Geode](https://geode.apache.org/) is the open source core
 of [Pivotal GemFire](https://pivotal.io/pivotal-gemfire).
 
 > NOTE: Where ever Pivotal GemFire is referenced, this equally applies to Apache Geode
@@ -21,7 +21,7 @@ such as Cache and Region.
 The Quickstart examples currently include:
 
 * spring-cache - Using Spring's Cache abstraction with Pivotal GemFire
-* repository - Using [Spring Data](http://projects.spring.io/spring-data) Repositories with Pivotal GemFire
+* repository - Using [Spring Data](https://projects.spring.io/spring-data) Repositories with Pivotal GemFire
 * gemfire-template - Using [GemfireTemplate](https://docs.spring.io/spring-data/geode/docs/current/api/org/springframework/data/gemfire/GemfireTemplate.html) to simplify and enhance accessing Region data
 * cq - Configuring and using Pivotal GemFire Continuous Queries
 * transaction - Demonstrates the use of Pivotal GemFire transactions
@@ -47,7 +47,7 @@ using Spring's Java-based Container Configuration and Spring Data for Pivotal Ge
 These examples demonstrate additional Apache Geode or Pivotal GemFire features
 and require a full installation of either Apache Geode or Pivotal GemFire.
 
-You can acquire Apache Geode bits from [here](http://geode.apache.org/releases/).
+You can acquire Apache Geode bits from [here](https://geode.apache.org/releases/).
 
 You can download a trial version of Pivotal GemFire from [here](https://pivotal.io/pivotal-gemfire).
 

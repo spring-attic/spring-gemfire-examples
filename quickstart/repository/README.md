@@ -39,5 +39,5 @@ NOTE: This example uses a very simple GemFire configuration appropriate for unit
 backed by a local cache and is not persisted.
 
 In practice, GemFire should be configured so that the Repository region is distributed and replicated across multiple nodes. Disk 
-persistence is also available if needed. Refer to the GemFire [documentation] (http://www.vmware.com/support/pubs/vfabric-gemfire.html)  
-for more information. Also see the [spring data] (http://www.springsource.org/spring-data) project page for further details about Spring Data.  
+persistence is also available if needed. Refer to the GemFire [documentation] (https://www.vmware.com/support/pubs/vfabric-gemfire.html)  
+for more information. Also see the [spring data] (https://www.springsource.org/spring-data) project page for further details about Spring Data.  
